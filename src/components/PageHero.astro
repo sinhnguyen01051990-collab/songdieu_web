@@ -1,0 +1,48 @@
+---
+/** Đầu trang con – cùng phong cách soft mint với hero trang chủ */
+interface Props { badge: string; title: string; titleLine2?: string; sub?: string; note?: string }
+const { badge, title, titleLine2, sub, note } = Astro.props;
+---
+<section class="page-hero relative overflow-hidden">
+  <div class="container-x relative py-14 text-center sm:py-20">
+    <p class="eyebrow ph-enter">{badge}</p>
+    <h1 class="ph-title ph-enter mx-auto mt-5 max-w-4xl text-ink">
+      <span class="block">{title}</span>
+      {titleLine2 && <span class="block" style="letter-spacing:-0.022em">{titleLine2}</span>}
+    </h1>
+    {sub && <p class="ph-enter mx-auto mt-5 max-w-2xl text-lg leading-8 text-mute">{sub}</p>}
+    <slot />
+
+    <svg class="absolute left-[6%] top-[58%] hidden w-12 md:block" viewBox="0 0 60 60" aria-hidden="true">
+      <path class="doodle ph-draw" d="M22 10 L10 46" /><path class="doodle ph-draw" d="M40 10 L28 46" />
+    </svg>
+    {note && (
+      <>
+        <p class="hand ph-note absolute right-[7%] top-[22%] hidden rotate-[14deg] text-2xl leading-tight md:block">{note}</p>
+        <svg class="absolute right-[9%] top-[44%] hidden w-16 md:block" viewBox="0 0 90 90" aria-hidden="true">
+          <path class="doodle ph-draw" d="M60 6 C 74 30, 60 60, 22 74" /><path class="doodle ph-draw" d="M36 62 L20 76 L40 82" />
+        </svg>
+      </>
+    )}
+  </div>
+</section>
+
+<style>
+  .ph-title { font: 700 clamp(38px, 6vw, 76px) / 1.05 'Inter Tight', 'Inter Variable', Inter, sans-serif; letter-spacing: -0.035em; }
+</style>
+
+<script>
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const ease = 'cubic-bezier(.2,.8,.2,1)';
+    document.querySelectorAll('.page-hero .ph-enter').forEach((el, i) =>
+      el.animate([{ transform: 'translateY(14px)' }, { transform: 'none' }],
+        { delay: i * 80, duration: 700, easing: ease, fill: 'backwards' }));
+    document.querySelectorAll<SVGPathElement>('.page-hero .ph-draw').forEach((p, i) => {
+      const len = p.getTotalLength();
+      p.style.strokeDasharray = String(len);
+      p.animate([{ strokeDashoffset: len }, { strokeDashoffset: 0 }], { delay: 600 + i * 120, duration: 800, easing: 'ease-in-out', fill: 'both' });
+    });
+    document.querySelectorAll('.page-hero .ph-note').forEach((el) =>
+      el.animate([{ opacity: 0 }, { opacity: 1 }], { delay: 900, duration: 700, fill: 'backwards' }));
+  }
+</script>

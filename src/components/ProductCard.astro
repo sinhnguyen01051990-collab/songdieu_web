@@ -1,0 +1,30 @@
+---
+import { Image } from 'astro:assets';
+import { type Product, formatVnd, minPrice } from '../data/products';
+interface Props { product: Product; eager?: boolean }
+const { product: p, eager = false } = Astro.props;
+const price = minPrice(p);
+---
+<article class="card group flex flex-col overflow-hidden transition hover:-translate-y-1 hover:shadow-xl">
+  <a href={`/san-pham/${p.slug}/`} class="relative block aspect-square overflow-hidden bg-brand-50">
+    {p.image ? (
+      <Image src={p.image} alt={p.name} width={600} height={600} widths={[320, 480, 600]} sizes="(min-width: 1024px) 360px, (min-width: 640px) 46vw, 92vw" loading={eager ? 'eager' : 'lazy'}
+        class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+    ) : (
+      <div class="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-brand-600 to-brand-900 p-6 text-center text-white">
+        <span class="font-serif text-4xl font-bold text-gold-300">SD</span>
+        <span class="mt-3 font-serif text-xl font-semibold">{p.shortName}</span>
+        <span class="mt-1 text-xs text-white/60">Ảnh sản phẩm đang cập nhật</span>
+      </div>
+    )}
+    <span class="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-brand-700">{p.category}</span>
+  </a>
+  <div class="flex flex-1 flex-col p-5">
+    <h3 class="text-lg font-bold leading-snug"><a href={`/san-pham/${p.slug}/`} class="hover:text-brand-600">{p.name}</a></h3>
+    <p class="mt-2 line-clamp-2 flex-1 text-sm text-mute">{p.tagline}</p>
+    <div class="mt-4 flex items-center justify-between">
+      <p class="text-brand-600 font-bold">{price ? <>Từ {formatVnd(price)}</> : 'Liên hệ'}</p>
+      <a href={`/san-pham/${p.slug}/`} class="text-sm font-semibold text-brand-600 hover:underline">Xem chi tiết →</a>
+    </div>
+  </div>
+</article>

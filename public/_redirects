@@ -1,0 +1,16 @@
+# URL cũ của WordPress → trang mới tương ứng
+/hello-world/ /tin-tuc/ 301
+/hello-world /tin-tuc/ 301
+/sample-page/ / 301
+/sample-page / 301
+/category/* /tin-tuc/ 301
+/feed/ /tin-tuc/ 301
+/feed /tin-tuc/ 301
+/comments/feed/ /tin-tuc/ 301
+/sitemap.xml /sitemap-index.xml 301
+/sitemap-post-type-post.xml /sitemap-index.xml 301
+/sitemap-post-type-page.xml /sitemap-index.xml 301
+/sitemap-taxonomy-category.xml /sitemap-index.xml 301
+/wp-admin/* / 302
+/wp-login.php / 302
+/tin-tuc/hello-world/ /tin-tuc/ 301

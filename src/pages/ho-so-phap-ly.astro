@@ -1,0 +1,37 @@
+---
+import { Image } from 'astro:assets';
+import PageHero from '../components/PageHero.astro';
+import Base from '../layouts/Base.astro';
+import { PRODUCTS } from '../data/products';
+import { SITE } from '../data/site';
+---
+<Base title="Hồ sơ pháp lý sản phẩm" description="Số phiếu công bố, đơn vị sản xuất và kiểm nghiệm của từng sản phẩm SONG DIỆU: Gel SDBODY, Xuân Nữ Nhan, Trà Táo Mèo, Bút gel, Trà Mâm Xôi."
+  breadcrumbs={[{ name: 'Trang chủ', href: '/' }, { name: 'Hồ sơ pháp lý', href: '/ho-so-phap-ly/' }]}>
+  <PageHero badge="Minh bạch" title="Hồ sơ pháp lý" titleLine2="sản phẩm" sub="Mỗi sản phẩm SONG DIỆU đều có hồ sơ công bố theo quy định, sản xuất tại nhà máy đạt chuẩn." note="Làm thật ăn thật" />
+  <section class="section !pt-4">
+    <div class="container-x">
+      <div class="overflow-hidden rounded-3xl bg-white ring-1 ring-black/5">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-brand-600 text-white">
+            <tr><th class="p-4 font-semibold">Sản phẩm</th><th class="hidden p-4 font-semibold sm:table-cell">Nhóm</th><th class="p-4 font-semibold">Hồ sơ công bố / sản xuất</th></tr>
+          </thead>
+          <tbody>
+            {PRODUCTS.map((p, i) => (
+              <tr class:list={['align-top', i % 2 && 'bg-cream']}>
+                <td class="p-4">
+                  <a href={`/san-pham/${p.slug}/`} class="flex items-center gap-3 font-semibold text-ink hover:text-brand-600">
+                    {p.image && <Image src={p.image} alt="" width={56} height={56} class="h-14 w-14 shrink-0 rounded-xl object-cover" />}
+                    {p.name}
+                  </a>
+                </td>
+                <td class="hidden p-4 text-mute sm:table-cell">{p.category}</td>
+                <td class="p-4 text-mute">{p.legal}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-6 text-sm text-mute">Đơn vị phân phối: <strong class="text-ink">{SITE.legalName}</strong>. Cần bản sao đầy đủ phiếu công bố / phiếu kiểm nghiệm? Nhắn <a class="text-brand-600 underline" href={SITE.zalo} target="_blank" rel="noopener">Zalo {SITE.phoneDisplay}</a>, nhân viên sẽ gửi ngay.</p>
+    </div>
+  </section>
+</Base>

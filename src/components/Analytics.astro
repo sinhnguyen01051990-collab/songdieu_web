@@ -1,0 +1,38 @@
+---
+import { SITE } from '../data/site';
+const { ga4, metaPixel, tiktokPixel } = SITE.analytics;
+const enabled = !!(ga4 || metaPixel || tiktokPixel);
+---
+{enabled && (
+  <script is:inline define:vars={{ ga4, metaPixel, tiktokPixel }}>
+    // Tải mã đo lường sau khi trang hiển thị xong (không chặn LCP)
+    window.dataLayer = window.dataLayer || [];
+    function boot() {
+      if (window.__sdBoot) return; window.__sdBoot = 1;
+      if (ga4) {
+        var s = document.createElement('script'); s.async = 1; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ga4; document.head.appendChild(s);
+        window.gtag = function () { dataLayer.push(arguments); }; gtag('js', new Date()); gtag('config', ga4);
+      }
+      if (metaPixel) {
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', metaPixel); fbq('track', 'PageView');
+      }
+      if (tiktokPixel) {
+        !function(w,d,t){w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.load=function(e){var n="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{};ttq._i[e]=[];ttq._u=n;var o=d.createElement("script");o.async=!0;o.src=n+"?sdkid="+e+"&lib="+t;var a=d.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};ttq.load(tiktokPixel);ttq.page()}(window,document,'ttq');
+      }
+    }
+    ['pointerdown','keydown','scroll','touchstart'].forEach(function (e) { addEventListener(e, boot, { once: true, passive: true }); });
+    addEventListener('load', function () { setTimeout(boot, 2500); });
+  </script>
+)}
+<script>
+  import { track } from '../scripts/track';
+  document.addEventListener('click', (e) => {
+    const a = (e.target as HTMLElement).closest('a');
+    if (!a) return;
+    const href = a.getAttribute('href') || '';
+    if (href.startsWith('tel:')) track('click_call', { location: a.dataset.loc || location.pathname });
+    else if (href.includes('zalo.me')) track('click_zalo', { location: a.dataset.loc || location.pathname });
+    else if (href.includes('m.me') || href.includes('messenger')) track('click_messenger', { location: location.pathname });
+  });
+</script>

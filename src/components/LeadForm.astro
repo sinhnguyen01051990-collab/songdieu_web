@@ -1,0 +1,118 @@
+---
+import { SITE } from '../data/site';
+import { type Product, formatVnd } from '../data/products';
+interface Props { product?: Product; variant?: 'order' | 'contact'; compact?: boolean }
+const { product, variant = product ? 'order' : 'contact', compact = false } = Astro.props;
+const uid = `lf-${variant}-${product?.sku ?? 'contact'}-${Math.random().toString(36).slice(2, 7)}`;
+const field = 'mt-1 w-full rounded-xl border border-black/15 bg-white px-4 py-3 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/15';
+---
+<form class="lead-form space-y-4" novalidate data-type={variant} data-product={product?.name ?? ''} data-value={product?.offers.find((o) => o.best)?.price ?? product?.offers[0]?.price ?? 0}>
+  <input type="hidden" name="product" value={product?.name ?? ''} />
+  <!-- bẫy bot: người thật không thấy ô này -->
+  <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+    <label>Website<input name="website" tabindex="-1" autocomplete="off" /></label>
+  </div>
+  {variant === 'order' && product && product.offers.length > 0 && (
+    <fieldset>
+      <legend class="mb-2 text-sm font-semibold">Chọn combo</legend>
+      <div class="grid gap-2">
+        {product.offers.map((o, i) => (
+          <label class="flex cursor-pointer items-center justify-between gap-3 rounded-2xl border border-black/10 bg-white p-3 text-sm has-[:checked]:border-brand-600 has-[:checked]:ring-2 has-[:checked]:ring-brand-600/20">
+            <span class="flex items-center gap-3">
+              <input type="radio" name="offer" value={`${o.label} – ${formatVnd(o.price)}`} data-price={o.price} checked={o.best ?? i === 0} class="accent-brand-600" />
+              <span><span class="font-semibold">{o.label}</span>{o.best && <span class="ml-1.5 rounded bg-brand-600 px-1.5 py-0.5 text-[10px] font-semibold text-white">BÁN CHẠY</span>}{o.note && <span class="block text-xs text-mute">{o.note}</span>}</span>
+            </span>
+            <span class="font-bold text-brand-600">{formatVnd(o.price)}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  )}
+  <div class:list={['grid gap-4', !compact && 'sm:grid-cols-2']}>
+    <label class="block text-sm" for={`${uid}-name`}>
+      <span class="font-semibold">Họ và tên *</span>
+      <input id={`${uid}-name`} name="name" required minlength="2" autocomplete="name" class={field} placeholder="Nguyễn Thị A" />
+    </label>
+    <label class="block text-sm" for={`${uid}-phone`}>
+      <span class="font-semibold">Số điện thoại *</span>
+      <input id={`${uid}-phone`} name="phone" required type="tel" inputmode="tel" autocomplete="tel" class={field} placeholder="09xx xxx xxx" />
+    </label>
+  </div>
+  {variant === 'order' ? (
+    <label class="block text-sm" for={`${uid}-addr`}>
+      <span class="font-semibold">Địa chỉ nhận hàng *</span>
+      <input id={`${uid}-addr`} name="address" required minlength="6" autocomplete="street-address" class={field} placeholder="Số nhà, đường, phường/xã, tỉnh/thành" />
+    </label>
+  ) : (
+    <label class="block text-sm" for={`${uid}-email`}>
+      <span class="font-semibold">Email</span>
+      <input id={`${uid}-email`} name="email" type="email" autocomplete="email" class={field} placeholder="email@vidu.com" />
+    </label>
+  )}
+  {!compact && (
+    <label class="block text-sm" for={`${uid}-msg`}>
+      <span class="font-semibold">{variant === 'order' ? 'Ghi chú' : 'Nội dung cần tư vấn'}</span>
+      <textarea id={`${uid}-msg`} name="message" rows="3" class={field} placeholder={variant === 'order' ? 'Giờ nhận hàng, yêu cầu thêm...' : 'Chị đang quan tâm vấn đề gì ạ?'}></textarea>
+    </label>
+  )}
+  <label class="flex items-start gap-2.5 text-xs leading-relaxed text-mute">
+    <input type="checkbox" name="consent" required class="mt-0.5 h-4 w-4 shrink-0 accent-brand-600" />
+    <span>Tôi đồng ý để SONG DIỆU sử dụng thông tin trên để xác nhận đơn hàng, giao hàng và tư vấn, theo <a href="/chinh-sach-bao-mat/" class="underline hover:text-brand-600">Chính sách bảo mật</a>.</span>
+  </label>
+  <button type="submit" class="btn-primary w-full !py-4 text-base disabled:opacity-60">
+    {variant === 'order' ? 'Đặt hàng – Thanh toán khi nhận (COD)' : 'Gửi yêu cầu tư vấn'}
+  </button>
+  <p class="form-status hidden rounded-xl p-3 text-sm" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+  import { track } from '../scripts/track';
+  const PHONE_RE = /^(0|\+?84)(3|5|7|8|9)\d{8}$/;
+  const utm = () => {
+    try {
+      const q = new URLSearchParams(location.search);
+      const cur = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'fbclid', 'gclid', 'ttclid'].filter((k) => q.get(k)).map((k) => `${k}=${q.get(k)}`).join('&');
+      if (cur) sessionStorage.setItem('sd_utm', cur);
+      return cur || sessionStorage.getItem('sd_utm') || '';
+    } catch { return ''; }
+  };
+  utm();
+
+  document.querySelectorAll<HTMLFormElement>('form.lead-form').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('.form-status')!;
+    const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+    const show = (msg: string, ok: boolean) => {
+      status.innerHTML = msg;
+      status.className = `form-status rounded-xl p-3 text-sm ${ok ? 'bg-green-50 text-green-900' : 'bg-red-50 text-red-900'}`;
+    };
+    let started = false;
+    form.addEventListener('focusin', () => { if (!started) { started = true; track('form_start', { form_type: form.dataset.type, product: form.dataset.product }); } });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const data = Object.fromEntries(fd.entries()) as Record<string, string>;
+      const phone = (data.phone || '').replace(/[\s.\-()]/g, '');
+      if (!data.name || data.name.trim().length < 2) return show('Chị vui lòng nhập họ tên ạ.', false);
+      if (!PHONE_RE.test(phone)) return show('Số điện thoại chưa đúng (VD: 0989 688 703).', false);
+      if (form.dataset.type === 'order' && (!data.address || data.address.trim().length < 6)) return show('Chị vui lòng nhập địa chỉ nhận hàng ạ.', false);
+      if (!data.consent) return show('Chị vui lòng tích đồng ý chính sách bảo mật để gửi thông tin ạ.', false);
+
+      const checked = form.querySelector<HTMLInputElement>('input[name=offer]:checked');
+      const value = Number(checked?.dataset.price || form.dataset.value || 0);
+      const payload = { ...data, phone, consent: true, type: form.dataset.type, page: location.href, utm: utm() };
+      btn.disabled = true;
+      try {
+        const res = await fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        if (!res.ok) throw new Error(String(res.status));
+        show('🎉 Cảm ơn chị! SONG DIỆU đã nhận thông tin và sẽ gọi lại xác nhận trong ít phút.', true);
+        track(form.dataset.type === 'order' ? 'purchase_lead' : 'generate_lead', { form_type: form.dataset.type, product: form.dataset.product, offer: data.offer, value, currency: 'VND' });
+        form.reset();
+      } catch {
+        show('Gửi chưa thành công. Chị vui lòng gọi <a class="font-semibold underline" href="tel:0989688703">0989 688 703</a> hoặc <a class="font-semibold underline" href="https://zalo.me/0989688703" target="_blank" rel="noopener">nhắn Zalo</a> giúp em ạ.', false);
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  });
+</script>

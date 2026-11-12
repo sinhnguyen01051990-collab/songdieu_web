@@ -1,0 +1,62 @@
+---
+import PageHero from '../components/PageHero.astro';
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { SITE, COMMITMENTS } from '../data/site';
+import avatar from '../assets/images/chu-thuong-hieu.jpg';
+import vanPhong from '../assets/images/sp/van-phong-song-dieu.jpg';
+import vanPhong2 from '../assets/images/sp/van-phong-2.jpg';
+import nhaMay1 from '../assets/images/sp/nha-may-1.jpg';
+import nhaMay2 from '../assets/images/sp/nha-may-2.jpg';
+---
+<Base title="Giới thiệu" description="Câu chuyện thương hiệu SONG DIỆU Pharma Beauty – Công ty TNHH SINHAN PHARMA BEAUTY. Hơn 11 năm đồng hành chăm sóc vẻ đẹp phụ nữ Việt bằng sản phẩm thảo dược chất lượng."
+  breadcrumbs={[{ name: 'Trang chủ', href: '/' }, { name: 'Giới thiệu', href: '/gioi-thieu/' }]}>
+  <PageHero badge="Về chúng tôi" title="Song Diệu Pharma Beauty" sub="“Khách hàng là số 1” – tuyệt đối không làm sản phẩm rác." note="Đứa con tinh thần ♥" />
+
+  <section class="section">
+    <div class="container-x grid items-center gap-12 lg:grid-cols-2">
+      <Image src={avatar} alt="Chủ thương hiệu SONG DIỆU tại văn phòng Song Diệu Pharma Beauty" width={640} height={640} class="mx-auto max-w-md rounded-[2rem]" />
+      <div class="prose-sd">
+        <h2>Câu chuyện “đứa con tinh thần”</h2>
+        <p>
+          SONG DIỆU ra đời từ một lý tưởng giản dị của hai vợ chồng: xây dựng một điều gì đó mang tên <strong>đứa con tinh thần</strong> của chính mình, và mang tới những vị khách hàng trân quý những sản phẩm <strong>độc tôn – chất lượng</strong> nhất.
+        </p>
+        <p>
+          Với hơn <strong>11 năm kinh nghiệm</strong> kinh doanh và nền tảng chuyên ngành <strong>Công nghệ Hóa dược</strong>, nhà sáng lập tự tay nghiên cứu, thử nghiệm từng công thức trên chính bản thân trước khi đưa ra thị trường. Gel gừng quế SDBODY ra đời từ chính hành trình chăm sóc vóc dáng sau sinh của nhà sáng lập.
+        </p>
+        <p><em>“Mình dùng gì bán đó. Không nói điêu, không nói quá về sản phẩm để khách hàng kỳ vọng rồi thất vọng. Uy tín luôn luôn là số 1.”</em></p>
+        <h2>Pháp nhân</h2>
+        <p>Thương hiệu SONG DIỆU thuộc <strong>{SITE.legalName}</strong> – địa chỉ {SITE.address.full}.</p>
+        <p>Các sản phẩm được sản xuất tại những nhà máy đạt chuẩn (Dược phẩm VITATH – ISO 22000, Dược Mỹ phẩm Tân Vạn Xuân…), có đầy đủ phiếu công bố và kiểm nghiệm theo quy định.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section !pt-0">
+    <div class="container-x">
+      <div class="text-center">
+        <p class="eyebrow">Văn phòng & nhà máy</p>
+        <h2 class="mt-4 text-3xl font-bold">Làm thật – ăn thật – minh bạch</h2>
+        <p class="mx-auto mt-3 max-w-2xl text-mute">Từ văn phòng Song Diệu Pharma Beauty tới dây chuyền sản xuất đạt chuẩn, mỗi sản phẩm đều được kiểm soát chặt chẽ trước khi tới tay khách hàng.</p>
+      </div>
+      <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          { src: vanPhong, alt: 'Văn phòng Song Diệu Pharma Beauty' },
+          { src: vanPhong2, alt: 'Không gian làm việc tại Song Diệu' },
+          { src: nhaMay1, alt: 'Kiểm tra sản phẩm Gel SDBODY tại nhà máy' },
+          { src: nhaMay2, alt: 'Dây chuyền đóng gói sản phẩm SONG DIỆU' },
+        ].map((g) => <Image src={g.src} alt={g.alt} width={600} height={750} class="aspect-[4/5] w-full rounded-3xl object-cover" loading="lazy" />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container-x">
+      <h2 class="text-center text-3xl font-bold">Cam kết của SONG DIỆU</h2>
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {COMMITMENTS.map((c) => <div class="rounded-3xl bg-cream p-6 ring-1 ring-black/5"><p class="font-serif text-lg font-bold text-brand-700">{c.title}</p><p class="mt-2 text-sm text-mute">{c.text}</p></div>)}
+      </div>
+      <div class="mt-10 text-center"><a href="/san-pham/" class="btn-primary">Xem sản phẩm</a></div>
+    </div>
+  </section>
+</Base>

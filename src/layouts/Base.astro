@@ -1,0 +1,119 @@
+---
+import '@fontsource-variable/inter/wght.css';
+import '@fontsource/inter-tight/latin-700.css';
+import '@fontsource/inter-tight/vietnamese-700.css';
+import '@fontsource/cormorant-garamond/latin-700.css';
+import '@fontsource/cormorant-garamond/vietnamese-700.css';
+import '@fontsource/cormorant-garamond/latin-700-italic.css';
+import '@fontsource/patrick-hand/latin-400.css';
+import '@fontsource/patrick-hand/vietnamese-400.css';
+import '../styles/global.css';
+import headFontLatin from '@fontsource/inter-tight/files/inter-tight-latin-700-normal.woff2?url';
+import headFontVi from '@fontsource/inter-tight/files/inter-tight-vietnamese-700-normal.woff2?url';
+import Analytics from '../components/Analytics.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FloatingContact from '../components/FloatingContact.astro';
+import { SITE } from '../data/site';
+import heroImg from '../assets/images/hero.jpg';
+import { getImage } from 'astro:assets';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: ImageMetadata;
+  type?: 'website' | 'article' | 'product';
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown>[];
+  breadcrumbs?: { name: string; href: string }[];
+}
+
+const { title, description = SITE.description, image = heroImg, type = 'website', noindex = false, jsonLd = [], breadcrumbs } = Astro.props;
+const fullTitle = title ? `${title} | ${SITE.name}` : `${SITE.name} – ${SITE.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const og = await getImage({ src: image, width: 1200, format: 'jpg' });
+const ogUrl = new URL(og.src, Astro.site).href;
+
+const sameAs = [SITE.zalo, ...Object.values(SITE.social)].filter(Boolean);
+const org: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': ['Organization', 'HealthAndBeautyBusiness'],
+  '@id': `${SITE.url}/#org`,
+  name: SITE.name,
+  legalName: SITE.legalName,
+  url: SITE.url,
+  logo: `${SITE.url}/logo-sd.png`,
+  image: ogUrl,
+  telephone: '+84' + SITE.phone.slice(1),
+  email: SITE.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: SITE.address.street,
+    addressLocality: SITE.address.ward,
+    addressRegion: SITE.address.city,
+    addressCountry: 'VN',
+  },
+  areaServed: 'VN',
+  priceRange: '390.000đ – 1.800.000đ',
+  sameAs,
+  ...(SITE.openingHours && { openingHours: SITE.openingHours }),
+};
+const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE.name, url: SITE.url, inLanguage: 'vi-VN' };
+const crumbLd = breadcrumbs && {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbs.map((b, i) => ({ '@type': 'ListItem', position: i + 1, name: b.name, item: new URL(b.href, Astro.site).href })),
+};
+const schemas = [org, website, ...(crumbLd ? [crumbLd] : []), ...jsonLd];
+---
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta name="theme-color" content="#7d1424" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content={type === 'product' ? 'product' : type} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content="vi_VN" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preload" href={headFontLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={headFontVi} as="font" type="font/woff2" crossorigin />
+    {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:p-2">Bỏ qua điều hướng</a>
+    <Header />
+    {breadcrumbs && (
+      <nav aria-label="Breadcrumb" class="bg-white/60 border-b border-black/5">
+        <ol class="container-x flex flex-wrap items-center gap-2 py-3 text-xs text-mute">
+          {breadcrumbs.map((b, i) => (
+            <li class="flex items-center gap-2">
+              {i < breadcrumbs.length - 1 ? <a href={b.href} class="hover:text-brand-600">{b.name}</a> : <span aria-current="page" class="text-ink">{b.name}</span>}
+              {i < breadcrumbs.length - 1 && <span aria-hidden="true">/</span>}
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+    <FloatingContact />
+    <Analytics />
+  </body>
+</html>

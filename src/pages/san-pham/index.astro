@@ -1,0 +1,20 @@
+---
+import PageHero from '../../components/PageHero.astro';
+import Base from '../../layouts/Base.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { PRODUCTS } from '../../data/products';
+---
+<Base
+  title="Sản phẩm"
+  description="Danh mục sản phẩm SONG DIỆU: Gel gừng quế SDBODY, viên uống nội tiết Xuân Nữ Nhan, Trà Táo Mèo, Bút gel Hoàng Cung Bảo Phụ Khang, Trà Mâm Xôi Tứ Vị. Freeship, kiểm hàng COD."
+  breadcrumbs={[{ name: 'Trang chủ', href: '/' }, { name: 'Sản phẩm', href: '/san-pham/' }]}
+>
+  <PageHero badge="Song Diệu Pharma Beauty" title="Sản phẩm thảo dược" titleLine2="cho phụ nữ Việt" sub="Mỹ phẩm & thực phẩm bổ sung có đầy đủ hồ sơ công bố – kiểm nghiệm. Freeship toàn quốc, kiểm hàng rồi mới thanh toán." note="Chọn là ưng ♥" />
+  <section class="section !pt-4">
+    <div class="container-x">
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {PRODUCTS.map((p, i) => <ProductCard product={p} eager={i < 3} />)}
+      </div>
+    </div>
+  </section>
+</Base>

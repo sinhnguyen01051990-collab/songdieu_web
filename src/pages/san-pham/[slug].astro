@@ -1,0 +1,226 @@
+---
+import { Image, getImage } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import LeadForm from '../../components/LeadForm.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import VideoGallery from '../../components/VideoGallery.astro';
+import FeedbackGallery from '../../components/FeedbackGallery.astro';
+import { VIDEOS, FEEDBACK } from '../../data/media';
+import { PRODUCTS, type Product, formatVnd, minPrice } from '../../data/products';
+import { SITE } from '../../data/site';
+
+export function getStaticPaths() {
+  return PRODUCTS.map((product) => ({ params: { slug: product.slug }, props: { product } }));
+}
+interface Props { product: Product }
+const { product: p } = Astro.props;
+const url = `${SITE.url}/san-pham/${p.slug}/`;
+const imgUrl = p.image ? new URL((await getImage({ src: p.image, width: 1200, format: 'jpg' })).src, Astro.site).href : `${SITE.url}/logo.png`;
+const priceValidUntil = `${new Date().getFullYear() + 1}-12-31`;
+
+const productLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: p.name,
+  sku: p.sku,
+  image: imgUrl,
+  description: p.description,
+  brand: { '@type': 'Brand', name: 'SONG DIỆU' },
+  manufacturer: { '@id': `${SITE.url}/#org` },
+  ...(p.offers.length && {
+    offers: {
+      '@type': 'AggregateOffer',
+      priceCurrency: 'VND',
+      lowPrice: minPrice(p),
+      highPrice: Math.max(...p.offers.map((o) => o.price)),
+      offerCount: p.offers.length,
+      availability: 'https://schema.org/InStock',
+      url,
+      priceValidUntil,
+      seller: { '@id': `${SITE.url}/#org` },
+      shippingDetails: {
+        '@type': 'OfferShippingDetails',
+        shippingRate: { '@type': 'MonetaryAmount', value: 0, currency: 'VND' },
+        shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'VN' },
+        deliveryTime: {
+          '@type': 'ShippingDeliveryTime',
+          handlingTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 1, unitCode: 'DAY' },
+          transitTime: { '@type': 'QuantitativeValue', minValue: 2, maxValue: 3, unitCode: 'DAY' },
+        },
+      },
+    },
+  }),
+};
+const faqLd = p.faq.length
+  ? [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: p.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }]
+  : [];
+const fullUrls = await Promise.all(p.gallery.map(async (g) => (await getImage({ src: g.src, width: 900, format: 'webp' })).src));
+const others = PRODUCTS.filter((x) => x.slug !== p.slug).slice(0, 3);
+---
+<Base
+  title={p.name}
+  description={p.description}
+  image={p.image}
+  type="product"
+  jsonLd={[productLd, ...faqLd]}
+  breadcrumbs={[{ name: 'Trang chủ', href: '/' }, { name: 'Sản phẩm', href: '/san-pham/' }, { name: p.name, href: `/san-pham/${p.slug}/` }]}
+>
+  <!-- TOP -->
+  <section class="section !pt-10">
+    <div class="container-x grid gap-10 lg:grid-cols-2">
+      <!-- Gallery -->
+      <div>
+        {p.gallery.length > 0 ? (
+          <div class="space-y-3">
+            <div class="overflow-hidden rounded-3xl bg-white ring-1 ring-black/5">
+              <Image id="main-img" src={p.gallery[0].src} alt={p.gallery[0].alt} widths={[420, 640, 900]} sizes="(min-width: 1024px) 560px, 100vw" loading="eager" fetchpriority="high" class="aspect-square w-full object-contain" />
+            </div>
+            {p.gallery.length > 1 && (
+              <div class="grid grid-cols-4 gap-3 sm:grid-cols-6">
+                {p.gallery.map((g, i) => (
+                  <button type="button" class="thumb overflow-hidden rounded-xl ring-1 ring-black/10 hover:ring-brand-600 data-[active]:ring-2 data-[active]:ring-brand-600" data-active={i === 0 ? '' : undefined} aria-label={`Xem ảnh: ${g.alt}`}>
+                    <Image src={g.src} alt="" width={160} height={160} class="aspect-square w-full object-cover" data-full={fullUrls[i]} loading="lazy" />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div class="flex aspect-square flex-col items-center justify-center rounded-3xl bg-gradient-to-br from-brand-600 to-brand-900 text-white">
+            <span class="font-serif text-7xl font-bold text-gold-300">SD</span>
+            <span class="mt-4 font-serif text-2xl">{p.shortName}</span>
+            <span class="mt-2 text-sm text-white/60">Ảnh sản phẩm đang cập nhật</span>
+          </div>
+        )}
+      </div>
+
+      <!-- Info + order -->
+      <div>
+        <p class="eyebrow">{p.category}</p>
+        <h1 class="mt-2 text-3xl font-bold sm:text-4xl">{p.name}</h1>
+        <p class="mt-3 text-lg text-mute">{p.tagline}</p>
+        <p class="mt-2 text-sm text-mute">Quy cách: {p.size}</p>
+        <ul class="mt-6 space-y-2">
+          {p.benefits.map((b) => <li class="flex gap-3 text-ink/80"><span class="text-brand-600">✔</span>{b}</li>)}
+        </ul>
+
+        <div id="dat-hang" class="mt-8 rounded-3xl bg-brand-50 p-5 sm:p-6 ring-1 ring-brand-100">
+          {p.offers.length > 0 ? (
+            <>
+              <p class="mb-4 font-serif text-xl font-bold text-brand-700">Đặt hàng – Freeship toàn quốc</p>
+              <LeadForm product={p} variant="order" />
+            </>
+          ) : (
+            <>
+              <p class="mb-2 font-serif text-xl font-bold text-brand-700">Liên hệ để nhận báo giá</p>
+              <p class="mb-4 text-sm text-mute">Để lại họ tên + SĐT, nhân viên báo giá và lên đơn cho chị ngay ạ.</p>
+              <LeadForm product={p} variant="order" />
+            </>
+          )}
+        </div>
+        <p class="mt-4 text-xs text-mute">📄 {p.legal}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DETAILS -->
+  <section class="section bg-white !pt-16">
+    <div class="container-x grid gap-12 lg:grid-cols-3">
+      <article class="prose-sd lg:col-span-2">
+        {p.ingredients.length > 0 && (
+          <>
+            <h2>Thành phần chính</h2>
+            <div class="not-prose grid gap-4 sm:grid-cols-2">
+              {p.ingredients.map((i) => (
+                <div class="rounded-2xl bg-cream p-5 ring-1 ring-black/5">
+                  <p class="font-semibold text-ink">{i.name}{i.amount && <span class="ml-2 rounded-full bg-gold-300/40 px-2 py-0.5 text-xs text-gold-600">{i.amount}/viên</span>}</p>
+                  <p class="mt-2 text-sm text-mute">{i.desc}</p>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+        <h2>Hướng dẫn sử dụng</h2>
+        <ol>{p.usage.map((u) => <li>{u}</li>)}</ol>
+        <h2>Lưu ý</h2>
+        <ul>{p.notes.map((n) => <li>{n}</li>)}</ul>
+        {p.gallery.length > 1 && (
+          <div class="not-prose mt-8 grid gap-4 sm:grid-cols-2">
+            {p.gallery.slice(1).map((g) => <Image src={g.src} alt={g.alt} widths={[400, 700]} sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 100vw" class="w-full rounded-2xl" loading="lazy" />)}
+          </div>
+        )}
+        {p.faq.length > 0 && (
+          <>
+            <h2>Câu hỏi thường gặp</h2>
+            <div class="not-prose space-y-3">
+              {p.faq.map((f) => (
+                <details class="group rounded-2xl bg-cream p-5 ring-1 ring-black/5">
+                  <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold">
+                    {f.q}<span class="text-brand-600 transition group-open:rotate-45">+</span>
+                  </summary>
+                  <p class="mt-3 text-sm leading-relaxed text-mute">{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </>
+        )}
+        {p.disclaimer && <p class="mt-8 rounded-xl bg-gold-300/20 p-4 text-sm italic">{p.disclaimer}</p>}
+      </article>
+
+      <aside class="space-y-4 lg:sticky lg:top-24 lg:self-start">
+        <div class="card p-6">
+          <p class="font-semibold">Bảng giá {p.shortName}</p>
+          {p.offers.length > 0 ? (
+            <ul class="mt-4 space-y-3 text-sm">
+              {p.offers.map((o) => (
+                <li class="flex justify-between gap-3 border-b border-black/5 pb-3">
+                  <span>{o.label}{o.best && <span class="ml-1 rounded bg-brand-600 px-1.5 py-0.5 text-[10px] text-white">HOT</span>}<span class="block text-xs text-mute">{o.note}</span></span>
+                  <strong class="text-brand-600">{formatVnd(o.price)}</strong>
+                </li>
+              ))}
+            </ul>
+          ) : <p class="mt-3 text-sm text-mute">Liên hệ hotline để nhận báo giá.</p>}
+          <a href="#dat-hang" class="btn-primary mt-5 w-full">Đặt hàng ngay</a>
+          <a href={`tel:${SITE.phone}`} class="btn mt-2 w-full border border-brand-600 text-brand-600 hover:bg-brand-50">Gọi {SITE.phoneDisplay}</a>
+        </div>
+        <div class="card p-6 text-sm space-y-2">
+          <p>🚚 Freeship toàn quốc, giao 2–3 ngày</p>
+          <p>📦 Được kiểm hàng trước khi thanh toán</p>
+          <p>🛡️ Thẻ bảo hành kèm mỗi đơn hàng</p>
+          <p>🔁 Đổi 1–1 nếu sản phẩm lỗi</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <FeedbackGallery items={FEEDBACK[p.slug] ?? []} />
+  <VideoGallery videos={VIDEOS[p.slug] ?? []} title={`Video về ${p.shortName}`} />
+
+  <!-- RELATED -->
+  <section class="section">
+    <div class="container-x">
+      <h2 class="text-2xl font-bold">Sản phẩm khác</h2>
+      <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {others.map((o) => <ProductCard product={o} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Mobile sticky CTA -->
+  <div class="fixed inset-x-0 bottom-0 z-40 flex gap-2 border-t border-black/10 bg-white p-3 pr-20 md:hidden">
+    <a href={`tel:${SITE.phone}`} class="btn flex-1 border border-brand-600 !px-3 text-brand-600">Gọi ngay</a>
+    <a href="#dat-hang" class="btn-primary flex-1 !px-3">Đặt hàng</a>
+  </div>
+</Base>
+
+<script>
+  const main = document.getElementById('main-img') as HTMLImageElement | null;
+  document.querySelectorAll<HTMLButtonElement>('.thumb').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const img = btn.querySelector('img')!;
+      if (main) { main.srcset = ''; main.src = img.dataset.full || img.src; main.alt = btn.getAttribute('aria-label')?.replace('Xem ảnh: ', '') || ''; }
+      document.querySelectorAll('.thumb').forEach((t) => t.removeAttribute('data-active'));
+      btn.setAttribute('data-active', '');
+    });
+  });
+</script>

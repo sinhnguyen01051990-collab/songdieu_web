@@ -1,0 +1,56 @@
+---
+import { NAV, SITE } from '../data/site';
+import { PRODUCTS } from '../data/products';
+const year = new Date().getFullYear();
+---
+<footer class="bg-brand-900 text-white/75">
+  <div class="container-x grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+    <div>
+      <p class="flex items-center gap-3">
+        <img src="/logo-sd-128.webp" alt="Logo SONG DIỆU" width="56" height="60" class="h-16 w-auto" loading="lazy" />
+        <span class="flex flex-col leading-none">
+          <span class="wordmark gold-text whitespace-nowrap text-[26px]">Song Diệu</span>
+          <span class="mt-1 font-brand text-xs font-semibold italic tracking-[0.2em] text-gold-400 uppercase">Pharma Beauty</span>
+        </span>
+      </p>
+      <p class="hand mt-3 !text-gold-300 text-lg">Khách hàng là số 1</p>
+      <p class="mt-4 text-sm leading-relaxed">
+        Thương hiệu của {SITE.legalName}. Tuyệt đối không làm sản phẩm rác – chỉ mang tới khách hàng những sản phẩm độc tôn, chất lượng nhất.
+      </p>
+    </div>
+    <div>
+      <p class="mb-4 font-medium text-white">Sản phẩm</p>
+      <ul class="space-y-2 text-sm">
+        {PRODUCTS.map((p) => <li><a href={`/san-pham/${p.slug}/`} class="hover:text-gold-300">{p.name}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <p class="mb-4 font-medium text-white">Liên kết</p>
+      <ul class="space-y-2 text-sm">
+        {NAV.map((n) => <li><a href={n.href} class="hover:text-gold-300">{n.label}</a></li>)}
+        <li><a href="/cau-hoi-thuong-gap/" class="hover:text-gold-300">Câu hỏi thường gặp</a></li>
+        <li><a href="/ho-so-phap-ly/" class="hover:text-gold-300">Hồ sơ pháp lý sản phẩm</a></li>
+        <li><a href="/chinh-sach/" class="hover:text-gold-300">Chính sách đổi trả & bảo hành</a></li>
+        <li><a href="/chinh-sach-bao-mat/" class="hover:text-gold-300">Chính sách bảo mật</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="mb-4 font-medium text-white">Liên hệ</p>
+      <address class="not-italic space-y-3 text-sm">
+        <p>{SITE.address.full}</p>
+        <p><a href={`tel:${SITE.phone}`} class="text-white hover:text-gold-300">{SITE.phoneDisplay}</a></p>
+        <p><a href={`mailto:${SITE.email}`} class="hover:text-gold-300">{SITE.email}</a></p>
+        {Object.entries(SITE.social).filter(([, v]) => v).length > 0 && (
+          <p class="flex flex-wrap gap-3">{Object.entries(SITE.social).filter(([, v]) => v).map(([k, v]) => <a href={v} target="_blank" rel="noopener" class="capitalize hover:text-gold-300">{k}</a>)}</p>
+        )}
+        <p><a href={SITE.zalo} target="_blank" rel="noopener" class="inline-flex rounded-full bg-gold-400 px-4 py-1.5 font-medium text-brand-900 hover:bg-gold-300">Chat Zalo</a></p>
+      </address>
+    </div>
+  </div>
+  <div class="border-t border-white/10">
+    <div class="container-x flex flex-col items-center justify-between gap-2 py-5 text-xs sm:flex-row">
+      <p>© {year} SONG DIỆU – {SITE.legalName}.</p>
+      <p class="text-white/50">Hiệu quả sản phẩm có thể khác nhau ở mỗi người.</p>
+    </div>
+  </div>
+</footer>

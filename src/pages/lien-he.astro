@@ -1,0 +1,34 @@
+---
+import PageHero from '../components/PageHero.astro';
+import Base from '../layouts/Base.astro';
+import LeadForm from '../components/LeadForm.astro';
+import { SITE } from '../data/site';
+const mapQuery = encodeURIComponent(SITE.address.full);
+---
+<Base title="Liên hệ" description={`Liên hệ SONG DIỆU: hotline ${SITE.phoneDisplay}, email ${SITE.email}, địa chỉ ${SITE.address.full}. Tư vấn miễn phí, phản hồi nhanh.`}
+  breadcrumbs={[{ name: 'Trang chủ', href: '/' }, { name: 'Liên hệ', href: '/lien-he/' }]}>
+  <PageHero badge="Liên hệ" title="Luôn sẵn sàng" titleLine2="lắng nghe chị em" sub="Liên hệ SONG DIỆU bất cứ lúc nào khi cần hỗ trợ hoặc tư vấn – chúng mình phản hồi nhanh nhất có thể." note="Nhắn là trả lời" />
+  <section class="section !pt-4">
+    <div class="container-x">
+      <div class="mt-12 grid gap-8 lg:grid-cols-2">
+        <div class="space-y-4">
+          <div class="card p-6">
+            <p class="font-serif text-xl font-bold text-brand-700">2A Happy Home</p>
+            <address class="mt-4 space-y-3 not-italic">
+              <p>📍 {SITE.address.full}</p>
+              <p>📞 <a href={`tel:${SITE.phone}`} class="font-semibold text-brand-600">{SITE.phoneDisplay}</a></p>
+              <p>✉️ <a href={`mailto:${SITE.email}`} class="text-brand-600">{SITE.email}</a></p>
+              <p>💬 <a href={SITE.zalo} target="_blank" rel="noopener" class="text-brand-600">Chat Zalo {SITE.phoneDisplay}</a></p>
+            </address>
+          </div>
+          <iframe title="Bản đồ SONG DIỆU" class="h-80 w-full rounded-3xl border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}></iframe>
+        </div>
+        <div class="card p-6 sm:p-8">
+          <h2 class="mb-6 text-2xl font-bold">Gửi yêu cầu tư vấn</h2>
+          <LeadForm variant="contact" />
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

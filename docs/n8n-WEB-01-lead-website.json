@@ -1,0 +1,35 @@
+{
+  "name": "WEB-01 Đơn hàng từ website songdieu.vn",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "songdieu-web-lead",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "a1b2c3d4-0001-4000-8000-000000000001",
+      "name": "Webhook đơn web",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "webhookId": "songdieu-web-lead"
+    },
+    {
+      "parameters": {
+        "chatId": "=ĐIỀN_CHAT_ID_NHÓM_TELEGRAM_SALE",
+        "text": "={{ ($json.body.type === 'order' ? '🛒 ĐƠN HÀNG WEB' : '💬 YÊU CẦU TƯ VẤN WEB') + ' #' + $json.body.id }}\n👤 {{ $json.body.name }}\n📞 {{ $json.body.phone }}\n📦 {{ $json.body.product || '-' }}\n🎁 {{ $json.body.offer || '-' }}\n🏠 {{ $json.body.address || '-' }}\n📝 {{ $json.body.message || '-' }}\n🔗 {{ $json.body.page }}\n⏰ {{ $json.body.created_at }} (UTC)",
+        "additionalFields": { "parse_mode": "HTML", "disable_web_page_preview": true }
+      },
+      "id": "a1b2c3d4-0001-4000-8000-000000000002",
+      "name": "Báo Telegram Sale",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [260, 0]
+    }
+  ],
+  "connections": {
+    "Webhook đơn web": { "main": [[{ "node": "Báo Telegram Sale", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" }
+}

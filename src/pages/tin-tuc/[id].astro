@@ -1,0 +1,45 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { getProduct } from '../../data/products';
+import { SITE } from '../../data/site';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('tinTuc');
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+const product = post.data.product ? getProduct(post.data.product) : undefined;
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.date.toISOString(),
+  author: { '@id': `${SITE.url}/#org` },
+  publisher: { '@id': `${SITE.url}/#org` },
+  mainEntityOfPage: `${SITE.url}/tin-tuc/${post.id}/`,
+  inLanguage: 'vi-VN',
+};
+---
+<Base title={post.data.title} description={post.data.description} type="article" image={product?.image} jsonLd={[articleLd]}
+  breadcrumbs={[{ name: 'Trang chủ', href: '/' }, { name: 'Tin tức', href: '/tin-tuc/' }, { name: post.data.title, href: `/tin-tuc/${post.id}/` }]}>
+  <article class="section">
+    <div class="container-x grid gap-12 lg:grid-cols-3">
+      <div class="lg:col-span-2">
+        <time class="text-sm text-mute" datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString('vi-VN')}</time>
+        <h1 class="mt-2 text-3xl font-bold sm:text-4xl">{post.data.title}</h1>
+        <p class="mt-4 text-lg text-mute">{post.data.description}</p>
+        <div class="prose-sd mt-8"><Content /></div>
+      </div>
+      {product && (
+        <aside class="lg:sticky lg:top-24 lg:self-start">
+          <p class="mb-3 text-sm font-semibold text-mute">Sản phẩm liên quan</p>
+          <ProductCard product={product} />
+        </aside>
+      )}
+    </div>
+  </article>
+</Base>

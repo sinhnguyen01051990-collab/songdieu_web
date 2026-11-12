@@ -1,0 +1,23 @@
+---
+import { Image } from 'astro:assets';
+import type { Feedback } from '../data/media';
+interface Props { items: Feedback[] }
+const { items } = Astro.props;
+---
+{items.length > 0 && (
+  <section class="section !py-14 bg-white" aria-labelledby="fb-title">
+    <div class="container-x">
+      <p class="eyebrow">Phản hồi thật</p>
+      <h2 id="fb-title" class="mt-4 text-2xl font-bold sm:text-3xl">Khách hàng nói gì?</h2>
+      <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {items.map((f) => (
+          <figure class="card overflow-hidden">
+            <Image src={f.src} alt={f.alt} widths={[360, 540]} sizes="(min-width: 1024px) 360px, 90vw" class="max-h-[520px] w-full object-cover object-top" loading="lazy" />
+            <figcaption class="p-4 text-sm text-mute">{f.caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+      <p class="mt-4 text-xs text-mute">Thông tin cá nhân của khách hàng đã được ẩn. Cảm nhận ở mỗi người có thể khác nhau.</p>
+    </div>
+  </section>
+)}

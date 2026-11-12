@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+/* SONG DIỆU – đỏ đô + vàng gold (bố cục soft studio) */
+@theme {
+  /* đỏ đô (chủ đạo – màu bao bì sản phẩm) */
+  --color-brand-50: #fbf3f1;
+  --color-brand-100: #f4e8cc; /* champagne – nền badge */
+  --color-brand-500: #9b1c2c;
+  --color-brand-600: #7d1424; /* đỏ đô */
+  --color-brand-700: #63101c;
+  --color-brand-900: #3a0910;
+  /* vàng gold (logo, tên thương hiệu) */
+  --color-gold-300: #f0dca8;
+  --color-gold-400: #e0bf6e;
+  --color-gold-500: #c9a14a;
+  --color-gold-600: #7d5c1b; /* đủ tương phản 4.5:1 trên nền kem */
+  --color-copper: #c6783e; /* màu chủ đạo web cũ songdieu.vn */
+  --color-cream: #fbf7f1;
+  --color-ink: #231819;
+  --color-mute: #5e5658;
+
+  --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Inter Tight", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-brand: "Cormorant Garamond", "Times New Roman", serif;
+  --font-hand: "Patrick Hand", "Comic Sans MS", cursive;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-cream text-ink font-sans antialiased; }
+  h1, h2, h3 { @apply font-serif font-bold; letter-spacing: -0.03em; text-wrap: balance; }
+  p { text-wrap: pretty; }
+}
+
+@utility container-x { @apply mx-auto w-full max-w-6xl px-4 sm:px-6; }
+
+@utility btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition; }
+
+@utility btn-primary { @apply btn bg-brand-600 text-white hover:bg-brand-700; }
+
+@utility btn-white { @apply btn bg-white text-ink ring-1 ring-black/5 hover:bg-brand-50; }
+
+/* nút trong vòng viền đứt nét (như "Make a Reel") */
+@utility btn-ring {
+  @apply inline-flex rounded-full p-[7px];
+  outline: 1.5px dashed var(--color-brand-600);
+  outline-offset: 0;
+}
+
+@utility btn-gold { @apply btn text-brand-900 hover:brightness-105; background-image: linear-gradient(180deg, #f3d67a, #d6aa45 55%, #b8862a); }
+
+/* chữ vàng gold kiểu biển hiệu */
+@utility gold-text {
+  background-image: linear-gradient(180deg, #f6dc86 0%, #d4a33c 50%, #a8761f 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+@utility wordmark { font-family: var(--font-brand); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+
+@utility btn-ghost { @apply btn border border-current hover:bg-white/10; }
+
+@utility eyebrow { @apply inline-flex items-center rounded-full bg-brand-100 px-4 py-1.5 text-sm font-medium text-brand-600 ring-1 ring-gold-400/50; }
+
+@utility hand { font-family: var(--font-hand); @apply text-brand-600; }
+
+@utility section { @apply py-16 sm:py-24; }
+
+@utility card { @apply rounded-3xl bg-white ring-1 ring-black/5; }
+
+@utility prose-sd {
+  & > h2 { @apply mt-10 mb-4 text-2xl font-bold text-ink; }
+  & > h3 { @apply mt-6 mb-2 text-lg font-bold text-ink font-sans; }
+  & > p { @apply mb-4 leading-relaxed text-mute; }
+  & > ul { @apply mb-4 list-disc space-y-2 pl-5 text-mute marker:text-brand-500; }
+  & > ol { @apply mb-4 list-decimal space-y-2 pl-5 text-mute marker:text-brand-500; }
+  & strong { @apply text-ink; }
+  & a { @apply text-brand-600 underline; }
+}
+
+/* vẽ nét doodle */
+@utility doodle { fill: none; stroke: var(--color-brand-600); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }

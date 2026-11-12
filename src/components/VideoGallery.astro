@@ -1,0 +1,39 @@
+---
+import { Image } from 'astro:assets';
+import type { Video } from '../data/media';
+interface Props { videos: Video[]; title?: string }
+const { videos, title = 'Video từ SONG DIỆU' } = Astro.props;
+---
+{videos.length > 0 && (
+  <section class="section !py-14" aria-labelledby="video-title">
+    <div class="container-x">
+      <h2 id="video-title" class="text-2xl font-bold sm:text-3xl">{title}</h2>
+      <div class="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
+        {videos.map((v) => (
+          <div class="video-facade relative aspect-[9/16] overflow-hidden rounded-3xl bg-brand-900" data-id={v.driveId}>
+            <Image src={v.poster} alt={v.title} widths={[240, 360]} sizes="(min-width: 768px) 260px, 45vw" class="h-full w-full object-cover" loading="lazy" />
+            <button type="button" class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/25 text-white transition hover:bg-black/35" aria-label={`Phát video: ${v.title}`}>
+              <span class="grid h-16 w-16 place-items-center rounded-full bg-white/30 backdrop-blur ring-1 ring-white/60">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+              </span>
+              <span class="px-3 text-center text-sm font-medium drop-shadow">{v.title}</span>
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+<script>
+  import { track } from '../scripts/track';
+  document.querySelectorAll<HTMLElement>('.video-facade').forEach((box) => {
+    box.querySelector('button')?.addEventListener('click', () => {
+      const f = document.createElement('iframe');
+      f.src = `https://drive.google.com/file/d/${box.dataset.id}/preview`;
+      f.allow = 'autoplay; fullscreen'; f.allowFullscreen = true; f.title = 'Video SONG DIỆU';
+      f.className = 'absolute inset-0 h-full w-full border-0';
+      box.replaceChildren(f);
+      track('video_play', { video_id: box.dataset.id });
+    });
+  });
+</script>

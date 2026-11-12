@@ -1,0 +1,41 @@
+---
+import PageHero from '../components/PageHero.astro';
+import Base from '../layouts/Base.astro';
+import { PRODUCTS } from '../data/products';
+import { SITE } from '../data/site';
+
+const general = [
+  { q: 'Phí giao hàng bao nhiêu? Bao lâu thì nhận được?', a: 'Các combo đều được miễn phí giao hàng toàn quốc. Thời gian giao dự kiến 2–3 ngày làm việc.' },
+  { q: 'Tôi có được kiểm tra hàng trước khi thanh toán không?', a: 'Có. Bạn được mở kiểm tra hộp, tem niêm phong, nhãn và hạn dùng rồi mới thanh toán cho nhân viên giao hàng (COD).' },
+  { q: 'Sản phẩm bị lỗi thì đổi trả thế nào?', a: 'Sản phẩm lỗi do nhà sản xuất hoặc bị dị ứng được đổi 1–1; phí vận chuyển đổi trả không được miễn. Liên hệ hotline để được hướng dẫn.' },
+  { q: 'Phụ nữ mang thai có dùng được sản phẩm không?', a: 'Các sản phẩm SONG DIỆU không dành cho phụ nữ đang mang thai.' },
+  { q: 'Sản phẩm có giấy tờ công bố không?', a: 'Có. Xem chi tiết số phiếu công bố, đơn vị sản xuất của từng sản phẩm tại trang Hồ sơ pháp lý.' },
+];
+const groups = [{ title: 'Mua hàng & giao nhận', items: general }, ...PRODUCTS.filter((p) => p.faq.length).map((p) => ({ title: p.name, items: p.faq, slug: p.slug }))];
+const faqLd = {
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: groups.flatMap((g) => g.items).map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<Base title="Câu hỏi thường gặp" description="Giải đáp thắc mắc về giao hàng, kiểm hàng, đổi trả và cách dùng Gel SDBODY, Xuân Nữ Nhan cùng các sản phẩm SONG DIỆU." jsonLd={[faqLd]}
+  breadcrumbs={[{ name: 'Trang chủ', href: '/' }, { name: 'Câu hỏi thường gặp', href: '/cau-hoi-thuong-gap/' }]}>
+  <PageHero badge="Hỏi đáp" title="Câu hỏi thường gặp" sub={`Chưa thấy câu trả lời? Gọi ${SITE.phoneDisplay} hoặc nhắn Zalo – SONG DIỆU luôn sẵn sàng.`} note="Hỏi gì đáp nấy" />
+  <section class="section !pt-4">
+    <div class="container-x max-w-3xl space-y-10">
+      {groups.map((g) => (
+        <div>
+          <h2 class="text-xl font-bold">{g.title}</h2>
+          <div class="mt-4 space-y-3">
+            {g.items.map((f) => (
+              <details class="group rounded-2xl bg-white p-5 ring-1 ring-black/5">
+                <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold">{f.q}<span class="text-brand-600 transition group-open:rotate-45">+</span></summary>
+                <p class="mt-3 text-sm leading-relaxed text-mute">{f.a}</p>
+              </details>
+            ))}
+          </div>
+          {'slug' in g && g.slug && <a href={`/san-pham/${g.slug}/`} class="mt-3 inline-block text-sm font-semibold text-brand-600 hover:underline">Xem sản phẩm →</a>}
+        </div>
+      ))}
+    </div>
+  </section>
+</Base>

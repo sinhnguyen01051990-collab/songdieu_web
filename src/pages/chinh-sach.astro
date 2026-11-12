@@ -1,0 +1,31 @@
+---
+import PageHero from '../components/PageHero.astro';
+import Base from '../layouts/Base.astro';
+import { SITE } from '../data/site';
+---
+<Base title="Chính sách giao hàng, đổi trả & bảo hành" description="Chính sách giao hàng miễn phí, kiểm hàng COD, đổi trả và bảo hành sản phẩm của SONG DIỆU."
+  breadcrumbs={[{ name: 'Trang chủ', href: '/' }, { name: 'Chính sách', href: '/chinh-sach/' }]}>
+  <PageHero badge="Chính sách" title="Mua hàng an tâm" sub="Freeship toàn quốc · Kiểm hàng trước khi thanh toán · Thẻ bảo hành kèm mỗi đơn." />
+  <section class="section !pt-4">
+    <div class="container-x max-w-3xl prose-sd">
+      <h2>Giao hàng</h2>
+      <ul>
+        <li>Miễn phí giao hàng toàn quốc cho các combo sản phẩm.</li>
+        <li>Thời gian giao dự kiến 2–3 ngày làm việc.</li>
+        <li>Thanh toán khi nhận hàng (COD). Không chuyển khoản riêng cho shipper.</li>
+      </ul>
+      <h2>Kiểm hàng</h2>
+      <p>Khách hàng được mở kiểm tra hộp, tem niêm phong, nhãn và hạn dùng trước khi thanh toán.</p>
+      <h2>Bảo hành & đổi trả</h2>
+      <ul>
+        <li>Mỗi đơn hàng đều kèm thẻ bảo hành có đầy đủ địa chỉ và số điện thoại công ty.</li>
+        <li>Sản phẩm lỗi do nhà sản xuất hoặc dị ứng: đổi 1–1 (phí vận chuyển đổi trả không miễn).</li>
+        <li>Chính sách hoàn tiền áp dụng theo điều kiện ghi trên thẻ bảo hành; đội ngũ CSKH sẽ hướng dẫn chi tiết.</li>
+      </ul>
+      <h2>Bảo mật thông tin</h2>
+      <p>Thông tin khách hàng chỉ dùng để xác nhận đơn hàng, giao hàng và chăm sóc sau bán; không chia sẻ cho bên thứ ba.</p>
+      <h2>Liên hệ hỗ trợ</h2>
+      <p>Hotline <a href={`tel:${SITE.phone}`}>{SITE.phoneDisplay}</a> · Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+    </div>
+  </section>
+</Base>

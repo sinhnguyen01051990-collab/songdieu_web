@@ -1,0 +1,28 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	// Web SONG DIỆU: file tĩnh trong ./dist + API nhỏ /api/* (nhận đơn, lưu D1, chuyển n8n)
+	"name": "songdieu",
+	"main": "worker/index.ts",
+	"compatibility_date": "2026-11-03",
+	"workers_dev": false,
+	"preview_urls": false,
+	"routes": [
+		{ "pattern": "songdieu.vn", "custom_domain": true },
+		{ "pattern": "www.songdieu.vn", "custom_domain": true }
+	],
+	"assets": {
+		"directory": "./dist",
+		"binding": "ASSETS",
+		"not_found_handling": "404-page",
+		"html_handling": "force-trailing-slash",
+		"run_worker_first": ["/api/*"]
+	},
+	"d1_databases": [
+		{ "binding": "DB", "database_name": "songdieu-leads", "database_id": "3ee8cef2-c14b-4edd-b2d6-d4bdbb47ab34", "migrations_dir": "migrations" }
+	],
+	"vars": {
+		// Webhook n8n nhận đơn (import file docs/n8n-WEB-01-lead-website.json vào n8n)
+		"N8N_WEBHOOK_URL": "https://n8n.songdieu.win/webhook/songdieu-web-lead"
+	},
+	"observability": { "enabled": true }
+}
