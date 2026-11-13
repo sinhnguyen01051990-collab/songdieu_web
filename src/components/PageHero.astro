@@ -1,5 +1,5 @@
 ---
-/** Đầu trang con – cùng phong cách soft mint với hero trang chủ */
+/** Đầu trang con – phong cách sang trọng đỏ đô & vàng (giai đoạn 1) */
 interface Props { badge: string; title: string; titleLine2?: string; sub?: string; note?: string }
 const { badge, title, titleLine2, sub, note } = Astro.props;
 ---
@@ -13,22 +13,16 @@ const { badge, title, titleLine2, sub, note } = Astro.props;
     {sub && <p class="ph-enter mx-auto mt-5 max-w-2xl text-lg leading-8 text-mute">{sub}</p>}
     <slot />
 
-    <svg class="absolute left-[6%] top-[58%] hidden w-12 md:block" viewBox="0 0 60 60" aria-hidden="true">
-      <path class="doodle ph-draw" d="M22 10 L10 46" /><path class="doodle ph-draw" d="M40 10 L28 46" />
-    </svg>
     {note && (
       <>
         <p class="hand ph-note absolute right-[7%] top-[22%] hidden rotate-[14deg] text-2xl leading-tight md:block">{note}</p>
-        <svg class="absolute right-[9%] top-[44%] hidden w-16 md:block" viewBox="0 0 90 90" aria-hidden="true">
-          <path class="doodle ph-draw" d="M60 6 C 74 30, 60 60, 22 74" /><path class="doodle ph-draw" d="M36 62 L20 76 L40 82" />
-        </svg>
       </>
     )}
   </div>
 </section>
 
 <style>
-  .ph-title { font: 700 clamp(38px, 6vw, 76px) / 1.05 'Inter Tight', 'Inter Variable', Inter, sans-serif; letter-spacing: -0.035em; }
+  .ph-title { font: 700 clamp(40px, 6.4vw, 80px) / 1.05 'Cormorant Garamond', 'Times New Roman', serif; letter-spacing: -0.005em; }
 </style>
 
 <script>

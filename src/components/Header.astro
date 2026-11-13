@@ -4,7 +4,7 @@ import { PRODUCTS } from '../data/products';
 const path = Astro.url.pathname;
 const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 ---
-<header id="site-header" class="sticky top-0 z-40 bg-cream/85 backdrop-blur-md">
+<header id="site-header" class="sticky top-0 z-40 border-b border-gold-400/30 bg-cream/90 backdrop-blur-md">
   <div class="mx-auto flex h-[72px] w-full max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-9">
     <a href="/" class="flex items-center gap-2.5" aria-label="Song Diệu Pharma Beauty – Trang chủ">
       <img src="/logo-sd-128.webp" alt="" width="44" height="48" class="h-12 w-auto" fetchpriority="high" />

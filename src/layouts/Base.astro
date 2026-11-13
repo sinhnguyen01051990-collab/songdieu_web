@@ -1,15 +1,14 @@
 ---
 import '@fontsource-variable/inter/wght.css';
-import '@fontsource/inter-tight/latin-700.css';
-import '@fontsource/inter-tight/vietnamese-700.css';
+import '@fontsource/cormorant-garamond/latin-600.css';
+import '@fontsource/cormorant-garamond/vietnamese-600.css';
 import '@fontsource/cormorant-garamond/latin-700.css';
 import '@fontsource/cormorant-garamond/vietnamese-700.css';
 import '@fontsource/cormorant-garamond/latin-700-italic.css';
-import '@fontsource/patrick-hand/latin-400.css';
-import '@fontsource/patrick-hand/vietnamese-400.css';
+import '@fontsource/cormorant-garamond/vietnamese-700-italic.css';
 import '../styles/global.css';
-import headFontLatin from '@fontsource/inter-tight/files/inter-tight-latin-700-normal.woff2?url';
-import headFontVi from '@fontsource/inter-tight/files/inter-tight-vietnamese-700-normal.woff2?url';
+import headFontLatin from '@fontsource/cormorant-garamond/files/cormorant-garamond-latin-700-normal.woff2?url';
+import headFontVi from '@fontsource/cormorant-garamond/files/cormorant-garamond-vietnamese-700-normal.woff2?url';
 import Analytics from '../components/Analytics.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -70,7 +69,7 @@ const schemas = [org, website, ...(crumbLd ? [crumbLd] : []), ...jsonLd];
 <html lang="vi">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -94,7 +93,7 @@ const schemas = [org, website, ...(crumbLd ? [crumbLd] : []), ...jsonLd];
     <link rel="preload" href={headFontVi} as="font" type="font/woff2" crossorigin />
     {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
   </head>
-  <body class="min-h-screen flex flex-col">
+  <body class="min-h-screen flex flex-col pb-[calc(64px+env(safe-area-inset-bottom))] md:pb-0">
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:p-2">Bỏ qua điều hướng</a>
     <Header />
     {breadcrumbs && (

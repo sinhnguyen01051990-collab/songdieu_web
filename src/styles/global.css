@@ -20,15 +20,15 @@
   --color-mute: #5e5658;
 
   --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Inter Tight", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", "Times New Roman", serif;
   --font-brand: "Cormorant Garamond", "Times New Roman", serif;
-  --font-hand: "Patrick Hand", "Comic Sans MS", cursive;
+  --font-hand: "Cormorant Garamond", "Times New Roman", serif;
 }
 
 @layer base {
   html { scroll-behavior: smooth; }
   body { @apply bg-cream text-ink font-sans antialiased; }
-  h1, h2, h3 { @apply font-serif font-bold; letter-spacing: -0.03em; text-wrap: balance; }
+  h1, h2, h3 { @apply font-serif font-bold; letter-spacing: -0.005em; line-height: 1.12; text-wrap: balance; }
   p { text-wrap: pretty; }
 }
 
@@ -36,7 +36,16 @@
 
 @utility btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition; }
 
-@utility btn-primary { @apply btn bg-brand-600 text-white hover:bg-brand-700; }
+@utility btn-primary {
+  @apply btn text-white shadow-[0_6px_18px_-8px_rgba(99,16,28,.6)];
+  background-image: linear-gradient(180deg, var(--color-brand-500), var(--color-brand-700));
+  position: relative; overflow: hidden; isolation: isolate;
+  &::after { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: linear-gradient(115deg, transparent 30%, rgba(255,230,170,.35) 50%, transparent 70%);
+    transform: translateX(-120%); transition: transform .7s ease; }
+  &:hover::after { transform: translateX(120%); }
+  &:hover { box-shadow: 0 10px 24px -10px rgba(99,16,28,.7), inset 0 0 0 1px rgba(224,191,110,.55); }
+}
 
 @utility btn-white { @apply btn bg-white text-ink ring-1 ring-black/5 hover:bg-brand-50; }
 
@@ -47,24 +56,43 @@
   outline-offset: 0;
 }
 
-@utility btn-gold { @apply btn text-brand-900 hover:brightness-105; background-image: linear-gradient(180deg, #f3d67a, #d6aa45 55%, #b8862a); }
+@utility btn-gold {
+  @apply btn font-semibold text-brand-900 hover:brightness-105;
+  background-image: linear-gradient(180deg, #f6dc86, #d6aa45 55%, #b8862a);
+  box-shadow: 0 8px 22px -10px rgba(214,170,69,.8), inset 0 1px 0 rgba(255,255,255,.5);
+  position: relative; overflow: hidden; isolation: isolate;
+  &::after { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,.75) 50%, transparent 65%);
+    transform: translateX(-130%); animation: sd-sweep 5.5s ease-in-out infinite; }
+}
 
 /* chữ vàng gold kiểu biển hiệu */
 @utility gold-text {
   background-image: linear-gradient(180deg, #f6dc86 0%, #d4a33c 50%, #a8761f 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
+/* chữ vàng có ánh sáng lướt qua (dùng cho tiêu đề lớn) */
+@utility gold-shine {
+  background-image: linear-gradient(100deg, #b8862a 0%, #e8c46a 30%, #fff3c4 45%, #e8c46a 60%, #b8862a 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: sd-shine 6s ease-in-out infinite;
+}
 @utility wordmark { font-family: var(--font-brand); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
 
 @utility btn-ghost { @apply btn border border-current hover:bg-white/10; }
 
-@utility eyebrow { @apply inline-flex items-center rounded-full bg-brand-100 px-4 py-1.5 text-sm font-medium text-brand-600 ring-1 ring-gold-400/50; }
+@utility eyebrow {
+  @apply inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.22em] text-brand-600;
+  &::before, &::after { content: ''; width: 28px; height: 1px; background: linear-gradient(90deg, transparent, var(--color-gold-500)); }
+  &::after { background: linear-gradient(90deg, var(--color-gold-500), transparent); }
+}
 
-@utility hand { font-family: var(--font-hand); @apply text-brand-600; }
+@utility hand { font-family: var(--font-hand); font-style: italic; font-weight: 700; @apply text-gold-600; }
 
 @utility section { @apply py-16 sm:py-24; }
 
-@utility card { @apply rounded-3xl bg-white ring-1 ring-black/5; }
+@utility card { @apply rounded-3xl bg-white ring-1 ring-gold-400/25 shadow-[0_10px_30px_-18px_rgba(58,9,16,.25)]; }
 
 @utility prose-sd {
   & > h2 { @apply mt-10 mb-4 text-2xl font-bold text-ink; }
@@ -78,3 +106,10 @@
 
 /* vẽ nét doodle */
 @utility doodle { fill: none; stroke: var(--color-brand-600); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---------- Hiệu ứng ánh vàng (giai đoạn 1) ---------- */
+@keyframes sd-sweep { 0%, 62% { transform: translateX(-130%); } 85%, 100% { transform: translateX(130%); } }
+@keyframes sd-shine { 0% { background-position: 100% 0; } 55%, 100% { background-position: 0% 0; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
