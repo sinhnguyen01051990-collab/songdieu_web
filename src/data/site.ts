@@ -1,7 +1,7 @@
 export const SITE = {
   name: 'SONG DIỆU',
   legalName: 'Công ty TNHH SINHAN PHARMA BEAUTY',
-  tagline: 'Pharma Beauty – Khách hàng là số 1',
+  tagline: 'Vẻ Đẹp Đến Từ Sự An Nhiên',
   description:
     'SONG DIỆU Pharma Beauty – mỹ phẩm & thực phẩm bổ sung thảo dược cho phụ nữ Việt: Gel SDBODY, Xuân Nữ Nhan, Trà Táo Mèo. Freeship, kiểm hàng COD.',
   url: 'https://songdieu.vn',
