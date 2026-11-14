@@ -1,6 +1,8 @@
 ---
 /**
- * Dải cam kết dạng thẻ nổi, đè nhẹ lên mép dưới phần đầu trang (gói A, 14/11/2026).
+ * Dải cam kết dạng thẻ nổi nằm vắt ngang ranh giới đỏ đô – kem (gói A, 14/11/2026).
+ * Sửa 14/11: không kéo thẻ đè lên phần đầu trang nữa (che nút "Chọn sản phẩm cho tôi" ở màn thấp);
+ * thay vào đó nửa trên của khối này tô màu đỏ đô tiếp nối nền đầu trang.
  * Biểu tượng nét vàng trên vòng tròn đỏ đô cho cùng màu với đầu trang; rê chuột có ánh sáng lướt qua.
  */
 import { COMMITMENTS } from '../data/site';
@@ -39,7 +41,10 @@ const ICONS = [
 </section>
 
 <style>
-  .trust-wrap { position: relative; z-index: 5; margin-top: -40px; }
+  .trust-wrap {
+    position: relative; z-index: 5; padding-top: 18px;
+    background: linear-gradient(180deg, #2b070d 0, #2b070d 50%, var(--color-cream) 50%);
+  }
   .trust {
     list-style: none; margin: 0; padding: 22px 8px;
     display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -78,7 +83,6 @@ const ICONS = [
     .item:nth-child(3) { border-left: 0; }
   }
   @media (max-width: 820px) {
-    .trust-wrap { margin-top: -24px; }
     .item { flex-direction: column; text-align: center; gap: 10px; padding: 4px 8px; }
     .ico { width: 44px; height: 44px; }
     .d { font-size: 12.5px; }
