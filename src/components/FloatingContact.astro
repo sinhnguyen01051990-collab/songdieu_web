@@ -5,10 +5,12 @@ import { SITE } from '../data/site';
  * - Điện thoại (< md): thanh cố định đáy màn hình: Gọi | Zalo | Đặt hàng.
  *   "Đặt hàng" cuộn tới form #dat-hang nếu trang có, không thì sang /san-pham/.
  * - Máy tính (≥ md): nút tròn nổi góc phải như cũ, bỏ vòng nhấp nháy liên tục.
+ *   Trang chủ: ẩn khi đang xem phần đầu trang (header đã có hotline/Zalo),
+ *   cuộn quá ~2/3 phần đầu trang thì hiện lại (14/11/2026).
  */
 ---
 <!-- máy tính -->
-<div class="fixed bottom-5 right-5 z-50 hidden flex-col gap-3 md:flex">
+<div id="fab" class="fixed bottom-5 right-5 z-50 hidden flex-col gap-3 transition-[opacity,translate] duration-300 md:flex">
   <a href={SITE.zalo} target="_blank" rel="noopener" aria-label="Chat Zalo với SONG DIỆU"
      class="grid h-14 w-14 place-items-center rounded-full bg-[#0068ff] text-xs font-bold text-white shadow-xl ring-2 ring-white transition hover:scale-105">Zalo</a>
   {SITE.messenger && (
@@ -42,4 +44,20 @@ import { SITE } from '../data/site';
 <script>
   const order = document.getElementById('bar-order') as HTMLAnchorElement | null;
   if (order && document.getElementById('dat-hang')) order.href = '#dat-hang';
+
+  // Trang chủ: ẩn nút nổi khi đang ở phần đầu trang
+  const fab = document.getElementById('fab');
+  const hero = document.querySelector('section.hero');
+  if (fab && hero) {
+    const update = () => {
+      const hide = hero.getBoundingClientRect().top + hero.offsetHeight * (2 / 3) > 0;
+      fab.classList.toggle('opacity-0', hide);
+      fab.classList.toggle('pointer-events-none', hide);
+      fab.classList.toggle('translate-y-4', hide);
+      fab.toggleAttribute('inert', hide);
+    };
+    update();
+    addEventListener('scroll', update, { passive: true });
+    addEventListener('resize', update);
+  }
 </script>

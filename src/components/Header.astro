@@ -23,7 +23,7 @@ const items = await Promise.all(
     return { href: `/san-pham/${p.slug}/`, name: p.name, category: p.category, thumb, from };
   })
 );
-const ticker = [COMMITMENTS[0].title, 'Freeship toàn quốc cho combo', COMMITMENTS[2].title, COMMITMENTS[3].title];
+const ticker = [COMMITMENTS[0].title, 'Freeship toàn quốc', COMMITMENTS[3].title];
 ---
 <!-- Thanh cam kết -->
 <div class="topbar" aria-label="Cam kết của SONG DIỆU">
@@ -31,7 +31,7 @@ const ticker = [COMMITMENTS[0].title, 'Freeship toàn quốc cho combo', COMMITM
     <ul class="tick">
       {ticker.map((t) => <li><span class="dot" aria-hidden="true">◆</span>{t}</li>)}
     </ul>
-    <a class="topbar-hot" href={`tel:${SITE.phone}`}>Hotline <b>{SITE.phoneDisplay}</b></a>
+    <a class="topbar-hot" href={`mailto:${SITE.email}`}>Email <b>{SITE.email}</b></a>
   </div>
 </div>
 
@@ -156,19 +156,17 @@ const ticker = [COMMITMENTS[0].title, 'Freeship toàn quốc cho combo', COMMITM
   .tick li { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
   .dot { font-size: 7px; color: var(--color-gold-400); }
   .topbar-hot { color: rgba(251,243,230,.8); white-space: nowrap; }
-  .topbar-hot b { color: var(--color-gold-300); font-weight: 600; letter-spacing: .06em; }
+  .topbar-hot b { color: var(--color-gold-300); font-weight: 600; letter-spacing: .03em; }
   .topbar-hot:hover b { text-decoration: underline; }
-  @media (min-width: 1024px) and (max-width: 1279px) { .tick li:nth-child(4) { display: none; } }
   @media (max-width: 1023px) {
     .topbar-in { justify-content: center; }
     .topbar-hot { display: none; }
     .tick { position: relative; display: block; height: 36px; width: 100%; }
-    .tick li { position: absolute; inset: 0; justify-content: center; opacity: 0; animation: sd-tick 12s infinite; }
+    .tick li { position: absolute; inset: 0; justify-content: center; opacity: 0; animation: sd-tick 9s infinite; }
     .tick li:nth-child(2) { animation-delay: 3s; }
     .tick li:nth-child(3) { animation-delay: 6s; }
-    .tick li:nth-child(4) { animation-delay: 9s; }
-  }
-  @keyframes sd-tick { 0% { opacity: 0; transform: translateY(6px); } 3%, 22% { opacity: 1; transform: none; } 25%, 100% { opacity: 0; transform: translateY(-6px); } }
+      }
+  @keyframes sd-tick { 0% { opacity: 0; transform: translateY(6px); } 4%, 30% { opacity: 1; transform: none; } 33.3%, 100% { opacity: 0; transform: translateY(-6px); } }
   @media (max-width: 1023px) and (prefers-reduced-motion: reduce) {
     .tick li { animation: none; }
     .tick li:first-child { opacity: 1; }
