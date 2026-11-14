@@ -8,7 +8,7 @@ import { SITE } from '../data/site';
  */
 ---
 <!-- máy tính -->
-<div class="fixed bottom-5 right-5 z-50 hidden flex-col gap-3 md:flex">
+<div id="fc-desk" class="fixed bottom-5 right-5 z-50 hidden flex-col gap-3 transition duration-300 md:flex">
   <a href={SITE.zalo} target="_blank" rel="noopener" aria-label="Chat Zalo với SONG DIỆU"
      class="grid h-14 w-14 place-items-center rounded-full bg-[#0068ff] text-xs font-bold text-white shadow-xl ring-2 ring-white transition hover:scale-105">Zalo</a>
   {SITE.messenger && (
@@ -42,4 +42,18 @@ import { SITE } from '../data/site';
 <script>
   const order = document.getElementById('bar-order') as HTMLAnchorElement | null;
   if (order && document.getElementById('dat-hang')) order.href = '#dat-hang';
+
+  // Trang chủ: ẩn nút nổi khi đang xem phần đầu trang (đã có nút Zalo + hotline ở đó), cuộn xuống mới hiện
+  const desk = document.getElementById('fc-desk');
+  const hero = document.querySelector('section.hero');
+  if (desk && hero) {
+    const set = (show: boolean) => {
+      desk.style.opacity = show ? '' : '0';
+      desk.style.transform = show ? '' : 'translateY(16px)';
+      desk.style.pointerEvents = show ? '' : 'none';
+      desk.toggleAttribute('inert', !show);
+    };
+    set(scrollY > (hero as HTMLElement).offsetHeight * 0.65);
+    new IntersectionObserver(([e]) => set(e.intersectionRatio < 0.35), { threshold: [0, 0.35, 1] }).observe(hero);
+  }
 </script>

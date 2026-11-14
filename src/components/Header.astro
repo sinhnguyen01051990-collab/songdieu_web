@@ -31,7 +31,7 @@ const ticker = [COMMITMENTS[0].title, 'Freeship toàn quốc cho combo', COMMITM
     <ul class="tick">
       {ticker.map((t) => <li><span class="dot" aria-hidden="true">◆</span>{t}</li>)}
     </ul>
-    <a class="topbar-hot" href={`tel:${SITE.phone}`}>Hotline <b>{SITE.phoneDisplay}</b></a>
+    <p class="topbar-hot">Giao hàng <b>2–3 ngày</b> toàn quốc</p>
   </div>
 </div>
 
@@ -155,9 +155,8 @@ const ticker = [COMMITMENTS[0].title, 'Freeship toàn quốc cho combo', COMMITM
   .tick { display: flex; gap: 28px; margin: 0; padding: 0; list-style: none; }
   .tick li { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
   .dot { font-size: 7px; color: var(--color-gold-400); }
-  .topbar-hot { color: rgba(251,243,230,.8); white-space: nowrap; }
+  .topbar-hot { margin: 0; color: rgba(251,243,230,.8); white-space: nowrap; }
   .topbar-hot b { color: var(--color-gold-300); font-weight: 600; letter-spacing: .06em; }
-  .topbar-hot:hover b { text-decoration: underline; }
   @media (min-width: 1024px) and (max-width: 1279px) { .tick li:nth-child(4) { display: none; } }
   @media (max-width: 1023px) {
     .topbar-in { justify-content: center; }
