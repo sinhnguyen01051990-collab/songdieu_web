@@ -1,67 +1,318 @@
 ---
-import { NAV, SITE } from '../data/site';
+/**
+ * Header – phương án B (14/11/2026)
+ * - Thanh cam kết đỏ đô trên cùng (cuộn đi theo trang); điện thoại: các ý chạy lần lượt.
+ * - Thanh chính dính trên cùng, thấp lại 72 → 60px khi cuộn, có bóng đổ.
+ * - Trang chủ: trong suốt đè lên phần đầu trang đỏ đô, cuộn xuống chuyển nền kem.
+ * - Menu "Sản phẩm" dạng khung lớn có ảnh, giá từ; không còn khe làm tắt menu.
+ * - Điện thoại: menu trượt từ phải, khóa cuộn trang, Esc / nền tối / nút X để đóng.
+ */
+import { getImage } from 'astro:assets';
+import { NAV, SITE, COMMITMENTS } from '../data/site';
 import { PRODUCTS } from '../data/products';
+
 const path = Astro.url.pathname;
+const overlay = path === '/';
 const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+const vnd = (n: number) => n.toLocaleString('vi-VN') + 'đ';
+
+const items = await Promise.all(
+  PRODUCTS.map(async (p) => {
+    const thumb = p.image ? (await getImage({ src: p.image, width: 160, height: 160, fit: 'cover', format: 'webp', quality: 70 })).src : '';
+    const from = p.offers.length ? Math.min(...p.offers.map((o) => o.price)) : 0;
+    return { href: `/san-pham/${p.slug}/`, name: p.name, category: p.category, thumb, from };
+  })
+);
+const ticker = [COMMITMENTS[0].title, 'Freeship toàn quốc cho combo', COMMITMENTS[2].title, COMMITMENTS[3].title];
 ---
-<header id="site-header" class="sticky top-0 z-40 border-b border-gold-400/30 bg-cream/90 backdrop-blur-md">
-  <div class="mx-auto flex h-[72px] w-full max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-9">
-    <a href="/" class="flex items-center gap-2.5" aria-label="Song Diệu Pharma Beauty – Trang chủ">
-      <img src="/logo-sd-128.webp" alt="" width="44" height="48" class="h-12 w-auto" fetchpriority="high" />
-      <span class="flex flex-col leading-none">
-        <span class="wordmark gold-text whitespace-nowrap text-[19px] sm:text-[22px]">Song Diệu</span>
-        <span class="mt-0.5 font-brand text-[10.5px] font-semibold italic tracking-[0.2em] text-gold-600 uppercase">Pharma Beauty</span>
-      </span>
-    </a>
+<!-- Thanh cam kết -->
+<div class="topbar" aria-label="Cam kết của SONG DIỆU">
+  <div class="topbar-in">
+    <ul class="tick">
+      {ticker.map((t) => <li><span class="dot" aria-hidden="true">◆</span>{t}</li>)}
+    </ul>
+    <a class="topbar-hot" href={`tel:${SITE.phone}`}>Hotline <b>{SITE.phoneDisplay}</b></a>
+  </div>
+</div>
 
-    <nav aria-label="Menu chính" class="hidden lg:block">
-      <ul class="flex items-center gap-[31px] text-[16.4px]">
-        {NAV.map((item) =>
-          item.href === '/san-pham/' ? (
-            <li class="group relative">
-              <a href={item.href} class:list={['py-2 transition hover:text-brand-600', isActive(item.href) ? 'text-brand-600 font-medium' : 'text-ink/80']}>{item.label}</a>
-              <div class="invisible absolute left-1/2 top-full w-72 -translate-x-1/2 translate-y-3 rounded-2xl bg-white p-2 opacity-0 shadow-xl ring-1 ring-black/5 transition group-hover:visible group-hover:translate-y-2 group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-                {PRODUCTS.map((p) => (
-                  <a href={`/san-pham/${p.slug}/`} class="block rounded-xl px-3 py-2 text-sm hover:bg-brand-50">
-                    <span class="font-medium">{p.name}</span>
-                    <span class="block text-xs text-mute">{p.category}</span>
-                  </a>
-                ))}
-              </div>
-            </li>
-          ) : (
-            <li>
-              <a href={item.href} class:list={['py-2 transition hover:text-brand-600', isActive(item.href) ? 'text-brand-600 font-medium' : 'text-ink/80']}>{item.label}</a>
-            </li>
-          )
-        )}
-      </ul>
-    </nav>
+<header id="site-header" class:list={['hdr', overlay && 'is-overlay']} data-top="">
+  <div class="hdr-bar">
+    <div class="hdr-in">
+      <a href="/" class="logo" aria-label="Song Diệu Pharma Beauty – Trang chủ">
+        <img src="/logo-sd-128.webp" alt="" width="44" height="48" class="logo-img" fetchpriority="high" />
+        <span class="flex flex-col leading-none">
+          <span class="wordmark logo-word">Song Diệu</span>
+          <span class="logo-sub">Pharma Beauty</span>
+        </span>
+      </a>
 
-    <div class="flex items-center gap-2">
-      <a href={`tel:${SITE.phone}`} class="btn-white hidden h-10 !px-5 sm:inline-flex">Gọi tư vấn</a>
-      <a href="/san-pham/" class="btn-primary h-10 !px-5">Mua ngay</a>
-      <button id="menu-btn" class="lg:hidden rounded-full p-2 hover:bg-black/5" aria-label="Mở menu" aria-expanded="false" aria-controls="mobile-menu">
-        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
-      </button>
+      <nav aria-label="Menu chính" class="hidden lg:block">
+        <ul class="nav">
+          {NAV.map((item) =>
+            item.href === '/san-pham/' ? (
+              <li class="has-mega">
+                <a href={item.href} class:list={['nav-a', isActive(item.href) && 'on']}>
+                  {item.label}
+                  <svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+                </a>
+                <div class="mega">
+                  <div class="mega-in">
+                    <ul class="mega-list">
+                      {items.map((p) => (
+                        <li>
+                          <a href={p.href} class="mega-item">
+                            {p.thumb && <img src={p.thumb} alt="" width="64" height="64" loading="lazy" decoding="async" />}
+                            <span class="min-w-0">
+                              <span class="mega-name">{p.name}</span>
+                              <span class="mega-cat">{p.category}</span>
+                              {p.from > 0 && <span class="mega-price">Từ {vnd(p.from)}</span>}
+                            </span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                    <div class="mega-side">
+                      <p class="mega-side-k">Chưa biết chọn gì?</p>
+                      <p class="mega-side-t">Chuyên viên SONG DIỆU tư vấn miễn phí, đúng nhu cầu của chị.</p>
+                      <a href={SITE.zalo} target="_blank" rel="noopener" class="btn-gold h-10 !px-5">Tư vấn qua Zalo</a>
+                      <a href="/san-pham/" class="mega-all">Xem tất cả sản phẩm →</a>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            ) : (
+              <li><a href={item.href} class:list={['nav-a', isActive(item.href) && 'on']}>{item.label}</a></li>
+            )
+          )}
+        </ul>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <a href={`tel:${SITE.phone}`} class="hot hidden xl:flex" aria-label={`Gọi hotline ${SITE.phoneDisplay}`}>
+          <span class="hot-ic" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg>
+          </span>
+          <span class="flex flex-col leading-tight">
+            <span class="hot-k">Hotline tư vấn</span>
+            <span class="hot-n">{SITE.phoneDisplay}</span>
+          </span>
+        </a>
+        <a href="/san-pham/" id="hdr-order" class="btn-primary hdr-cta hidden h-10 !px-6 md:inline-flex">Đặt hàng</a>
+        <button id="menu-btn" class="burger" aria-label="Mở menu" aria-expanded="false" aria-controls="drawer">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" viewBox="0 0 24 24"><path d="M4 7h16M8 12h12M4 17h16" /></svg>
+        </button>
+      </div>
     </div>
   </div>
-  <nav id="mobile-menu" class="hidden border-t border-black/5 bg-cream lg:hidden" aria-label="Menu di động">
-    <ul class="container-x py-3">
-      {NAV.map((item) => (
-        <li><a href={item.href} class="block rounded-xl px-3 py-3 font-medium hover:bg-brand-50">{item.label}</a></li>
-      ))}
-      {PRODUCTS.map((p) => (
-        <li><a href={`/san-pham/${p.slug}/`} class="block rounded-xl px-6 py-2 text-sm text-mute hover:bg-brand-50">– {p.name}</a></li>
-      ))}
-    </ul>
-  </nav>
 </header>
+
+<!-- Menu điện thoại -->
+<div id="drawer" class="drawer" hidden>
+  <div class="drawer-bg" data-close></div>
+  <div class="drawer-panel" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="drawer-head">
+      <a href="/" class="logo" aria-label="Trang chủ">
+        <img src="/logo-sd-128.webp" alt="" width="36" height="40" class="h-10 w-auto" />
+        <span class="wordmark logo-word">Song Diệu</span>
+      </a>
+      <button class="drawer-x" data-close aria-label="Đóng menu">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></svg>
+      </button>
+    </div>
+    <div class="drawer-body">
+      <ul class="drawer-nav">
+        {NAV.map((item) => (
+          <li><a href={item.href} class:list={[isActive(item.href) && 'on']}>{item.label}</a></li>
+        ))}
+      </ul>
+      <p class="drawer-k">Sản phẩm</p>
+      <ul class="drawer-prods">
+        {items.map((p) => (
+          <li>
+            <a href={p.href}>
+              {p.thumb && <img src={p.thumb} alt="" width="56" height="56" loading="lazy" decoding="async" />}
+              <span class="min-w-0">
+                <span class="block text-[15px] font-semibold leading-snug text-ink">{p.name}</span>
+                <span class="block text-xs text-mute">{p.category}{p.from > 0 && ` · từ ${vnd(p.from)}`}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div class="drawer-foot">
+      <a href={`tel:${SITE.phone}`} class="btn-primary h-12 flex-1">Gọi {SITE.phoneDisplay}</a>
+      <a href={SITE.zalo} target="_blank" rel="noopener" class="btn-white h-12 flex-1">Chat Zalo</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ---------- Thanh cam kết ---------- */
+  .topbar { background: linear-gradient(90deg, #2b070d, #4a0c15 50%, #2b070d); color: var(--color-gold-300); border-bottom: 1px solid rgba(224,191,110,.25); }
+  .topbar-in { max-width: 1440px; margin: 0 auto; height: 36px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 0 max(16px, env(safe-area-inset-left, 0px)); font-size: 12.5px; letter-spacing: .04em; }
+  @media (min-width: 1024px) { .topbar-in { padding: 0 36px; } }
+  .tick { display: flex; gap: 28px; margin: 0; padding: 0; list-style: none; }
+  .tick li { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .dot { font-size: 7px; color: var(--color-gold-400); }
+  .topbar-hot { color: rgba(251,243,230,.8); white-space: nowrap; }
+  .topbar-hot b { color: var(--color-gold-300); font-weight: 600; letter-spacing: .06em; }
+  .topbar-hot:hover b { text-decoration: underline; }
+  @media (max-width: 1023px) {
+    .topbar-in { justify-content: center; }
+    .topbar-hot { display: none; }
+    .tick { position: relative; display: block; height: 36px; width: 100%; }
+    .tick li { position: absolute; inset: 0; justify-content: center; opacity: 0; animation: sd-tick 12s infinite; }
+    .tick li:nth-child(2) { animation-delay: 3s; }
+    .tick li:nth-child(3) { animation-delay: 6s; }
+    .tick li:nth-child(4) { animation-delay: 9s; }
+  }
+  @keyframes sd-tick { 0% { opacity: 0; transform: translateY(6px); } 3%, 22% { opacity: 1; transform: none; } 25%, 100% { opacity: 0; transform: translateY(-6px); } }
+  @media (max-width: 1023px) and (prefers-reduced-motion: reduce) {
+    .tick li { animation: none; }
+    .tick li:first-child { opacity: 1; }
+  }
+
+  /* ---------- Thanh chính ---------- */
+  /* khung ngoài giữ cố định 72px để trang không bị giật khi thanh thu nhỏ */
+  .hdr { position: sticky; top: 0; z-index: 40; height: 72px; pointer-events: none; }
+  .hdr-bar { pointer-events: auto; height: 72px; background: rgba(251,247,241,.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(224,191,110,.35); transition: height .3s ease, background-color .3s, box-shadow .3s, border-color .3s; }
+  .hdr:not([data-top]) .hdr-bar { height: 60px; box-shadow: 0 8px 24px -16px rgba(58,9,16,.35); }
+  .hdr-in { max-width: 1440px; height: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 0 max(16px, env(safe-area-inset-left, 0px)); }
+  @media (min-width: 1024px) { .hdr-in { padding: 0 36px; } }
+
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-img { height: 48px; width: auto; transition: height .3s; }
+  .hdr:not([data-top]) .logo-img { height: 40px; }
+  .logo-word { font-size: 22px; white-space: nowrap;
+    background-image: linear-gradient(180deg, #c9a14a 0%, #9a7426 55%, #7d5c1b 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .logo-sub { margin-top: 4px; font-size: 11px; font-weight: 600; letter-spacing: .3em; text-transform: uppercase; color: var(--color-gold-600); }
+  @media (max-width: 380px) { .logo-word { font-size: 19px; } .logo-sub { font-size: 9.5px; letter-spacing: .22em; } }
+
+  .nav { display: flex; align-items: center; gap: 34px; margin: 0; padding: 0; list-style: none; }
+  .nav-a { position: relative; display: inline-flex; align-items: center; gap: 5px; padding: 8px 0; font-size: 15.5px; font-weight: 500; color: var(--color-ink); transition: color .2s; }
+  .nav-a::after { content: ''; position: absolute; left: 50%; right: 50%; bottom: 0; height: 2px; border-radius: 2px;
+    background: linear-gradient(90deg, #d6aa45, #b8862a); transition: left .3s ease, right .3s ease; }
+  .nav-a:hover, .nav-a.on { color: var(--color-brand-600); }
+  .nav-a:hover::after, .nav-a.on::after { left: 0; right: 0; }
+  .chev { transition: transform .25s; }
+
+  /* khung "Sản phẩm" – phần đệm trên cùng nối liền chữ với khung nên rê chuột không bị tắt */
+  .has-mega { position: relative; }
+  .mega { position: absolute; left: 50%; top: 100%; padding-top: 14px; width: min(780px, 92vw); translate: -50% 0;
+    opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity .2s, transform .2s, visibility .2s; }
+  .has-mega:hover .mega, .has-mega:focus-within .mega { opacity: 1; visibility: visible; transform: none; }
+  .has-mega:hover .chev, .has-mega:focus-within .chev { transform: rotate(180deg); }
+  .mega-in { display: grid; grid-template-columns: 1fr 230px; overflow: hidden; border-radius: 24px; background: #fff;
+    box-shadow: 0 30px 60px -30px rgba(58,9,16,.45), 0 0 0 1px rgba(224,191,110,.3); }
+  .mega-list { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 12px; margin: 0; list-style: none; }
+  .mega-item { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 16px; transition: background .2s; }
+  .mega-item:hover { background: var(--color-brand-50); }
+  .mega-item img { width: 64px; height: 64px; flex: none; border-radius: 12px; object-fit: cover; box-shadow: 0 0 0 1px rgba(224,191,110,.3); }
+  .mega-name { display: block; font-size: 14px; font-weight: 600; line-height: 1.3; color: var(--color-ink); }
+  .mega-item:hover .mega-name { color: var(--color-brand-600); }
+  .mega-cat { display: block; margin-top: 2px; font-size: 12px; color: var(--color-mute); }
+  .mega-price { display: block; margin-top: 2px; font-size: 12px; font-weight: 600; color: var(--color-gold-600); }
+  .mega-side { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 22px;
+    background: radial-gradient(ellipse 120% 80% at 50% 0%, #7d1424, #3a0910); color: #fbf3e6; }
+  .mega-side-k { margin: 0; font: italic 700 24px/1.1 'Cormorant Garamond', serif; color: var(--color-gold-300); }
+  .mega-side-t { margin: 0 0 6px; font-size: 13px; line-height: 1.55; color: rgba(251,243,230,.8); }
+  .mega-all { margin-top: auto; font-size: 13px; font-weight: 500; color: var(--color-gold-300); }
+  .mega-all:hover { text-decoration: underline; }
+
+  /* hotline */
+  .hot { align-items: center; gap: 10px; padding-right: 4px; }
+  .hot-ic { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 999px; color: var(--color-brand-600);
+    background: var(--color-brand-50); box-shadow: inset 0 0 0 1px rgba(224,191,110,.6); transition: background .2s, color .2s; }
+  .hot:hover .hot-ic { background: var(--color-brand-600); color: #fff; }
+  .hot-k { font-size: 11px; letter-spacing: .04em; color: var(--color-mute); }
+  .hot-n { font-size: 15px; font-weight: 700; letter-spacing: .02em; color: var(--color-brand-600); }
+
+  .burger { display: none; place-items: center; width: 44px; height: 44px; border-radius: 999px; color: var(--color-ink); transition: background .2s; }
+  .burger:hover { background: rgba(0,0,0,.05); }
+  @media (max-width: 1023px) { .burger { display: grid; } }
+  .hdr a:focus-visible, .hdr button:focus-visible, .drawer a:focus-visible, .drawer button:focus-visible { outline: 2px solid var(--color-gold-500); outline-offset: 3px; border-radius: 8px; }
+
+  /* ---------- Trang chủ: trong suốt trên nền đỏ đô ---------- */
+  .is-overlay[data-top] .hdr-bar { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; border-bottom-color: rgba(224,191,110,.18); }
+  .is-overlay[data-top] .logo-word { background-image: linear-gradient(180deg, #f6dc86 0%, #d4a33c 50%, #a8761f 100%); }
+  .is-overlay[data-top] .logo-sub { color: var(--color-gold-300); }
+  .is-overlay[data-top] .nav-a { color: rgba(251,243,230,.88); }
+  .is-overlay[data-top] .nav-a:hover, .is-overlay[data-top] .nav-a.on { color: var(--color-gold-300); }
+  .is-overlay[data-top] .hot-ic { background: rgba(251,243,230,.08); color: var(--color-gold-300); }
+  .is-overlay[data-top] .hot:hover .hot-ic { background: var(--color-gold-400); color: var(--color-brand-900); }
+  .is-overlay[data-top] .hot-k { color: rgba(251,243,230,.65); }
+  .is-overlay[data-top] .hot-n { color: #fbf3e6; }
+  .is-overlay[data-top] .hdr-cta { color: var(--color-brand-900); background-image: linear-gradient(180deg, #f6dc86, #d6aa45 55%, #b8862a);
+    box-shadow: 0 8px 22px -10px rgba(214,170,69,.8), inset 0 1px 0 rgba(255,255,255,.5); }
+  .is-overlay[data-top] .burger { color: #fbf3e6; }
+  .is-overlay[data-top] .burger:hover { background: rgba(255,255,255,.08); }
+
+  /* ---------- Menu điện thoại ---------- */
+  .drawer { position: fixed; inset: 0; z-index: 70; }
+  .drawer-bg { position: absolute; inset: 0; background: rgba(26,6,10,.55); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); opacity: 0; transition: opacity .3s; }
+  .drawer-panel { position: absolute; top: 0; right: 0; bottom: 0; width: min(400px, 100%); display: flex; flex-direction: column;
+    background: var(--color-cream); box-shadow: -20px 0 50px -20px rgba(58,9,16,.5); transform: translateX(100%); transition: transform .35s cubic-bezier(.2,.8,.2,1);
+    padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); padding-right: env(safe-area-inset-right, 0px); }
+  .drawer.open .drawer-bg { opacity: 1; }
+  .drawer.open .drawer-panel { transform: none; }
+  .drawer-head { display: flex; align-items: center; justify-content: space-between; height: 64px; padding: 0 12px 0 20px; border-bottom: 1px solid rgba(224,191,110,.35); }
+  .drawer-head .logo-word { font-size: 18px; }
+  .drawer-x { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; color: var(--color-ink); }
+  .drawer-x:hover { background: rgba(0,0,0,.05); }
+  .drawer-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 12px 20px 20px; }
+  .drawer-nav { margin: 0; padding: 0; list-style: none; }
+  .drawer-nav a { display: block; padding: 11px 0; border-bottom: 1px solid rgba(224,191,110,.2);
+    font: 700 26px/1.2 'Cormorant Garamond', serif; color: var(--color-ink); }
+  .drawer-nav a.on { color: var(--color-brand-600); }
+  .drawer-k { margin: 22px 0 8px; font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--color-gold-600); }
+  .drawer-prods { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+  .drawer-prods a { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 16px; background: #fff; box-shadow: 0 0 0 1px rgba(224,191,110,.25); }
+  .drawer-prods img { width: 56px; height: 56px; flex: none; border-radius: 12px; object-fit: cover; }
+  .drawer-foot { display: flex; gap: 10px; padding: 14px 20px; border-top: 1px solid rgba(224,191,110,.35); background: #fff; }
+</style>
+
 <script>
-  const btn = document.getElementById('menu-btn');
-  const menu = document.getElementById('mobile-menu');
-  btn?.addEventListener('click', () => {
-    const open = menu?.classList.toggle('hidden') === false;
-    btn.setAttribute('aria-expanded', String(open));
+  // Thu nhỏ khi cuộn
+  const hdr = document.getElementById('site-header')!;
+  const onScroll = () => { scrollY > 8 ? hdr.removeAttribute('data-top') : hdr.setAttribute('data-top', ''); };
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Nút "Đặt hàng" cuộn tới form nếu trang có
+  const order = document.getElementById('hdr-order') as HTMLAnchorElement | null;
+  if (order && document.getElementById('dat-hang')) order.href = '#dat-hang';
+
+  // Menu điện thoại
+  const btn = document.getElementById('menu-btn')!;
+  const drawer = document.getElementById('drawer')!;
+  const closeBtn = drawer.querySelector<HTMLButtonElement>('.drawer-x')!;
+  let timer = 0;
+  function open() {
+    clearTimeout(timer);
+    drawer.hidden = false;
+    document.documentElement.style.overflow = 'hidden';
+    requestAnimationFrame(() => requestAnimationFrame(() => drawer.classList.add('open')));
+    btn.setAttribute('aria-expanded', 'true');
+    closeBtn.focus();
+  }
+  function close(refocus = true) {
+    drawer.classList.remove('open');
+    document.documentElement.style.overflow = '';
+    btn.setAttribute('aria-expanded', 'false');
+    timer = window.setTimeout(() => { drawer.hidden = true; }, 350);
+    if (refocus) btn.focus();
+  }
+  btn.addEventListener('click', open);
+  drawer.addEventListener('click', (e) => {
+    const t = e.target as HTMLElement;
+    if (t.closest('[data-close]')) close();
+    else if (t.closest('a')) close(false);
   });
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && !drawer.hidden) close(); });
+  addEventListener('resize', () => { if (innerWidth >= 1024 && !drawer.hidden) close(false); });
 </script>

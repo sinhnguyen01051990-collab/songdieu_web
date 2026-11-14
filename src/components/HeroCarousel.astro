@@ -80,9 +80,12 @@ const cards = await Promise.all(
 
 <style>
   .hero {
-    --hh: 72px; /* chiều cao header */
+    --hh: 108px; /* thanh cam kết 36 + header 72 */
     --u: min(calc(100vw / 1440), calc((100svh - var(--hh)) / 920));
     position: relative;
+    /* header trong suốt nằm đè lên phần này */
+    margin-top: -72px;
+    padding-top: 72px;
     overflow: hidden;
     isolation: isolate;
     background:
