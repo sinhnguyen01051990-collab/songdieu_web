@@ -27,7 +27,7 @@
 
 @layer base {
   html { scroll-behavior: smooth; }
-  body { @apply bg-cream text-ink font-sans antialiased; }
+  body { @apply bg-cream text-ink font-sans antialiased; overflow-x: clip; } /* chặn mọi phần tử làm trang cuộn ngang */
   h1, h2, h3 { @apply font-serif font-bold; letter-spacing: -0.005em; line-height: 1.12; text-wrap: balance; }
   p { text-wrap: pretty; }
 }

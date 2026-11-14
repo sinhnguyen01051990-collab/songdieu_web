@@ -159,6 +159,7 @@ const ticker = [COMMITMENTS[0].title, 'Freeship toàn quốc cho combo', COMMITM
   .topbar-hot { color: rgba(251,243,230,.8); white-space: nowrap; }
   .topbar-hot b { color: var(--color-gold-300); font-weight: 600; letter-spacing: .06em; }
   .topbar-hot:hover b { text-decoration: underline; }
+  @media (min-width: 1024px) and (max-width: 1279px) { .tick li:nth-child(4) { display: none; } }
   @media (max-width: 1023px) {
     .topbar-in { justify-content: center; }
     .topbar-hot { display: none; }
@@ -180,7 +181,7 @@ const ticker = [COMMITMENTS[0].title, 'Freeship toàn quốc cho combo', COMMITM
   .hdr-bar { pointer-events: auto; height: 72px; background: rgba(251,247,241,.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(224,191,110,.35); transition: height .3s ease, background-color .3s, box-shadow .3s, border-color .3s; }
   .hdr:not([data-top]) .hdr-bar { height: 60px; box-shadow: 0 8px 24px -16px rgba(58,9,16,.35); }
-  .hdr-in { max-width: 1440px; height: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  .hdr-in { position: relative; max-width: 1440px; height: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px;
     padding: 0 max(16px, env(safe-area-inset-left, 0px)); }
   @media (min-width: 1024px) { .hdr-in { padding: 0 36px; } }
 
@@ -194,6 +195,7 @@ const ticker = [COMMITMENTS[0].title, 'Freeship toàn quốc cho combo', COMMITM
   @media (max-width: 380px) { .logo-word { font-size: 19px; } .logo-sub { font-size: 9.5px; letter-spacing: .22em; } }
 
   .nav { display: flex; align-items: center; gap: 34px; margin: 0; padding: 0; list-style: none; }
+  @media (max-width: 1279px) { .nav { gap: 24px; } }
   .nav-a { position: relative; display: inline-flex; align-items: center; gap: 5px; padding: 8px 0; font-size: 15.5px; font-weight: 500; color: var(--color-ink); transition: color .2s; }
   .nav-a::after { content: ''; position: absolute; left: 50%; right: 50%; bottom: 0; height: 2px; border-radius: 2px;
     background: linear-gradient(90deg, #d6aa45, #b8862a); transition: left .3s ease, right .3s ease; }
@@ -202,12 +204,21 @@ const ticker = [COMMITMENTS[0].title, 'Freeship toàn quốc cho combo', COMMITM
   .chev { transition: transform .25s; }
 
   /* khung "Sản phẩm" – phần đệm trên cùng nối liền chữ với khung nên rê chuột không bị tắt */
-  .has-mega { position: relative; }
-  .mega { position: absolute; left: 50%; top: 100%; padding-top: 14px; width: min(780px, 92vw); translate: -50% 0;
-    opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity .2s, transform .2s, visibility .2s; }
-  .has-mega:hover .mega, .has-mega:focus-within .mega { opacity: 1; visibility: visible; transform: none; }
+  /* Khung "Sản phẩm" canh theo cả thanh header (không theo chữ "Sản phẩm") nên luôn nằm gọn trong màn hình.
+     Rộng tối đa 860px, luôn chừa 16px mỗi bên. */
+  .has-mega { position: static; }
+  .has-mega > .nav-a::before { /* cầu nối vô hình từ chữ xuống khung, rê chuột không bị tắt */
+    content: ''; position: absolute; left: -24px; right: -24px; top: 100%; height: 40px; }
+  .mega { position: absolute; left: 50%; top: 100%; z-index: 5; padding-top: 10px;
+    width: min(860px, calc(100% - 32px)); translate: -50% 0;
+    opacity: 0; visibility: hidden; transform: translateY(6px); pointer-events: none;
+    transition: opacity .18s ease .12s, transform .18s ease .12s, visibility 0s linear .3s; }
+  .has-mega:hover .mega, .has-mega:focus-within .mega { opacity: 1; visibility: visible; transform: none; pointer-events: auto;
+    transition: opacity .18s ease .06s, transform .18s ease .06s, visibility 0s; }
   .has-mega:hover .chev, .has-mega:focus-within .chev { transform: rotate(180deg); }
-  .mega-in { display: grid; grid-template-columns: 1fr 230px; overflow: hidden; border-radius: 24px; background: #fff;
+  /* khung cao hơn màn hình (máy tính phóng to 150%…) thì cuộn bên trong khung */
+  .mega-in { max-height: calc(100svh - 130px); overflow-y: auto; overscroll-behavior: contain; }
+  .mega-in { display: grid; grid-template-columns: 1fr 240px; border-radius: 24px; background: #fff;
     box-shadow: 0 30px 60px -30px rgba(58,9,16,.45), 0 0 0 1px rgba(224,191,110,.3); }
   .mega-list { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 12px; margin: 0; list-style: none; }
   .mega-item { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 16px; transition: background .2s; }
@@ -217,6 +228,7 @@ const ticker = [COMMITMENTS[0].title, 'Freeship toàn quốc cho combo', COMMITM
   .mega-item:hover .mega-name { color: var(--color-brand-600); }
   .mega-cat { display: block; margin-top: 2px; font-size: 12px; color: var(--color-mute); }
   .mega-price { display: block; margin-top: 2px; font-size: 12px; font-weight: 600; color: var(--color-gold-600); }
+  @media (max-width: 1100px) { .mega-in { grid-template-columns: 1fr 210px; } }
   .mega-side { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 22px;
     background: radial-gradient(ellipse 120% 80% at 50% 0%, #7d1424, #3a0910); color: #fbf3e6; }
   .mega-side-k { margin: 0; font: italic 700 24px/1.1 'Cormorant Garamond', serif; color: var(--color-gold-300); }
