@@ -110,6 +110,12 @@
 /* ---------- Hiệu ứng ánh vàng (giai đoạn 1) ---------- */
 @keyframes sd-sweep { 0%, 62% { transform: translateX(-130%); } 85%, 100% { transform: translateX(130%); } }
 @keyframes sd-shine { 0% { background-position: 100% 0; } 55%, 100% { background-position: 0% 0; } }
+/* ---------- Hiện dần khi cuộn (gói C, 14/11/2026) ----------
+   Lớp .rv trên <html> do script đầu trang gắn (chỉ khi có JS và không bật giảm chuyển động).
+   Phần tử hiện xong thì script gỡ data-reveal để trả lại hiệu ứng riêng (hover…) của phần tử. */
+.rv [data-reveal] { transition: opacity .9s cubic-bezier(.2,.8,.2,1), transform .9s cubic-bezier(.2,.8,.2,1), filter .9s ease; transition-delay: var(--rd, 0s); }
+.rv [data-reveal]:not(.is-in) { opacity: 0; transform: translateY(28px); filter: blur(8px); }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
 }

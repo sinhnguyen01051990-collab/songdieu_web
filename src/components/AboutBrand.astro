@@ -1,0 +1,146 @@
+---
+/**
+ * Về chúng tôi theo phong cách đầu trang (gói B, 14/11/2026):
+ * ảnh viền vàng kép + quầng sáng, nghiêng 3D có vệt kính khi rê chuột, 2 nhãn nổi,
+ * "Pharma Beauty" có vệt sáng quét qua một lần khi cuộn tới, câu châm ngôn tách thành trích dẫn.
+ */
+import { Image } from 'astro:assets';
+import avatar from '../assets/images/chu-thuong-hieu.jpg';
+---
+<section class="about section" id="ve-chung-toi" aria-labelledby="about-title">
+  <span class="dust" aria-hidden="true"></span>
+  <div class="container-x grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
+    <div class="photo-wrap" data-reveal>
+      <span class="glow" aria-hidden="true"></span>
+      <div class="photo" id="about-photo">
+        <div class="frame">
+          <Image src={avatar} alt="Chủ thương hiệu SONG DIỆU tại văn phòng Song Diệu Pharma Beauty" width={640} height={640} class="img" loading="lazy" />
+          <span class="glare" aria-hidden="true"></span>
+        </div>
+        <span class="tag tag-1"><b>Hơn 11 năm</b>đồng hành cùng phái đẹp</span>
+        <span class="tag tag-2"><b>Công nghệ Hóa dược</b>nền tảng của nhà sáng lập</span>
+        <svg class="star" width="34" height="34" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.2 9.8L24 12l-9.8 2.2L12 24l-2.2-9.8L0 12l9.8-2.2z" fill="currentColor" /></svg>
+      </div>
+    </div>
+
+    <div class="copy">
+      <p class="eyebrow" data-reveal>Về chúng tôi</p>
+      <h2 id="about-title" class="mt-3 text-4xl font-bold sm:text-5xl" data-reveal>SONG DIỆU <span class="pb italic">Pharma Beauty</span></h2>
+      <p class="mt-6 text-lg leading-relaxed text-ink/80" data-reveal>
+        Với một lý tưởng: xây dựng một điều gì đó mang tên <strong class="text-brand-700">“đứa con tinh thần”</strong> của chính mình, và mang tới những vị khách hàng trân quý của SONG DIỆU những sản phẩm <strong>độc tôn – chất lượng</strong> nhất.
+      </p>
+      <p class="mt-4 leading-relaxed text-mute" data-reveal>
+        Hơn 11 năm đồng hành cùng chị em, nhà sáng lập – theo học chuyên ngành Công nghệ Hóa dược – tự tay nghiên cứu, trải nghiệm từng công thức trước khi đưa tới khách hàng.
+      </p>
+      <figure class="quote" data-reveal>
+        <span class="qmark" aria-hidden="true">“</span>
+        <blockquote>Mình dùng gì bán đó, uy tín luôn là số 1.</blockquote>
+        <figcaption>Nhà sáng lập SONG DIỆU</figcaption>
+      </figure>
+      <div data-reveal>
+        <a href="/gioi-thieu/" class="btn-primary about-btn mt-8 !px-7 !py-3.5">
+          Câu chuyện thương hiệu
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about { position: relative; overflow: hidden; isolation: isolate;
+    background:
+      radial-gradient(ellipse 50% 45% at 8% 0%, rgba(224, 191, 110, .22), transparent 70%),
+      radial-gradient(ellipse 40% 50% at 100% 100%, rgba(155, 28, 44, .07), transparent 70%),
+      var(--color-cream);
+  }
+  /* bụi vàng rất mờ ở góc trên, nối tiếp từ đầu trang */
+  .dust { position: absolute; inset: 0 auto auto 0; width: 60%; height: 340px; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(circle at 12% 18%, rgba(201,161,74,.55) 0 1.4px, transparent 2.5px),
+      radial-gradient(circle at 28% 8%, rgba(201,161,74,.45) 0 1px, transparent 2px),
+      radial-gradient(circle at 44% 30%, rgba(201,161,74,.4) 0 1.2px, transparent 2.2px),
+      radial-gradient(circle at 6% 52%, rgba(201,161,74,.35) 0 1px, transparent 2px),
+      radial-gradient(circle at 63% 14%, rgba(201,161,74,.4) 0 1.3px, transparent 2.3px),
+      radial-gradient(circle at 80% 40%, rgba(201,161,74,.3) 0 1px, transparent 2px),
+      radial-gradient(circle at 35% 62%, rgba(201,161,74,.25) 0 1px, transparent 2px);
+    animation: sd-twinkle 5s ease-in-out infinite alternate;
+  }
+  @keyframes sd-twinkle { from { opacity: .45; } to { opacity: 1; } }
+
+  /* ---------- ảnh ---------- */
+  .photo-wrap { position: relative; margin: 0 auto; width: 100%; max-width: 30rem; }
+  .glow { position: absolute; inset: 8% 4%; z-index: -1; border-radius: 50%; filter: blur(48px);
+    background: radial-gradient(circle, rgba(224,191,110,.75), rgba(155,28,44,.35) 60%, transparent 75%); }
+  .photo { position: relative; transform-style: preserve-3d; transition: transform .5s cubic-bezier(.2,.8,.2,1); will-change: transform; }
+  .frame { position: relative; border-radius: 2.25rem; padding: 7px; overflow: hidden;
+    background: linear-gradient(140deg, #f6dc86, #b8862a 35%, #f0dca8 55%, #a8761f 80%, #e8c46a);
+    box-shadow: 0 30px 60px -30px rgba(58, 9, 16, .6); }
+  .frame::before { /* viền thứ hai: vạch kem mảnh bên trong */
+    content: ''; position: absolute; inset: 7px; border-radius: 1.85rem; z-index: 1; pointer-events: none;
+    box-shadow: inset 0 0 0 1px rgba(255, 248, 225, .9), inset 0 0 0 4px rgba(184, 134, 42, .35);
+  }
+  .frame :global(.img) { display: block; width: 100%; height: auto; border-radius: 1.85rem; }
+  .glare { position: absolute; inset: 7px; border-radius: 1.85rem; z-index: 2; pointer-events: none; opacity: 0; mix-blend-mode: soft-light;
+    background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,250,230,.95), rgba(255,236,190,.3) 30%, transparent 60%);
+    transition: opacity .4s; }
+  .photo.tilt .glare { opacity: 1; }
+
+  .tag { position: absolute; z-index: 3; display: flex; flex-direction: column; gap: 2px;
+    padding: 10px 16px; border-radius: 16px; font-size: 12px; line-height: 1.3; color: rgba(251, 243, 230, .82);
+    background: linear-gradient(180deg, rgba(99, 16, 28, .92), rgba(58, 9, 16, .94));
+    box-shadow: 0 14px 30px -14px rgba(58, 9, 16, .8), inset 0 0 0 1px rgba(224, 191, 110, .55);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    animation: sd-float 6s ease-in-out infinite; }
+  .tag b { font-family: var(--font-serif); font-size: 20px; line-height: 1.1; color: var(--color-gold-300); }
+  .tag-1 { left: -22px; top: 12%; }
+  .tag-2 { right: -22px; bottom: 12%; animation-delay: -3s; }
+  @keyframes sd-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .star { position: absolute; right: 18px; top: -14px; z-index: 3; color: #e8c46a; filter: drop-shadow(0 0 6px rgba(240,220,168,.9));
+    animation: sd-star 3.2s ease-in-out infinite; }
+  @keyframes sd-star { 0%, 100% { transform: scale(.7) rotate(0); opacity: .6; } 50% { transform: scale(1) rotate(45deg); opacity: 1; } }
+
+  /* ---------- chữ ---------- */
+  .pb { /* đỏ đô, có vệt vàng quét qua một lần khi cuộn tới */
+    background-image: linear-gradient(100deg, #7d1424 0 40%, #c9a14a 46%, #f6dc86 50%, #c9a14a 54%, #7d1424 60% 100%);
+    background-size: 320% 100%; background-position: 0 0;
+    -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .08em;
+  }
+  :global(.is-in) > .pb { animation: sd-pb-sweep 1.4s cubic-bezier(.4,0,.2,1) .35s both; }
+  @keyframes sd-pb-sweep { from { background-position: 100% 0; } to { background-position: 0 0; } }
+
+  .quote { position: relative; margin: 28px 0 0; padding: 18px 22px 16px 58px; border-radius: 18px;
+    background: linear-gradient(90deg, rgba(244, 232, 204, .7), rgba(244, 232, 204, 0));
+    border-left: 2px solid var(--color-gold-500); }
+  .qmark { position: absolute; left: 14px; top: -6px; font: 700 72px/1 var(--font-serif);
+    background: linear-gradient(180deg, #f6dc86, #b8862a); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .quote blockquote { margin: 0; font: italic 700 clamp(22px, 2.2vw, 27px)/1.3 var(--font-serif); color: var(--color-brand-700); }
+  .quote figcaption { margin-top: 8px; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--color-gold-600); }
+  .quote figcaption::before { content: '— '; }
+
+  .about-btn { box-shadow: 0 6px 18px -8px rgba(99,16,28,.6), inset 0 0 0 1px rgba(224,191,110,.6); }
+
+  @media (max-width: 640px) {
+    .tag-1 { left: -6px; } .tag-2 { right: -6px; }
+    .tag { padding: 8px 12px; font-size: 11px; } .tag b { font-size: 17px; }
+    .quote { padding-left: 50px; }
+  }
+</style>
+
+<script>
+  // nghiêng 3D có vệt kính khi rê chuột (chỉ máy tính có chuột)
+  const photo = document.getElementById('about-photo');
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (photo && fine && !reduce) {
+    photo.addEventListener('pointermove', (e) => {
+      const r = photo.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+      photo.classList.add('tilt');
+      photo.style.transform = `perspective(1000px) rotateX(${((0.5 - py) * 10).toFixed(2)}deg) rotateY(${((px - 0.5) * 12).toFixed(2)}deg) scale(1.02)`;
+      photo.style.setProperty('--gx', (px * 100).toFixed(1) + '%');
+      photo.style.setProperty('--gy', (py * 100).toFixed(1) + '%');
+    });
+    photo.addEventListener('pointerleave', () => { photo.classList.remove('tilt'); photo.style.transform = ''; });
+  }
+</script>
