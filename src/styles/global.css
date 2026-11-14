@@ -110,6 +110,8 @@
 /* ---------- Hiệu ứng ánh vàng (giai đoạn 1) ---------- */
 @keyframes sd-sweep { 0%, 62% { transform: translateX(-130%); } 85%, 100% { transform: translateX(130%); } }
 @keyframes sd-shine { 0% { background-position: 100% 0; } 55%, 100% { background-position: 0% 0; } }
+@property --sd-a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+
 /* ---------- Hiện dần khi cuộn (gói C, 14/11/2026) ----------
    Lớp .rv trên <html> do script đầu trang gắn (chỉ khi có JS và không bật giảm chuyển động).
    Phần tử hiện xong thì script gỡ data-reveal để trả lại hiệu ứng riêng (hover…) của phần tử. */
