@@ -18,7 +18,7 @@ const vnd = (n: number) => n.toLocaleString('vi-VN') + 'đ';
 
 const items = await Promise.all(
   PRODUCTS.map(async (p) => {
-    const thumb = p.image ? (await getImage({ src: p.image, width: 160, height: 160, fit: 'cover', format: 'webp', quality: 70 })).src : '';
+    const thumb = p.image ? (await getImage({ src: p.image, width: 280, height: 280, fit: 'cover', format: 'webp', quality: 70 })).src : '';
     const from = p.offers.length ? Math.min(...p.offers.map((o) => o.price)) : 0;
     return { href: `/san-pham/${p.slug}/`, name: p.name, category: p.category, thumb, from };
   })
@@ -61,21 +61,20 @@ const ticker = [COMMITMENTS[0].title, 'Freeship toàn quốc cho combo', COMMITM
                       {items.map((p) => (
                         <li>
                           <a href={p.href} class="mega-item">
-                            {p.thumb && <img src={p.thumb} alt="" width="64" height="64" loading="lazy" decoding="async" />}
-                            <span class="min-w-0">
-                              <span class="mega-name">{p.name}</span>
-                              <span class="mega-cat">{p.category}</span>
-                              {p.from > 0 && <span class="mega-price">Từ {vnd(p.from)}</span>}
-                            </span>
+                            <span class="mega-img">{p.thumb && <img src={p.thumb} alt="" width="140" height="140" loading="lazy" decoding="async" />}</span>
+                            <span class="mega-name">{p.name}</span>
+                            <span class="mega-cat">{p.category}</span>
+                            <span class="mega-price">{p.from > 0 ? `Từ ${vnd(p.from)}` : 'Liên hệ'}</span>
                           </a>
                         </li>
                       ))}
                     </ul>
-                    <div class="mega-side">
-                      <p class="mega-side-k">Chưa biết chọn gì?</p>
-                      <p class="mega-side-t">Chuyên viên SONG DIỆU tư vấn miễn phí, đúng nhu cầu của chị.</p>
-                      <a href={SITE.zalo} target="_blank" rel="noopener" class="btn-gold h-10 !px-5">Tư vấn qua Zalo</a>
-                      <a href="/san-pham/" class="mega-all">Xem tất cả sản phẩm →</a>
+                    <div class="mega-foot">
+                      <p class="mega-foot-t"><span class="mega-foot-k">Chưa biết chọn gì?</span> Chuyên viên SONG DIỆU tư vấn miễn phí, đúng nhu cầu của chị.</p>
+                      <div class="mega-foot-a">
+                        <a href="/san-pham/" class="mega-all">Xem tất cả →</a>
+                        <a href={SITE.zalo} target="_blank" rel="noopener" class="btn-gold h-10 !px-5">Tư vấn qua Zalo</a>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -209,31 +208,35 @@ const ticker = [COMMITMENTS[0].title, 'Freeship toàn quốc cho combo', COMMITM
   .has-mega { position: static; }
   .has-mega > .nav-a::before { /* cầu nối vô hình từ chữ xuống khung, rê chuột không bị tắt */
     content: ''; position: absolute; left: -24px; right: -24px; top: 100%; height: 40px; }
-  .mega { position: absolute; left: 50%; top: 100%; z-index: 5; padding-top: 10px;
-    width: min(860px, calc(100% - 32px)); translate: -50% 0;
+  /* Canh giữa bằng left/right + margin auto (không dùng translate: bộ nén CSS đã gộp mất translate
+     vào transform nên khung bị lệch sang phải). */
+  .mega { position: absolute; top: 100%; left: 0; right: 0; z-index: 5; margin: 0 auto; padding-top: 10px;
+    width: min(920px, calc(100% - 32px));
     opacity: 0; visibility: hidden; transform: translateY(6px); pointer-events: none;
     transition: opacity .18s ease .12s, transform .18s ease .12s, visibility 0s linear .3s; }
   .has-mega:hover .mega, .has-mega:focus-within .mega { opacity: 1; visibility: visible; transform: none; pointer-events: auto;
     transition: opacity .18s ease .06s, transform .18s ease .06s, visibility 0s; }
   .has-mega:hover .chev, .has-mega:focus-within .chev { transform: rotate(180deg); }
-  /* khung cao hơn màn hình (máy tính phóng to 150%…) thì cuộn bên trong khung */
-  .mega-in { max-height: calc(100svh - 130px); overflow-y: auto; overscroll-behavior: contain; }
-  .mega-in { display: grid; grid-template-columns: 1fr 240px; border-radius: 24px; background: #fff;
+  .mega-in { max-height: calc(100svh - 130px); overflow-y: auto; overscroll-behavior: contain; border-radius: 24px; background: #fff;
     box-shadow: 0 30px 60px -30px rgba(58,9,16,.45), 0 0 0 1px rgba(224,191,110,.3); }
-  .mega-list { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 12px; margin: 0; list-style: none; }
-  .mega-item { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 16px; transition: background .2s; }
+  /* 5 thẻ dọc bằng nhau trên 1 hàng: ảnh vuông, tên tối đa 2 dòng, nhóm, giá – mọi thẻ thẳng hàng */
+  .mega-list { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; padding: 16px; margin: 0; list-style: none; }
+  .mega-item { display: flex; flex-direction: column; height: 100%; padding: 8px 8px 12px; border-radius: 18px; transition: background .2s; }
   .mega-item:hover { background: var(--color-brand-50); }
-  .mega-item img { width: 64px; height: 64px; flex: none; border-radius: 12px; object-fit: cover; box-shadow: 0 0 0 1px rgba(224,191,110,.3); }
-  .mega-name { display: block; font-size: 14px; font-weight: 600; line-height: 1.3; color: var(--color-ink); }
+  .mega-img { display: block; aspect-ratio: 1; overflow: hidden; border-radius: 14px; background: var(--color-brand-50); box-shadow: 0 0 0 1px rgba(224,191,110,.3); }
+  .mega-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+  .mega-item:hover .mega-img img { transform: scale(1.05); }
+  .mega-name { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; min-height: 2.6em;
+    margin-top: 10px; font-size: 14px; font-weight: 600; line-height: 1.3; color: var(--color-ink); }
   .mega-item:hover .mega-name { color: var(--color-brand-600); }
-  .mega-cat { display: block; margin-top: 2px; font-size: 12px; color: var(--color-mute); }
-  .mega-price { display: block; margin-top: 2px; font-size: 12px; font-weight: 600; color: var(--color-gold-600); }
-  @media (max-width: 1100px) { .mega-in { grid-template-columns: 1fr 210px; } }
-  .mega-side { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 22px;
-    background: radial-gradient(ellipse 120% 80% at 50% 0%, #7d1424, #3a0910); color: #fbf3e6; }
-  .mega-side-k { margin: 0; font: italic 700 24px/1.1 'Cormorant Garamond', serif; color: var(--color-gold-300); }
-  .mega-side-t { margin: 0 0 6px; font-size: 13px; line-height: 1.55; color: rgba(251,243,230,.8); }
-  .mega-all { margin-top: auto; font-size: 13px; font-weight: 500; color: var(--color-gold-300); }
+  .mega-cat { display: block; margin-top: 4px; font-size: 12px; color: var(--color-mute); }
+  .mega-price { display: block; margin-top: auto; padding-top: 6px; font-size: 13px; font-weight: 600; color: var(--color-gold-600); }
+  .mega-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 24px;
+    background: radial-gradient(ellipse 80% 160% at 0% 50%, #7d1424, #3a0910); color: rgba(251,243,230,.82); }
+  .mega-foot-t { margin: 0; font-size: 13.5px; line-height: 1.5; }
+  .mega-foot-k { margin-right: 6px; font: italic 700 21px/1 'Cormorant Garamond', serif; color: var(--color-gold-300); }
+  .mega-foot-a { display: flex; align-items: center; gap: 18px; flex: none; }
+  .mega-all { font-size: 13.5px; font-weight: 500; color: var(--color-gold-300); white-space: nowrap; }
   .mega-all:hover { text-decoration: underline; }
 
   /* hotline */
