@@ -128,7 +128,7 @@ const schemas = [org, website, ...(crumbLd ? [crumbLd] : []), ...jsonLd];
               el.style.setProperty('--rd', Math.min(k++ * 0.1, 0.6) + 's');
               el.classList.add('is-in');
               io.unobserve(el);
-              setTimeout(() => done(el), 2600);
+              setTimeout(() => done(el), 2200);
             });
         }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
         document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
