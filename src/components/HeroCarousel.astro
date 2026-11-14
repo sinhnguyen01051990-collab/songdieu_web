@@ -48,7 +48,7 @@ const cards = await Promise.all(
     <p class="badge" data-enter="pop">Hơn 11 năm đồng hành cùng phái đẹp</p>
 
     <h1 id="hero-title" class="headline">
-      <span class="line" data-enter="line">Vẻ Đẹp Đến Từ</span>
+      <span class="line line1" data-enter="line">Vẻ Đẹp Đến Từ</span>
       <span class="line line2 gold-shine" data-enter="line">Sự An Nhiên</span>
     </h1>
 
@@ -61,6 +61,7 @@ const cards = await Promise.all(
       {cards.map((c) => (
         <a class="rcard" href={c.href} draggable="false" aria-label={c.alt}>
           <img src={c.url} srcset={c.srcset} sizes="(max-width: 820px) 140px, 260px" alt={c.alt} draggable="false" decoding="async" style={`object-position:${c.pos}`} />
+          <span class="glare" aria-hidden="true"></span>
           <span class="chip" aria-hidden="true">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
           </span>
@@ -122,6 +123,17 @@ const cards = await Promise.all(
   }
   .headline .line { display: block; }
   .headline .line2 { font-style: italic; padding-bottom: .06em; }
+  /* Gói hiệu ứng 1 (14/11/2026): vệt sáng vàng quét qua tiêu đề một lần khi mở trang */
+  .headline .line1 {
+    background-image: linear-gradient(100deg, #fbf3e6 0 42%, #fff4cf 46%, #f2cf7a 50%, #fff4cf 54%, #fbf3e6 58% 100%);
+    background-size: 320% 100%; background-position: 0 0;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .headline .line1 { animation: sd-hero-sweep 1.3s cubic-bezier(.4,0,.2,1) .25s both; }
+    .headline .line2 { animation: sd-hero-sweep 1.3s cubic-bezier(.4,0,.2,1) .45s both, sd-shine 6s ease-in-out 1.8s infinite; }
+  }
+  @keyframes sd-hero-sweep { from { background-position: 100% 0; } to { background-position: 0 0; } }
   .sub {
     position: absolute; left: 50%; translate: -50% 0; top: calc(300 * var(--u));
     width: calc(790 * var(--u)); margin: 0; text-align: center; color: rgba(251,243,230,.8); text-wrap: balance;
@@ -133,6 +145,13 @@ const cards = await Promise.all(
   .rcard { position: absolute; left: 0; top: 0; display: block; overflow: hidden; background: #3a0910; will-change: transform, clip-path; }
   .rcard img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; opacity: 0; transition: opacity .5s; }
   .rcard img.ready { opacity: 1; }
+  /* vệt bóng loáng như mặt kính khi rê chuột (nghiêng 3D) */
+  .glare {
+    position: absolute; inset: 0; pointer-events: none; opacity: 0; mix-blend-mode: soft-light;
+    background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,250,230,.95), rgba(255,236,190,.35) 28%, transparent 60%);
+    transition: opacity .35s;
+  }
+  .rcard.tilt .glare { opacity: 1; }
   .chip {
     position: absolute; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 999px;
     color: #fff; background: rgba(255,255,255,.22); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
@@ -181,6 +200,9 @@ const cards = await Promise.all(
   });
 
   const N = cards.length, PITCH = 196, SPAN = N * PITCH, SPEED = 50;
+  // nghiêng 3D theo chuột: giá trị đích (t*) và hiện tại, làm mượt mỗi khung hình
+  const tilt = cards.map(() => ({ rx: 0, ry: 0, s: 0, trx: 0, try: 0, ts: 0 }));
+  const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
   let offset = 0;          // vị trí cuộn (u)
   let vel = 0;             // vận tốc quán tính (u/s)
   let dragging = false, moved = 0, lastX = 0, lastT = 0, samples: { x: number; t: number }[] = [];
@@ -224,7 +246,12 @@ const cards = await Promise.all(
       el.style.visibility = 'visible';
       el.style.width = Wpx + 'px';
       el.style.height = Hpx + 'px';
-      el.style.transform = `translate(${L}px, ${T}px)`;
+      const tl = tilt[i];
+      tl.rx += (tl.trx - tl.rx) * 0.14; tl.ry += (tl.try - tl.ry) * 0.14; tl.s += (tl.ts - tl.s) * 0.14;
+      el.style.transform = Math.abs(tl.rx) + Math.abs(tl.ry) + tl.s > 0.01
+        ? `translate(${L}px, ${T}px) perspective(${900 * u}px) rotateX(${tl.rx.toFixed(2)}deg) rotateY(${tl.ry.toFixed(2)}deg) scale(${(1 + 0.05 * tl.s).toFixed(3)})`
+        : `translate(${L}px, ${T}px)`;
+      el.style.zIndex = tl.ts ? '2' : '';
       const yl0 = (yc - hL / 2 - top) * u, yl1 = (yc + hL / 2 - top) * u;
       const yr0 = (yc - hR / 2 - top) * u, yr1 = (yc + hR / 2 - top) * u;
       el.style.clipPath = `path('${roundedQuad([[0, yl0], [Wpx, yr0], [Wpx, yr1], [0, yl1]], 15 * u)}')`;
@@ -286,42 +313,88 @@ const cards = await Promise.all(
   };
   track.addEventListener('pointerup', end);
   track.addEventListener('pointercancel', end);
+  // nghiêng 3D: chỉ máy tính có chuột, không khi đang kéo
+  if (!reduce) {
+    let hovered: HTMLAnchorElement | null = null;
+    const release = () => {
+      if (!hovered) return;
+      const t = tilt[cards.indexOf(hovered)]; t.trx = t.try = t.ts = 0;
+      hovered.classList.remove('tilt'); hovered = null;
+    };
+    track.addEventListener('pointermove', (e) => {
+      if (e.pointerType !== 'mouse' || !finePointer.matches || mobileMQ.matches) return;
+      const card = dragging ? null : (e.target as Element).closest<HTMLAnchorElement>('.rcard');
+      if (card !== hovered) { release(); if (card) { hovered = card; card.classList.add('tilt'); } }
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+      const t = tilt[cards.indexOf(card)];
+      t.try = (px - 0.5) * 16; t.trx = (0.5 - py) * 12; t.ts = 1;
+      card.style.setProperty('--gx', (px * 100).toFixed(1) + '%');
+      card.style.setProperty('--gy', (py * 100).toFixed(1) + '%');
+    });
+    track.addEventListener('pointerleave', release);
+    track.addEventListener('pointerdown', release);
+  }
+
   // chặn click khi vừa kéo
   track.addEventListener('click', (e) => { if (moved > 6) { e.preventDefault(); e.stopPropagation(); } }, true);
 
-  // ---------- Hạt sáng vàng lấp lánh (bokeh) ----------
+  // ---------- Bụi vàng 3 lớp có chiều sâu (gói hiệu ứng 1, 14/11/2026) ----------
+  // lớp 0 xa: nhỏ, mờ, trôi chậm · lớp 1 giữa · lớp 2 gần: to, nhoè như ống kính, trôi theo chuột nhiều nhất
   const cv = document.getElementById('hero-sparkle') as HTMLCanvasElement;
   const ctx = cv.getContext('2d');
   if (ctx && !reduce) {
-    type P = { x: number; y: number; r: number; vy: number; vx: number; ph: number; sp: number; big: boolean };
+    type P = { x: number; y: number; r: number; vy: number; vx: number; ph: number; sp: number; z: number };
+    const LAYERS = [
+      { share: 0.55, r: [0.5, 1.2], a: 0.35, v: 3, par: 4, glint: false },
+      { share: 0.33, r: [1.0, 2.0], a: 0.6, v: 7, par: 12, glint: true },
+      { share: 0.12, r: [8, 18], a: 0.11, v: 12, par: 28, glint: false },
+    ];
     let ps: P[] = [], W = 0, H = 0, sraf = 0, sVisible = true;
+    let mx = 0, my = 0, tmx = 0, tmy = 0; // vị trí chuột chuẩn hoá −1…1, làm mượt
     const dpr = Math.min(2, devicePixelRatio || 1);
-    const make = (y?: number): P => {
-      const big = Math.random() < 0.18;
-      return { x: Math.random() * W, y: y ?? Math.random() * H, r: big ? 6 + Math.random() * 14 : 0.6 + Math.random() * 1.8,
-        vy: -(4 + Math.random() * 10), vx: (Math.random() - 0.5) * 4, ph: Math.random() * 6.28, sp: 0.6 + Math.random() * 1.6, big };
+    const make = (z: number, y?: number): P => {
+      const L = LAYERS[z];
+      return { x: Math.random() * W, y: y ?? Math.random() * H, r: L.r[0] + Math.random() * (L.r[1] - L.r[0]),
+        vy: -(L.v * (0.6 + Math.random() * 0.8)), vx: (Math.random() - 0.5) * L.v * 0.4, ph: Math.random() * 6.28, sp: 0.5 + Math.random() * 1.4, z };
     };
     const size = () => {
       W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const n = Math.round(Math.min(90, (W * H) / 16000));
-      ps = Array.from({ length: n }, () => make());
+      const n = Math.round(Math.min(64, (W * H) / 20000));
+      ps = [];
+      LAYERS.forEach((L, z) => { for (let k = 0; k < Math.round(n * L.share); k++) ps.push(make(z)); });
     };
+    const hero = cv.parentElement!;
+    hero.addEventListener('pointermove', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      const r = hero.getBoundingClientRect();
+      tmx = ((e.clientX - r.left) / r.width) * 2 - 1; tmy = ((e.clientY - r.top) / r.height) * 2 - 1;
+    });
+    hero.addEventListener('pointerleave', () => { tmx = tmy = 0; });
     let last = performance.now();
     const draw = (now: number) => {
       sraf = 0;
       const dt = Math.min(0.05, (now - last) / 1000); last = now;
+      mx += (tmx - mx) * 0.05; my += (tmy - my) * 0.05;
       ctx.clearRect(0, 0, W, H);
       ctx.globalCompositeOperation = 'lighter';
       for (const p of ps) {
+        const L = LAYERS[p.z];
         p.y += p.vy * dt; p.x += p.vx * dt; p.ph += p.sp * dt;
-        if (p.y < -30) Object.assign(p, make(H + 20));
-        const a = (p.big ? 0.10 : 0.55) * (0.5 + 0.5 * Math.sin(p.ph));
-        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * (p.big ? 1 : 3));
-        g.addColorStop(0, `rgba(255,232,170,${a})`); g.addColorStop(1, 'rgba(255,232,170,0)');
-        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, p.r * (p.big ? 1 : 3), 0, 6.283); ctx.fill();
-        if (!p.big && a > 0.45) { // tia lấp lánh
-          ctx.strokeStyle = `rgba(255,244,210,${(a - 0.45) * 2})`; ctx.lineWidth = 0.6; ctx.beginPath();
-          ctx.moveTo(p.x - p.r * 4, p.y); ctx.lineTo(p.x + p.r * 4, p.y); ctx.moveTo(p.x, p.y - p.r * 4); ctx.lineTo(p.x, p.y + p.r * 4); ctx.stroke();
+        if (p.y < -40) Object.assign(p, make(p.z, H + 30));
+        const x = p.x - mx * L.par, y = p.y - my * L.par;
+        const a = L.a * (0.45 + 0.55 * Math.sin(p.ph));
+        if (a <= 0.01) continue;
+        const rr = p.z === 2 ? p.r : p.r * 3;
+        const g = ctx.createRadialGradient(x, y, 0, x, y, rr);
+        g.addColorStop(0, `rgba(255,232,170,${a})`);
+        if (p.z === 2) g.addColorStop(0.7, `rgba(255,220,150,${a * 0.6})`);
+        g.addColorStop(1, 'rgba(255,232,170,0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, rr, 0, 6.283); ctx.fill();
+        if (L.glint && a > 0.5) { // tia lấp lánh hình chữ thập
+          ctx.strokeStyle = `rgba(255,244,210,${(a - 0.5) * 2.4})`; ctx.lineWidth = 0.6; ctx.beginPath();
+          ctx.moveTo(x - p.r * 4.5, y); ctx.lineTo(x + p.r * 4.5, y); ctx.moveTo(x, y - p.r * 4.5); ctx.lineTo(x, y + p.r * 4.5); ctx.stroke();
         }
       }
       if (sVisible && !document.hidden) sraf = requestAnimationFrame(draw);
@@ -340,7 +413,7 @@ const cards = await Promise.all(
     frame.querySelector('[data-enter=pop]')?.animate([{ transform: 'scale(.6)', opacity: 0 }, { transform: 'scale(1.06)', opacity: 1, offset: .7 }, { transform: 'scale(1)' }], opt(150, 600));
     // Chữ chính (tiêu đề, mô tả) luôn hiện ngay để không làm chậm LCP – chỉ trượt nhẹ, không ẩn/mờ
     frame.querySelectorAll('[data-enter=line]').forEach((el, i) =>
-      el.animate([{ transform: 'translateY(18px)' }, { transform: 'none' }], opt(i * 90, 700)));
+      el.animate([{ transform: 'translateY(18px)', filter: 'blur(10px)', opacity: 0.35 }, { transform: 'none', filter: 'blur(0)', opacity: 1 }], opt(i * 120, 1000)));
     track.animate([{ transform: 'translateY(80px)', opacity: 0 }, { transform: 'none', opacity: 1 }], opt(800, 1100));
     frame.querySelector('[data-enter=scale]')?.animate([{ transform: 'translateY(16px)', opacity: 0 }, { transform: 'none', opacity: 1 }], opt(1000, 700));
   }
