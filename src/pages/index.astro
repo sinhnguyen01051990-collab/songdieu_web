@@ -7,12 +7,11 @@ import HeroCarousel from '../components/HeroCarousel.astro';
 import LeadForm from '../components/LeadForm.astro';
 import TrustStrip from '../components/TrustStrip.astro';
 import AboutBrand from '../components/AboutBrand.astro';
-import { PRODUCTS, getProduct } from '../data/products';
+import XnnSpotlight from '../components/XnnSpotlight.astro';
+import { PRODUCTS } from '../data/products';
 import { SITE } from '../data/site';
-import xnnBanner from '../assets/images/background-1.png';
 import { getCollection } from 'astro:content';
 
-const xnn = getProduct('vien-uong-noi-tiet-xuan-nu-nhan')!;
 const posts = (await getCollection('tinTuc')).sort((a, b) => +b.data.date - +a.data.date).slice(0, 3);
 ---
 <Base
@@ -51,19 +50,8 @@ const posts = (await getCollection('tinTuc')).sort((a, b) => +b.data.date - +a.d
     </div>
   </section>
 
-  <!-- SPOTLIGHT XNN -->
-  <section class="relative isolate overflow-hidden">
-    <Image src={xnnBanner} alt="Viên uống nội tiết Xuân Nữ Nhan" widths={[640, 1024, 1672]} sizes="100vw" class="absolute inset-0 -z-10 h-full w-full object-cover" loading="lazy" />
-    <div class="absolute inset-0 -z-10 bg-gradient-to-l from-brand-900/90 via-brand-900/50 to-transparent"></div>
-    <div class="container-x flex justify-end py-24">
-      <div class="max-w-md text-white" data-reveal>
-        <p class="eyebrow !text-gold-300">Nội tiết tố nữ</p>
-        <h2 class="mt-3 text-4xl font-bold sm:text-5xl">{xnn.shortName}</h2>
-        <p class="mt-4 text-white/80">Xuân Nữ Nhan – người bạn đồng hành tin cậy của phụ nữ hiện đại trên hành trình tái tạo nội tiết tố tự nhiên, phục hồi sinh lý và duy trì vẻ đẹp rạng rỡ từ sâu bên trong.</p>
-        <a href={`/san-pham/${xnn.slug}/`} class="btn-gold mt-8">Tìm hiểu Xuân Nữ Nhan</a>
-      </div>
-    </div>
-  </section>
+  <!-- XUÂN NỮ NHAN: ảnh nền mới + hiệu ứng long lanh -->
+  <XnnSpotlight />
 
   <Testimonials />
 
