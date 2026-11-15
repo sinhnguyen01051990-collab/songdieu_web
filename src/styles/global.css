@@ -34,20 +34,32 @@
 
 @utility container-x { @apply mx-auto w-full max-w-6xl px-4 sm:px-6; }
 
-@utility btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition; }
+/* hiệu ứng rê chuột đồng nhất cho mọi nút (15/11/2026): nhấc 2px, đổ bóng/sáng hơn, mũi tên nhích phải, bấm thì lún nhẹ */
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s, filter .35s, background-color .35s, color .35s;
+  & svg { transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+  @media (hover: hover) {
+    &:hover:not(:disabled) { transform: translateY(-2px); }
+    &:hover:not(:disabled) svg { transform: translateX(3px); }
+  }
+  &:active:not(:disabled) { transform: translateY(0) scale(.98); transition-duration: .1s; }
+}
 
 @utility btn-primary {
-  @apply btn text-white shadow-[0_6px_18px_-8px_rgba(99,16,28,.6)];
+  @apply btn text-white;
+  box-shadow: 0 6px 18px -8px rgba(99,16,28,.6), inset 0 0 0 1px rgba(224,191,110,.6);
   background-image: linear-gradient(180deg, var(--color-brand-500), var(--color-brand-700));
   position: relative; overflow: hidden; isolation: isolate;
   &::after { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
     background: linear-gradient(115deg, transparent 30%, rgba(255,230,170,.35) 50%, transparent 70%);
     transform: translateX(-120%); transition: transform .7s ease; }
   &:hover::after { transform: translateX(120%); }
-  &:hover { box-shadow: 0 10px 24px -10px rgba(99,16,28,.7), inset 0 0 0 1px rgba(224,191,110,.55); }
+  &:hover { filter: brightness(1.06); box-shadow: 0 14px 28px -12px rgba(99,16,28,.75), 0 0 0 4px rgba(224,191,110,.16), inset 0 0 0 1px rgba(224,191,110,.85); }
 }
 
-@utility btn-white { @apply btn bg-white text-ink ring-1 ring-black/5 hover:bg-brand-50; }
+@utility btn-white { @apply btn bg-white text-ink ring-1 ring-black/5 hover:bg-brand-50;
+  &:hover { box-shadow: 0 12px 24px -12px rgba(99,16,28,.45), 0 0 0 4px rgba(224,191,110,.14); } }
 
 /* nút trong vòng viền đứt nét (như "Make a Reel") */
 @utility btn-ring {
@@ -57,13 +69,14 @@
 }
 
 @utility btn-gold {
-  @apply btn font-semibold text-brand-900 hover:brightness-105;
+  @apply btn font-semibold text-brand-900;
   background-image: linear-gradient(180deg, #f6dc86, #d6aa45 55%, #b8862a);
   box-shadow: 0 8px 22px -10px rgba(214,170,69,.8), inset 0 1px 0 rgba(255,255,255,.5);
   position: relative; overflow: hidden; isolation: isolate;
   &::after { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
     background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,.75) 50%, transparent 65%);
     transform: translateX(-130%); animation: sd-sweep 5.5s ease-in-out infinite; }
+  &:hover { filter: brightness(1.08); box-shadow: 0 12px 30px -10px rgba(240,210,120,.95), 0 0 0 4px rgba(224,191,110,.2), inset 0 1px 0 rgba(255,255,255,.6); }
 }
 
 /* chữ vàng gold kiểu biển hiệu */

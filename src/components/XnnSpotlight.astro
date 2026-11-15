@@ -12,7 +12,7 @@ import { getProduct, minPrice, formatVnd } from '../data/products';
 import { SITE } from '../data/site';
 const xnn = getProduct('vien-uong-noi-tiet-xuan-nu-nhan')!;
 const price = minPrice(xnn);
-const CHIPS = ['Sâm tố nữ', 'Đương quy', 'Đông trùng hạ thảo'];
+const CHIPS = ['Thiên môn chùm', 'Sâm tố nữ', 'Đông trùng hạ thảo'];
 // vị trí sao (theo % ảnh gốc), sát mép lọ và hộp
 const STARS = [
   { x: 67.6, y: 30, s: 34, d: 0 },
@@ -130,15 +130,13 @@ const STARS = [
   .actions { margin-top: 18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px 16px; }
   .price { width: 100%; font-size: 13px; color: rgba(251, 243, 230, .7); }
   .price b { margin-left: 2px; font-size: 20px; color: var(--color-gold-300); }
-  .xnn-btn { gap: 10px; transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s, filter .35s; }
-  .xnn-btn:hover { transform: translateY(-2px); filter: brightness(1.08);
-    box-shadow: 0 12px 30px -10px rgba(240, 210, 120, .95), 0 0 0 4px rgba(224, 191, 110, .2), inset 0 1px 0 rgba(255, 255, 255, .6); }
-  .xnn-btn svg { transition: transform .35s; }
-  .xnn-btn:hover svg { transform: translateX(3px); }
+  .xnn-btn { gap: 10px; } /* rê chuột: dùng hiệu ứng chung của btn-gold */
   .zalo-btn { display: inline-flex; align-items: center; padding: 11px 22px; border-radius: 999px; font-weight: 600; font-size: 15px;
     color: var(--color-gold-300); box-shadow: inset 0 0 0 1.5px rgba(224, 191, 110, .7);
-    transition: background .35s, color .35s, transform .35s; }
-  .zalo-btn:hover { background: rgba(224, 191, 110, .14); color: #fff3c4; transform: translateY(-2px); }
+    transition: transform .35s cubic-bezier(.2, .8, .2, 1), background .35s, color .35s, box-shadow .35s; }
+  .zalo-btn:hover { transform: translateY(-2px); background: rgba(224, 191, 110, .14); color: #fff3c4;
+    box-shadow: inset 0 0 0 1.5px rgba(224, 191, 110, .95), 0 0 0 4px rgba(224, 191, 110, .14); }
+  .zalo-btn:active { transform: translateY(0) scale(.98); transition-duration: .1s; }
 
   @media (max-width: 767px) {
     .media { aspect-ratio: auto; min-height: 0; height: 320px; }
