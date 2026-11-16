@@ -48,17 +48,17 @@ export const NAV = [
 export const TESTIMONIALS = [
   {
     quote:
-      'Mình dùng SDBODY được hơn 3 tuần, cảm nhận rõ vùng bụng săn chắc hơn và da mịn hơn hẳn. Chất gel thấm nhanh, không bị nhờn rít nên rất dễ chịu khi sử dụng.',
+      'Mình dùng Gel SDBODY được hơn 3 tuần thấy giảm 5cm cảm nhận rõ vùng bụng săn chắc hơn và da mịn hơn hẳn. Chất gel thấm nhanh, không bị nhờn rít nên rất dễ chịu khi sử dụng.',
     name: 'Thủy Tạ',
     place: 'Yên Nghĩa – Hà Nội',
     product: 'Gel gừng quế SDBODY',
   },
   {
     quote:
-      'Điều mình thích nhất ở SDBODY là cảm giác ấm nhẹ khi thoa, massage rất dễ chịu. Dùng đều đặn mỗi ngày, mình thấy vòng bụng gọn hơn mong đợi!',
+      'Chị uống được 10 ngày rồi mà thấy thay đổi rõ rệt luôn em à. Từ ngày chị uống, chồng chị thích lắm, ông mê chị hơn nhiều luôn. Đêm chị ngủ ngon sâu giấc hơn, da dẻ cũng sáng mịn và tươi tắn hơn trước hẳn em ạ!',
     name: 'Thu Hương',
     place: 'Bắc Ninh',
-    product: 'Gel gừng quế SDBODY',
+    product: 'Viên uống nội tiết Xuân Nữ Nhan',
   },
 ];
 
