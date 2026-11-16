@@ -9,19 +9,22 @@ import { SITE } from '../data/site';
  *   cuộn quá ~2/3 phần đầu trang thì hiện lại (14/11/2026).
  */
 ---
-<!-- máy tính -->
-<div id="fab" class="fixed bottom-5 right-5 z-50 hidden flex-col gap-3 transition-[opacity,translate] duration-300 md:flex">
-  <a href={SITE.zalo} target="_blank" rel="noopener" aria-label="Chat Zalo với SONG DIỆU"
-     class="grid h-14 w-14 place-items-center rounded-full bg-[#0068ff] text-xs font-bold text-white shadow-xl ring-2 ring-white transition hover:scale-105">Zalo</a>
+<!-- máy tính (đồng bộ 16/11/2026): Zalo nền trắng viền vàng, gọi đỏ đô viền vàng, nhãn hiện khi rê chuột,
+     vòng sáng vàng tỏa 1 lần khi nút hiện ra, thu nhỏ khi cuộn tới footer để không che chữ -->
+<div id="fab" class="fab fixed bottom-5 right-5 z-50 hidden flex-col items-end gap-3 md:flex">
+  <a href={SITE.zalo} target="_blank" rel="noopener" aria-label="Chat Zalo với SONG DIỆU" class="fab-btn fab-zalo">
+    <span class="fab-tip">Chat Zalo</span>
+    <span class="fab-ico">Zalo</span>
+  </a>
   {SITE.messenger && (
-    <a href={SITE.messenger} target="_blank" rel="noopener" aria-label="Nhắn tin Messenger"
-       class="grid h-14 w-14 place-items-center rounded-full bg-gradient-to-br from-[#00b2ff] to-[#a033ff] text-white shadow-xl ring-2 ring-white transition hover:scale-105">
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.36 2 2 6.13 2 11.7c0 2.91 1.19 5.44 3.14 7.17v3.13l2.98-1.64c.86.24 1.82.37 2.88.37 5.64 0 10-4.13 10-9.7S17.64 2 12 2zm1 13.06-2.55-2.72-4.98 2.72 5.48-5.82 2.6 2.72 4.93-2.72L13 15.06z"/></svg>
+    <a href={SITE.messenger} target="_blank" rel="noopener" aria-label="Nhắn tin Messenger" class="fab-btn fab-msg">
+      <span class="fab-tip">Messenger</span>
+      <span class="fab-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.36 2 2 6.13 2 11.7c0 2.91 1.19 5.44 3.14 7.17v3.13l2.98-1.64c.86.24 1.82.37 2.88.37 5.64 0 10-4.13 10-9.7S17.64 2 12 2zm1 13.06-2.55-2.72-4.98 2.72 5.48-5.82 2.6 2.72 4.93-2.72L13 15.06z"/></svg></span>
     </a>
   )}
-  <a href={`tel:${SITE.phone}`} aria-label={`Gọi hotline ${SITE.phoneDisplay}`}
-     class="grid h-14 w-14 place-items-center rounded-full bg-gradient-to-b from-brand-500 to-brand-700 text-white shadow-xl ring-2 ring-gold-400/70 transition hover:scale-105">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg>
+  <a href={`tel:${SITE.phone}`} aria-label={`Gọi hotline ${SITE.phoneDisplay}`} class="fab-btn fab-call">
+    <span class="fab-tip">{SITE.phoneDisplay}</span>
+    <span class="fab-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg></span>
   </a>
 </div>
 
@@ -45,19 +48,53 @@ import { SITE } from '../data/site';
   const order = document.getElementById('bar-order') as HTMLAnchorElement | null;
   if (order && document.getElementById('dat-hang')) order.href = '#dat-hang';
 
-  // Trang chủ: ẩn nút nổi khi đang ở phần đầu trang
+  // Trang chủ: ẩn nút nổi khi đang xem phần đầu trang (quá ~2/3 phần đầu trang thì hiện, kèm vòng sáng 1 lần)
   const fab = document.getElementById('fab');
   const hero = document.querySelector('section.hero');
-  if (fab && hero) {
-    const update = () => {
-      const hide = hero.getBoundingClientRect().top + hero.offsetHeight * (2 / 3) > 0;
-      fab.classList.toggle('opacity-0', hide);
-      fab.classList.toggle('pointer-events-none', hide);
-      fab.classList.toggle('translate-y-4', hide);
+  if (fab) {
+    const setHidden = (hide: boolean) => {
+      if (!hide && fab.classList.contains('is-hidden')) { fab.classList.remove('is-hidden'); fab.classList.add('is-pop'); setTimeout(() => fab.classList.remove('is-pop'), 1400); }
+      else if (hide) fab.classList.add('is-hidden');
       fab.toggleAttribute('inert', hide);
     };
-    update();
-    addEventListener('scroll', update, { passive: true });
-    addEventListener('resize', update);
+    if (hero) {
+      setHidden(true);
+      // vạch mốc ở 2/3 chiều cao phần đầu trang
+      const mark = document.createElement('div');
+      mark.style.cssText = 'position:absolute;left:0;width:1px;height:1px;pointer-events:none;top:66%';
+      if (getComputedStyle(hero).position === 'static') (hero as HTMLElement).style.position = 'relative';
+      hero.appendChild(mark);
+      new IntersectionObserver(([e]) => setHidden(e.isIntersecting || e.boundingClientRect.top > 0)).observe(mark);
+    } else { fab.classList.add('is-pop'); setTimeout(() => fab.classList.remove('is-pop'), 1400); }
+    // thu nhỏ khi tới footer
+    const ft = document.querySelector('footer');
+    if (ft) new IntersectionObserver(([e]) => fab.classList.toggle('is-small', e.isIntersecting), { rootMargin: '0px 0px -40px 0px' }).observe(ft);
   }
 </script>
+
+<style>
+  .fab { transition: opacity .3s, translate .3s, scale .35s cubic-bezier(.2, .8, .2, 1); transform-origin: 100% 100%; }
+  .fab.is-hidden { opacity: 0; translate: 0 16px; pointer-events: none; }
+  .fab.is-small { scale: .78; }
+  .fab-btn { position: relative; display: flex; align-items: center; }
+  .fab-ico { position: relative; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 999px;
+    transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s; }
+  .fab-zalo .fab-ico { font-size: 13px; font-weight: 800; letter-spacing: -.01em; color: #0068ff; background: linear-gradient(180deg, #fff, #fbf3e4);
+    box-shadow: inset 0 0 0 1.5px rgba(201, 161, 74, .9), 0 10px 22px -10px rgba(58, 9, 16, .6); }
+  .fab-msg .fab-ico { color: #fff; background: linear-gradient(135deg, #00b2ff, #a033ff); box-shadow: inset 0 0 0 1.5px rgba(224, 191, 110, .9), 0 10px 22px -10px rgba(58, 9, 16, .6); }
+  .fab-call .fab-ico { color: var(--color-gold-300); background: radial-gradient(circle at 50% 30%, #9b1c2c, #4a0c15 80%);
+    box-shadow: inset 0 0 0 1.5px rgba(224, 191, 110, .85), 0 10px 22px -10px rgba(58, 9, 16, .8); }
+  .fab-btn:hover .fab-ico { transform: translateY(-2px) scale(1.05); box-shadow: inset 0 0 0 1.5px rgba(240, 220, 168, 1), 0 0 0 5px rgba(224, 191, 110, .2), 0 14px 26px -10px rgba(58, 9, 16, .7); }
+  /* nhãn hiện khi rê chuột */
+  .fab-tip { position: absolute; right: 68px; white-space: nowrap; padding: 7px 14px; border-radius: 999px; font-size: 13px; font-weight: 600;
+    color: var(--color-gold-300); background: linear-gradient(180deg, rgba(99, 16, 28, .95), rgba(43, 7, 13, .96));
+    box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .55), 0 10px 20px -12px rgba(0, 0, 0, .6);
+    opacity: 0; transform: translateX(8px); pointer-events: none; transition: opacity .3s, transform .3s cubic-bezier(.2, .8, .2, 1); }
+  .fab-btn:hover .fab-tip, .fab-btn:focus-visible .fab-tip { opacity: 1; transform: none; }
+  /* vòng sáng vàng tỏa 1 lần khi nút hiện ra */
+  .fab-ico::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; box-shadow: 0 0 0 0 rgba(224, 191, 110, .7); }
+  .fab.is-pop .fab-ico::after { animation: sd-fab-pop 1.2s ease-out both; }
+  .fab.is-pop .fab-btn:nth-child(2) .fab-ico::after { animation-delay: .12s; }
+  .fab.is-pop .fab-btn:nth-child(3) .fab-ico::after { animation-delay: .24s; }
+  @keyframes sd-fab-pop { 0% { opacity: 1; box-shadow: 0 0 0 0 rgba(224, 191, 110, .75); } 100% { opacity: 0; box-shadow: 0 0 0 16px rgba(224, 191, 110, 0); } }
+</style>

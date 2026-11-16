@@ -1,56 +1,207 @@
 ---
+/**
+ * Footer đồng bộ phong cách đã duyệt (16/11/2026):
+ * vạch vàng có ngôi sao ngăn với khối Đăng ký; nền đỏ đô sâu + quầng vàng + bụi vàng;
+ * logo có vệt sáng lướt theo chu kỳ, rê chuột nghiêng nhẹ có chiều sâu; tiêu đề cột serif vàng + gạch vàng;
+ * link có chấm vàng trượt vào; cột Liên hệ có biểu tượng viền vàng, hotline lớn, nút Zalo/Gọi; nút Lên đầu trang.
+ * Điện thoại: cột Sản phẩm / Liên kết thành mục bấm mở (mặc định mở khi không có JS).
+ */
 import { NAV, SITE } from '../data/site';
 import { PRODUCTS } from '../data/products';
 const year = new Date().getFullYear();
+const LINKS = [
+  ...NAV,
+  { href: '/cau-hoi-thuong-gap/', label: 'Câu hỏi thường gặp' },
+  { href: '/ho-so-phap-ly/', label: 'Hồ sơ pháp lý sản phẩm' },
+  { href: '/chinh-sach/', label: 'Chính sách đổi trả & bảo hành' },
+  { href: '/chinh-sach-bao-mat/', label: 'Chính sách bảo mật' },
+];
+const SOCIAL_ICON: Record<string, string> = {
+  facebook: '<path d="M14 8h3V4h-3a4 4 0 0 0-4 4v2H8v4h2v6h4v-6h3l1-4h-4V8z"/>',
+  tiktok: '<path d="M14 3v11.5a3.5 3.5 0 1 1-3-3.46"/><path d="M14 3c.5 2.6 2.4 4.3 5 4.5"/>',
+  youtube: '<rect x="3" y="6" width="18" height="12" rx="4"/><path d="M10.5 9.5l4 2.5-4 2.5z"/>',
+  shopee: '<path d="M5 8h14l-1 12H6z"/><path d="M9 8a3 3 0 0 1 6 0"/>',
+};
+const socials = Object.entries(SITE.social).filter(([, v]) => v);
+const ICO = {
+  pin: '<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+  phone: '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>',
+  mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+};
 ---
-<footer class="bg-brand-900 text-white/75">
-  <div class="container-x grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
-    <div>
-      <p class="flex items-center gap-3">
-        <img src="/logo-sd-128.webp" alt="Logo SONG DIỆU" width="56" height="60" class="h-16 w-auto" loading="lazy" />
+<footer class="ft">
+  <span class="ft-line" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M12 0l2.2 9.8L24 12l-9.8 2.2L12 24l-2.2-9.8L0 12l9.8-2.2z" fill="currentColor" /></svg></span>
+  <span class="ft-dust" aria-hidden="true"></span>
+
+  <div class="container-x ft-grid">
+    <div class="ft-brand">
+      <a href="/" class="ft-logo" aria-label="SONG DIỆU – Trang chủ">
+        <span class="ft-emblem">
+          <img src="/logo-sd-128.webp" alt="" width="56" height="60" loading="lazy" />
+          <span class="ft-emblem-shine" aria-hidden="true"></span>
+        </span>
         <span class="flex flex-col leading-none">
           <span class="wordmark gold-text whitespace-nowrap text-[26px]">Song Diệu</span>
           <span class="mt-1 font-brand text-xs font-semibold italic tracking-[0.2em] text-gold-400 uppercase">Pharma Beauty</span>
         </span>
+      </a>
+      <p class="hand mt-4 !text-gold-300 text-lg">{SITE.tagline}</p>
+      <p class="ft-about">
+        Với hơn 11 năm uy tín, 100% sản phẩm của Song Diệu đều có đầy đủ hồ sơ công bố pháp lý, sản xuất đạt chuẩn ISO 22000 và cam kết đồng hành trọn đời cùng vẻ đẹp khỏe khoắn, bền vững của phụ nữ Việt.
       </p>
-      <p class="hand mt-3 !text-gold-300 text-lg">{SITE.tagline}</p>
-      <p class="mt-4 text-sm leading-relaxed">
-        Thương hiệu của {SITE.legalName}. Tuyệt đối không làm sản phẩm rác – chỉ mang tới khách hàng những sản phẩm độc tôn, chất lượng nhất.
-      </p>
+      {socials.length > 0 && (
+        <div class="ft-social">
+          {socials.map(([k, v]) => (
+            <a href={v} target="_blank" rel="noopener" aria-label={k} title={k}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={SOCIAL_ICON[k] ?? ''} />
+            </a>
+          ))}
+        </div>
+      )}
     </div>
-    <div>
-      <p class="mb-4 font-medium text-white">Sản phẩm</p>
-      <ul class="space-y-2 text-sm">
-        {PRODUCTS.map((p) => <li><a href={`/san-pham/${p.slug}/`} class="hover:text-gold-300">{p.name}</a></li>)}
+
+    <details class="ft-col" open>
+      <summary class="ft-h">Sản phẩm</summary>
+      <ul class="ft-links">
+        {PRODUCTS.map((p) => <li><a href={`/san-pham/${p.slug}/`}>{p.name}</a></li>)}
       </ul>
-    </div>
-    <div>
-      <p class="mb-4 font-medium text-white">Liên kết</p>
-      <ul class="space-y-2 text-sm">
-        {NAV.map((n) => <li><a href={n.href} class="hover:text-gold-300">{n.label}</a></li>)}
-        <li><a href="/cau-hoi-thuong-gap/" class="hover:text-gold-300">Câu hỏi thường gặp</a></li>
-        <li><a href="/ho-so-phap-ly/" class="hover:text-gold-300">Hồ sơ pháp lý sản phẩm</a></li>
-        <li><a href="/chinh-sach/" class="hover:text-gold-300">Chính sách đổi trả & bảo hành</a></li>
-        <li><a href="/chinh-sach-bao-mat/" class="hover:text-gold-300">Chính sách bảo mật</a></li>
+    </details>
+
+    <details class="ft-col" open>
+      <summary class="ft-h">Liên kết</summary>
+      <ul class="ft-links">
+        {LINKS.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
       </ul>
-    </div>
-    <div>
-      <p class="mb-4 font-medium text-white">Liên hệ</p>
-      <address class="not-italic space-y-3 text-sm">
-        <p>{SITE.address.full}</p>
-        <p><a href={`tel:${SITE.phone}`} class="text-white hover:text-gold-300">{SITE.phoneDisplay}</a></p>
-        <p><a href={`mailto:${SITE.email}`} class="hover:text-gold-300">{SITE.email}</a></p>
-        {Object.entries(SITE.social).filter(([, v]) => v).length > 0 && (
-          <p class="flex flex-wrap gap-3">{Object.entries(SITE.social).filter(([, v]) => v).map(([k, v]) => <a href={v} target="_blank" rel="noopener" class="capitalize hover:text-gold-300">{k}</a>)}</p>
-        )}
-        <p><a href={SITE.zalo} target="_blank" rel="noopener" class="inline-flex rounded-full bg-gold-400 px-4 py-1.5 font-medium text-brand-900 hover:bg-gold-300">Chat Zalo</a></p>
+    </details>
+
+    <div class="ft-col ft-contact">
+      <p class="ft-h">Liên hệ</p>
+      <address>
+        <p class="ft-row"><span class="ft-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={ICO.pin} /></span><span>{SITE.address.full}</span></p>
+        <p class="ft-row"><span class="ft-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={ICO.phone} /></span><a href={`tel:${SITE.phone}`} class="ft-hotline">{SITE.phoneDisplay}</a></p>
+        <p class="ft-row"><span class="ft-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={ICO.mail} /></span><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
       </address>
+      <div class="ft-act">
+        <a href={SITE.zalo} target="_blank" rel="noopener" class="btn-gold !px-5 !py-2.5">Chat Zalo</a>
+        <a href={`tel:${SITE.phone}`} class="btn ft-call !px-5 !py-2.5">Gọi ngay</a>
+      </div>
     </div>
   </div>
-  <div class="border-t border-white/10">
-    <div class="container-x flex flex-col items-center justify-between gap-2 py-5 text-xs sm:flex-row">
+
+  <div class="ft-bottom">
+    <div class="container-x ft-bottom-in">
       <p>© {year} SONG DIỆU – {SITE.legalName}.</p>
-      <p class="text-white/50">Hiệu quả sản phẩm có thể khác nhau ở mỗi người.</p>
+      <p class="ft-note">Hiệu quả sản phẩm có thể khác nhau ở mỗi người.</p>
+      <a href="#top" class="ft-top" aria-label="Lên đầu trang" title="Lên đầu trang" onclick="event.preventDefault();window.scrollTo({top:0,behavior:'smooth'})">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" /></svg>
+      </a>
     </div>
   </div>
 </footer>
+
+<style>
+  .ft { position: relative; isolation: isolate; overflow: hidden; color: rgba(255, 255, 255, .72);
+    background:
+      radial-gradient(ellipse 45% 55% at 0% 0%, rgba(224, 191, 110, .1), transparent 70%),
+      radial-gradient(ellipse 40% 60% at 100% 100%, rgba(155, 28, 44, .35), transparent 70%),
+      linear-gradient(180deg, #2b070d 0%, #22050a 100%); }
+  /* vạch vàng có ngôi sao ngăn với khối phía trên */
+  .ft-line { position: absolute; left: 0; right: 0; top: 0; height: 1px; display: grid; place-items: center;
+    background: linear-gradient(90deg, transparent 4%, rgba(224, 191, 110, .75) 30%, rgba(224, 191, 110, .75) 70%, transparent 96%); }
+  .ft-line svg { margin-top: 1px; padding: 0 10px; box-sizing: content-box; color: #f0c95a; background: #2b070d;
+    filter: drop-shadow(0 0 6px rgba(240, 220, 168, .8)); animation: sd-ft-star 3.2s ease-in-out infinite; }
+  @keyframes sd-ft-star { 0%, 100% { transform: scale(.75) rotate(0); opacity: .75; } 50% { transform: scale(1) rotate(45deg); opacity: 1; } }
+  .ft-dust { position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(circle at 6% 30%, rgba(246,220,134,.55) 0 1.2px, transparent 2.2px),
+      radial-gradient(circle at 30% 12%, rgba(246,220,134,.4) 0 1px, transparent 2px),
+      radial-gradient(circle at 54% 70%, rgba(246,220,134,.35) 0 1px, transparent 2px),
+      radial-gradient(circle at 78% 18%, rgba(246,220,134,.45) 0 1.2px, transparent 2.2px),
+      radial-gradient(circle at 94% 60%, rgba(246,220,134,.4) 0 1px, transparent 2px);
+    animation: sd-ft-twinkle 5s ease-in-out infinite alternate; }
+  @keyframes sd-ft-twinkle { from { opacity: .35; } to { opacity: .95; } }
+
+  .ft-grid { display: grid; gap: 40px; padding-block: 64px 48px; grid-template-columns: 1.35fr 1fr 1fr 1.15fr; }
+
+  /* logo: vệt sáng lướt theo chu kỳ, rê chuột nghiêng nhẹ có chiều sâu */
+  .ft-logo { display: inline-flex; align-items: center; gap: 12px; perspective: 600px; }
+  .ft-emblem { position: relative; display: block; overflow: hidden; border-radius: 12px; transition: transform .6s cubic-bezier(.2, .8, .2, 1), filter .6s; }
+  .ft-emblem img { display: block; height: 64px; width: auto; }
+  .ft-emblem-shine { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen;
+    background: linear-gradient(115deg, transparent 35%, rgba(255, 243, 196, .75) 50%, transparent 65%);
+    transform: translateX(-130%); animation: sd-sweep 6s ease-in-out infinite; }
+  @media (hover: hover) {
+    .ft-logo:hover .ft-emblem { transform: rotateY(-18deg) rotateX(6deg) scale(1.06); filter: drop-shadow(0 10px 14px rgba(0, 0, 0, .45)) drop-shadow(0 0 12px rgba(240, 220, 168, .35)); }
+  }
+  .ft-about { margin-top: 14px; max-width: 24rem; font-size: 14px; line-height: 1.7; }
+  .ft-social { display: flex; gap: 10px; margin-top: 18px; }
+  .ft-social a { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 999px; color: var(--color-gold-300);
+    box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .55); transition: background .3s, color .3s, transform .3s; }
+  .ft-social a:hover { color: var(--color-brand-900); background: linear-gradient(180deg, #f6dc86, #c9a14a); transform: translateY(-2px); }
+
+  /* tiêu đề cột: serif vàng + gạch vàng ngắn */
+  .ft-h { position: relative; display: block; margin-bottom: 18px; padding-bottom: 10px; list-style: none;
+    font: 700 22px/1.2 var(--font-serif); color: var(--color-gold-300); }
+  .ft-h::-webkit-details-marker { display: none; }
+  .ft-h::after { content: ''; position: absolute; left: 0; bottom: 0; width: 36px; height: 1px;
+    background: linear-gradient(90deg, var(--color-gold-400), transparent); }
+
+  /* link: chấm vàng trượt vào, chữ đổi vàng */
+  .ft-links { display: grid; gap: 10px; font-size: 14px; }
+  .ft-links a { position: relative; display: inline-block; transition: color .3s, transform .3s cubic-bezier(.2, .8, .2, 1); }
+  .ft-links a::before { content: ''; position: absolute; left: -12px; top: 50%; width: 5px; height: 5px; margin-top: -2.5px; border-radius: 50%;
+    background: var(--color-gold-400); box-shadow: 0 0 6px rgba(240, 220, 168, .9); opacity: 0; transform: translateX(-6px); transition: opacity .3s, transform .3s; }
+  .ft-links a:hover { color: var(--color-gold-300); transform: translateX(10px); }
+  .ft-links a:hover::before { opacity: 1; transform: none; }
+
+  /* liên hệ */
+  .ft-contact address { display: grid; gap: 12px; font-style: normal; font-size: 14px; }
+  .ft-row { display: flex; align-items: flex-start; gap: 12px; }
+  .ft-ico { flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 999px; color: var(--color-gold-300);
+    box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .55); background: rgba(255, 255, 255, .03); }
+  .ft-row > span:last-child, .ft-row > a { padding-top: 6px; }
+  .ft-row a { transition: color .3s; }
+  .ft-row a:hover { color: var(--color-gold-300); }
+  .ft-row .ft-hotline { padding-top: 2px; font: 700 24px/1.2 var(--font-serif); letter-spacing: .02em; color: var(--color-gold-300); }
+  .ft-act { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+  .ft-call { color: #fff; box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .6); }
+  .ft-call:hover { background: rgba(255, 255, 255, .08); box-shadow: inset 0 0 0 1px rgba(240, 220, 168, .95), 0 0 0 4px rgba(224, 191, 110, .14); }
+
+  /* thanh dưới cùng + nút lên đầu trang */
+  .ft-bottom { border-top: 1px solid rgba(224, 191, 110, .18); }
+  .ft-bottom-in { display: flex; align-items: center; justify-content: space-between; gap: 10px 24px; padding-block: 18px; font-size: 12.5px; }
+  .ft-note { margin-left: auto; color: rgba(255, 255, 255, .5); }
+  .ft-top { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 999px; color: var(--color-gold-300);
+    box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .6); transition: background .3s, color .3s, box-shadow .3s; }
+  .ft-top svg { transition: transform .35s cubic-bezier(.2, .8, .2, 1); }
+  .ft-top:hover { color: var(--color-brand-900); background: linear-gradient(180deg, #f6dc86, #c9a14a); box-shadow: 0 0 0 4px rgba(224, 191, 110, .18); }
+  .ft-top:hover svg { transform: translateY(-3px); }
+
+  @media (min-width: 768px) {
+    .ft-col > summary { pointer-events: none; }
+  }
+  @media (max-width: 1023px) {
+    .ft-grid { grid-template-columns: 1fr 1fr; }
+  }
+  /* điện thoại: Sản phẩm / Liên kết thành mục bấm mở */
+  @media (max-width: 767px) {
+    .ft-grid { grid-template-columns: 1fr; gap: 0; padding-block: 48px 24px; }
+    .ft-brand { padding-bottom: 28px; }
+    details.ft-col { border-top: 1px solid rgba(224, 191, 110, .18); }
+    details.ft-col > summary { cursor: pointer; margin: 0; padding: 16px 0; display: flex; justify-content: space-between; align-items: center; }
+    details.ft-col > summary::after { position: static; width: 10px; height: 10px; border: solid var(--color-gold-400); border-width: 0 1.5px 1.5px 0;
+      background: none; transform: rotate(45deg) translateY(-3px); transition: transform .3s; }
+    details.ft-col[open] > summary::after { transform: rotate(-135deg) translateY(-3px); }
+    details.ft-col .ft-links { padding: 0 0 18px; }
+    .ft-contact { padding-top: 22px; border-top: 1px solid rgba(224, 191, 110, .18); }
+    .ft-bottom-in { flex-wrap: wrap; justify-content: center; text-align: center; }
+    .ft-note { margin-left: 0; }
+  }
+</style>
+
+<script>
+  // điện thoại: gập sẵn 2 mục Sản phẩm / Liên kết (không có JS thì vẫn mở để đọc được)
+  if (matchMedia('(max-width: 767px)').matches) document.querySelectorAll('details.ft-col').forEach((d) => d.removeAttribute('open'));
+  // máy tính: không cho bấm gập
+  document.querySelectorAll<HTMLElement>('details.ft-col > summary').forEach((s) => s.addEventListener('click', (e) => { if (matchMedia('(min-width: 768px)').matches) e.preventDefault(); }));
+</script>
