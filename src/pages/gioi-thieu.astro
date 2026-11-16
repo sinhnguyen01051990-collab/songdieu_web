@@ -130,8 +130,8 @@ const HALVES = [
         </div>
       </div>
       <div class="gt-gallery" data-reveal>
-        <div class="gt-g gt-g-big"><Picture src={gNhaMay} alt="Kiểm tra sản phẩm SONG DIỆU tại nhà máy" widths={[480, 720, 960]} sizes="(min-width: 1024px) 340px, 58vw" formats={['avif', 'webp']} fallbackFormat="webp" class="gt-gimg" loading="lazy" /></div>
-        <div class="gt-g"><Picture src={gDayChuyen} alt="Dây chuyền sản xuất Gel SDBODY" widths={[320, 520]} sizes="(min-width: 1024px) 240px, 40vw" formats={['avif', 'webp']} fallbackFormat="webp" class="gt-gimg" loading="lazy" /></div>
+        <div class="gt-g gt-g-big"><Picture src={gDayChuyen} alt="Dây chuyền sản xuất Gel SDBODY" widths={[480, 720, 960]} sizes="(min-width: 1024px) 340px, 58vw" formats={['avif', 'webp']} fallbackFormat="webp" class="gt-gimg" loading="lazy" /></div>
+        <div class="gt-g gt-g-top"><Picture src={gNhaMay} alt="Kiểm tra sản phẩm SONG DIỆU tại nhà máy" widths={[320, 520]} sizes="(min-width: 1024px) 240px, 40vw" formats={['avif', 'webp']} fallbackFormat="webp" class="gt-gimg" loading="lazy" /></div>
         <div class="gt-g gt-g-top"><Picture src={gXnn} alt="Viên uống nội tiết Xuân Nữ Nhan tại văn phòng Song Diệu" widths={[320, 520]} sizes="(min-width: 1024px) 240px, 40vw" formats={['avif', 'webp']} fallbackFormat="webp" class="gt-gimg" loading="lazy" /></div>
       </div>
     </div>
@@ -284,7 +284,7 @@ const HALVES = [
   .gt-g :global(.gt-gimg) { width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.2, .8, .2, 1); }
   .gt-g:hover :global(.gt-gimg) { transform: scale(1.05); }
   .gt-g :global(picture) { display: block; width: 100%; height: 100%; }
-  .gt-g-big :global(.gt-gimg) { object-position: 50% 30%; }
+  .gt-g-big :global(.gt-gimg) { object-position: 50% 50%; }
   .gt-g-top :global(.gt-gimg) { object-position: 50% 18%; }
 
   @media (max-width: 1023px) {
