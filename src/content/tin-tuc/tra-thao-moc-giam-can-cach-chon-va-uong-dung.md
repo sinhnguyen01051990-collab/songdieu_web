@@ -3,6 +3,7 @@ title: "Trà thảo mộc giảm cân: cách chọn và uống đúng, an toàn"
 description: "Trà thảo mộc có giúp giảm cân không? Cách đọc thành phần, nhận biết trà kém chất lượng, uống bao nhiêu mỗi ngày và ai nên tránh."
 date: 2026-10-22
 product: tra-tao-meo
+image: ../../assets/images/banner/10-nguoi-mau-that-bao-tra.jpg
 ---
 
 **Trả lời ngắn:** trà thảo mộc không phải "thuốc giảm cân" và không làm cân nặng giảm nếu chị vẫn ăn uống như cũ. Tuy vậy, một loại trà thảo mộc có thành phần rõ ràng, uống thay nước ngọt và trà sữa, có thể **hỗ trợ quá trình kiểm soát cân nặng** khi kết hợp ăn uống hợp lý và vận động. Điều quan trọng là chọn đúng loại trà, uống đúng cách và tránh xa sản phẩm gây đi ngoài, mất nước hay chứa chất cấm.

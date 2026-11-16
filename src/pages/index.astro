@@ -8,11 +8,9 @@ import LeadForm from '../components/LeadForm.astro';
 import TrustStrip from '../components/TrustStrip.astro';
 import AboutBrand from '../components/AboutBrand.astro';
 import XnnSpotlight from '../components/XnnSpotlight.astro';
+import KnowledgeSection from '../components/KnowledgeSection.astro';
 import { PRODUCTS } from '../data/products';
 import { SITE } from '../data/site';
-import { getCollection } from 'astro:content';
-
-const posts = (await getCollection('tinTuc')).sort((a, b) => +b.data.date - +a.data.date).slice(0, 3);
 ---
 <Base
   title="Mỹ phẩm & thảo dược chăm sóc phụ nữ Việt"
@@ -55,26 +53,8 @@ const posts = (await getCollection('tinTuc')).sort((a, b) => +b.data.date - +a.d
 
   <Testimonials />
 
-  <!-- TIN TỨC -->
-  {posts.length > 0 && (
-    <section class="section">
-      <div class="container-x">
-        <div class="flex items-end justify-between gap-4" data-reveal>
-          <div><p class="eyebrow">Kiến thức</p><h2 class="mt-3 text-4xl font-bold">Tin tức &amp; chia sẻ</h2></div>
-          <a href="/tin-tuc/" class="text-sm font-semibold text-brand-600 hover:underline">Xem tất cả →</a>
-        </div>
-        <div class="mt-10 grid gap-6 md:grid-cols-3" data-reveal-group>
-          {posts.map((post) => (
-            <a href={`/tin-tuc/${post.id}/`} class="card group block p-6 transition hover:shadow-lg">
-              <time class="text-xs text-mute" datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString('vi-VN')}</time>
-              <h3 class="mt-2 text-lg font-bold group-hover:text-brand-600">{post.data.title}</h3>
-              <p class="mt-2 line-clamp-3 text-sm text-mute">{post.data.description}</p>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
+  <!-- KIẾN THỨC & CHIA SẺ -->
+  <KnowledgeSection />
 
   <!-- ĐĂNG KÝ TƯ VẤN -->
   <section class="section relative overflow-hidden bg-gradient-to-br from-brand-700 via-brand-600 to-brand-900 text-white">

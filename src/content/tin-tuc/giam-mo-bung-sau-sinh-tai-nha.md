@@ -3,6 +3,7 @@ title: "Giảm mỡ bụng sau sinh tại nhà: 7 thói quen an toàn cho mẹ"
 description: "Mẹ sau sinh nên bắt đầu chăm sóc vòng bụng khi nào, ăn gì, vận động ra sao khi đang cho con bú? 7 thói quen an toàn, dễ làm tại nhà."
 date: 2026-10-29
 product: gel-gung-que-sdbody
+image: ../../assets/images/sp/gel-sdbody-beauty-2.jpg
 ---
 
 **Trả lời nhanh:** mẹ sau sinh có thể lấy lại vòng bụng gọn gàng tại nhà bằng cách **ăn đủ chất nhưng hạn chế đồ ngọt, dầu mỡ; uống đủ nước; vận động nhẹ tăng dần; ngủ bù khi có thể; và chăm sóc da bụng đều đặn**. Đừng vội ăn kiêng khắt khe khi đang cho con bú, và với mẹ sinh mổ, hãy chờ cơ thể hồi phục, hỏi ý kiến bác sĩ trước khi tập các bài tác động vào cơ bụng.

@@ -3,6 +3,7 @@ title: "Cách dùng Gel gừng quế SDBODY đúng chuẩn"
 description: "Hướng dẫn chi tiết thời điểm thoa, lượng dùng, cách massage Gel gừng quế SDBODY và những lưu ý cho mẹ sau sinh."
 date: 2026-11-01
 product: gel-gung-que-sdbody
+image: ../../assets/images/sp/gel-sdbody-beauty-1.jpg
 ---
 
 Gel gừng quế SDBODY phát huy tốt nhất khi được dùng **đều đặn và đúng cách**. Dưới đây là hướng dẫn mà đội ngũ SONG DIỆU khuyên dùng.

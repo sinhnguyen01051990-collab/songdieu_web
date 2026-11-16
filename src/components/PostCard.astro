@@ -1,0 +1,93 @@
+---
+/**
+ * Thẻ bài Kiến thức (16/11/2026), cùng họ thẻ sản phẩm: ảnh bìa 4:3 có đường vàng mảnh + vệt sáng khi rê chuột,
+ * nhãn chủ đề đỏ đô chữ vàng, tiêu đề serif, mô tả 2 dòng, chân thẻ ngày · phút đọc + nút tròn mũi tên.
+ * Ảnh: lấy ảnh bìa của bài; bài chưa có thì dùng ảnh sản phẩm liên quan.
+ */
+import { Picture } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { getProduct } from '../data/products';
+import { postMeta } from '../data/kien-thuc';
+interface Props { post: CollectionEntry<'tinTuc'>; eager?: boolean; as?: 'h2' | 'h3' }
+const { post, eager = false, as: H = 'h3' } = Astro.props;
+const product = post.data.product ? getProduct(post.data.product) : undefined;
+const img = post.data.image ?? product?.image;
+const { topic, minutes } = postMeta(post);
+const href = `/tin-tuc/${post.id}/`;
+---
+<article class="kc">
+  <a href={href} class="kc-media" tabindex="-1" aria-hidden="true">
+    {img ? (
+      <Picture src={img} alt="" width={720} widths={[360, 540, 720]} sizes="(min-width: 1024px) 360px, (min-width: 768px) 46vw, 82vw" formats={['avif', 'webp']} fallbackFormat="webp" loading={eager ? 'eager' : 'lazy'} class="kc-img" />
+    ) : (
+      <span class="kc-ph">SD</span>
+    )}
+    <span class="kc-shine"></span>
+    {topic && <span class="kc-cat">{topic}</span>}
+  </a>
+  <div class="kc-body">
+    <H class="kc-title"><a href={href}>{post.data.title}</a></H>
+    <p class="kc-desc">{post.data.description}</p>
+    <div class="kc-foot">
+      <p class="kc-meta"><time datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString('vi-VN')}</time><span aria-hidden="true">·</span>{minutes} phút đọc</p>
+      <a href={href} class="kc-go" aria-label={`Đọc tiếp: ${post.data.title}`} title="Đọc tiếp">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .kc { position: relative; display: flex; flex-direction: column; height: 100%; padding: 8px; border-radius: 26px;
+    background: linear-gradient(180deg, #fff 0%, #fffdf8 55%, #fbf3e4 100%);
+    box-shadow: 0 0 0 1px rgba(201, 161, 74, .38), 0 18px 40px -28px rgba(58, 9, 16, .45);
+    transition: transform .45s cubic-bezier(.2, .8, .2, 1), box-shadow .45s; }
+  @media (hover: hover) {
+    .kc:hover { transform: translateY(-6px);
+      box-shadow: 0 0 0 1px rgba(224, 191, 110, .95), 0 0 0 5px rgba(224, 191, 110, .14), 0 30px 50px -26px rgba(99, 16, 28, .55); }
+  }
+
+  .kc-media { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 19px; background: var(--color-brand-50); }
+  .kc-media::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    box-shadow: inset 0 0 0 1px rgba(240, 220, 168, .75), inset 0 0 0 4px rgba(255, 250, 235, .18); }
+  .kc-media :global(.kc-img) { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%;
+    transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+  .kc:hover .kc-media :global(.kc-img) { transform: scale(1.05); }
+  .kc-ph { display: grid; place-items: center; height: 100%; font: 700 40px var(--font-serif); color: var(--color-gold-300);
+    background: linear-gradient(135deg, var(--color-brand-600), var(--color-brand-900)); }
+  .kc-shine { position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: linear-gradient(115deg, transparent 35%, rgba(255, 240, 200, .5) 50%, transparent 65%);
+    transform: translateX(-130%); transition: transform 1s ease; }
+  .kc:hover .kc-shine { transform: translateX(130%); }
+  .kc-cat { position: absolute; left: 12px; top: 12px; z-index: 2; padding: 5px 12px; border-radius: 999px;
+    font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--color-gold-300);
+    background: linear-gradient(180deg, rgba(99, 16, 28, .9), rgba(58, 9, 16, .92));
+    box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .55), 0 6px 14px -8px rgba(58, 9, 16, .8);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+
+  .kc-body { flex: 1; display: flex; flex-direction: column; padding: 18px 14px 10px; }
+  .kc-title { font-family: var(--font-serif); font-size: 22px; font-weight: 700; line-height: 1.25; color: var(--color-ink); text-wrap: balance; }
+  .kc-title a { transition: color .3s; }
+  .kc-title a:hover { color: var(--color-brand-600); }
+  .kc-desc { flex: 1; margin-top: 8px; font-size: 14px; line-height: 1.55; color: var(--color-mute);
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .kc-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; padding-top: 14px;
+    border-top: 1px solid rgba(201, 161, 74, .28); }
+  .kc-meta { display: flex; gap: 8px; font-size: 13px; color: var(--color-mute); }
+  .kc-meta span { color: var(--color-gold-500); }
+
+  .kc-go { position: relative; flex: none; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 999px; overflow: hidden;
+    color: var(--color-brand-700); background: linear-gradient(180deg, #fdf8ec, #f4e8cc);
+    box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .8), 0 4px 10px -6px rgba(125, 92, 27, .5);
+    transition: color .35s, box-shadow .35s; }
+  .kc-go::before { content: ''; position: absolute; inset: 0; border-radius: inherit; opacity: 0; transition: opacity .35s;
+    background: radial-gradient(circle at 50% 30%, #9b1c2c, #4a0c15 75%); }
+  .kc-go svg { position: relative; transition: transform .35s; }
+  .kc:hover .kc-go { color: var(--color-gold-300); box-shadow: inset 0 0 0 1px rgba(240, 220, 168, .6), 0 8px 16px -8px rgba(99, 16, 28, .8); }
+  .kc:hover .kc-go::before { opacity: 1; }
+  .kc:hover .kc-go svg { transform: translateX(2px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kc, .kc-shine, .kc-media :global(.kc-img) { transition: none; }
+  }
+</style>

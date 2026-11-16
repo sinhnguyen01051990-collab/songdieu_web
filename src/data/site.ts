@@ -41,7 +41,7 @@ export const NAV = [
   { href: '/', label: 'Trang chủ' },
   { href: '/gioi-thieu/', label: 'Giới thiệu' },
   { href: '/san-pham/', label: 'Sản phẩm' },
-  { href: '/tin-tuc/', label: 'Tin tức' },
+  { href: '/tin-tuc/', label: 'Kiến thức' },
   { href: '/lien-he/', label: 'Liên hệ' },
 ];
 

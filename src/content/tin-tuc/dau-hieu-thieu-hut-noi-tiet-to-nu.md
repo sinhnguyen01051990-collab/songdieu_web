@@ -3,6 +3,7 @@ title: "7 dấu hiệu thiếu hụt nội tiết tố nữ cần biết"
 description: "Khô hạn, da sạm nám, mất ngủ, bốc hỏa, kinh nguyệt không đều… là những dấu hiệu thường gặp khi nội tiết tố nữ suy giảm. Cùng SONG DIỆU tìm hiểu."
 date: 2026-11-05
 product: vien-uong-noi-tiet-xuan-nu-nhan
+image: ../../assets/images/sp/xuan-nu-nhan-beauty-1.jpg
 ---
 
 Nội tiết tố nữ (estrogen, progesterone) ảnh hưởng tới làn da, vóc dáng, giấc ngủ và cả cảm xúc của người phụ nữ. Khi bước sang tuổi 30–35, đặc biệt giai đoạn tiền mãn kinh, lượng nội tiết tố bắt đầu suy giảm.

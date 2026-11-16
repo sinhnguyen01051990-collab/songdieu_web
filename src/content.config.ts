@@ -4,11 +4,13 @@ import { z } from 'astro/zod';
 
 const tinTuc = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/tin-tuc' }),
-  schema: z.object({
+  // image: ảnh bìa bài (đường dẫn tương đối tới src/assets); bỏ trống thì thẻ dùng ảnh sản phẩm liên quan
+  schema: ({ image }) => z.object({
     title: z.string(),
     description: z.string(),
     date: z.coerce.date(),
     product: z.string().optional(),
+    image: image().optional(),
   }),
 });
 

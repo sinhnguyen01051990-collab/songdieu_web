@@ -3,6 +3,7 @@ title: "Vùng kín có mùi: nguyên nhân và khi nào cần đi khám?"
 description: "Vùng kín có mùi nhẹ có bình thường không? Phân biệt mùi sinh lý và mùi bất thường, thói quen giúp vùng kín thơm thoáng, dấu hiệu cần đi khám."
 date: 2026-11-10
 product: but-gel-hoang-cung-bao-phu-khang
+image: ../../assets/images/sp/but-gel-hcbpk-beauty-1.jpg
 ---
 
 **Trả lời ngắn:** vùng kín có mùi nhẹ, hơi chua là **hoàn toàn bình thường**, do môi trường axit tự nhiên và dịch tiết sinh lý. Mùi có thể thay đổi theo chu kỳ kinh, sau vận động, sau quan hệ. Tuy nhiên, nếu mùi **hôi tanh rõ rệt, kéo dài, kèm khí hư đổi màu, ngứa, rát, đau hoặc sốt**, chị nên đi khám bác sĩ chuyên khoa phụ sản để được tìm đúng nguyên nhân, thay vì chỉ dùng sản phẩm che mùi.

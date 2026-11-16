@@ -3,6 +3,7 @@ title: "Trà thảo mộc cho phụ nữ: uống thay nước lọc có tốt kh
 description: "Uống trà thảo mộc thay nước lọc có tốt cho phụ nữ không? Lợi ích, lưu ý khi pha, cách chọn trà phù hợp và những ai nên thận trọng."
 date: 2026-11-06
 product: tra-mam-xoi-tu-vi
+image: ../../assets/images/sp/tra-mam-xoi-2.jpg
 ---
 
 **Trả lời ngắn:** uống trà thảo mộc thay một phần nước lọc là thói quen tốt nếu chị chọn trà có thành phần rõ ràng, nhẹ nhàng, pha đúng lượng và uống trong ngày. Trà giúp chị dễ uống đủ nước hơn, thay thế đồ uống nhiều đường, mang lại cảm giác thư giãn. Tuy nhiên, trà không thay thế hoàn toàn nước lọc trong mọi trường hợp, không phải thuốc, và phụ nữ đang mang thai cần đọc kỹ nhãn trước khi dùng.

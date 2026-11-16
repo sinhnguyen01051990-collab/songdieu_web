@@ -3,6 +3,7 @@ title: "Trà Táo Mèo uống thế nào? Mẹ sau sinh dùng được không?"
 description: "Hướng dẫn pha và uống Thất Bảo Trà – Trà Táo Mèo đúng cách, kết hợp cùng Gel SDBODY để chăm sóc vóc dáng."
 date: 2026-11-08
 product: tra-tao-meo
+image: ../../assets/images/sp/tra-tao-meo-beauty-1.jpg
 ---
 
 **Thất Bảo Trà – Trà Táo Mèo** là trà thảo mộc đồng hành cùng hành trình chăm sóc vóc dáng của chị em.

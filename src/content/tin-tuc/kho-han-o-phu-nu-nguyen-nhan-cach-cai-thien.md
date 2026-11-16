@@ -3,6 +3,7 @@ title: "Khô hạn ở phụ nữ: nguyên nhân và cách cải thiện tự nh
 description: "Vì sao phụ nữ bị khô hạn, kể cả khi còn trẻ? Tìm hiểu nguyên nhân thường gặp, thói quen giúp cải thiện và khi nào nên đi khám bác sĩ."
 date: 2026-11-02
 product: vien-uong-noi-tiet-xuan-nu-nhan
+image: ../../assets/images/banner/09-khach-hang-xuan-nu-nhan.jpg
 ---
 
 **Khô hạn** (khô âm đạo) là tình trạng vùng kín tiết ít chất nhờn tự nhiên, gây cảm giác khô, rát, khó chịu, đặc biệt khi gần gũi. Nguyên nhân phổ biến nhất là **estrogen suy giảm** ở giai đoạn tiền mãn kinh, mãn kinh hoặc sau sinh, cho con bú; ngoài ra còn do căng thẳng, thiếu ngủ, một số loại thuốc và thói quen vệ sinh chưa đúng. Chị em có thể cải thiện bằng cách điều chỉnh lối sống, dưỡng ẩm đúng cách, chăm sóc nội tiết từ bên trong và đi khám khi cần.

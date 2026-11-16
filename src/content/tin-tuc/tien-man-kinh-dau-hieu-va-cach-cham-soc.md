@@ -3,6 +3,7 @@ title: "Tiền mãn kinh là gì? Dấu hiệu và cách chăm sóc cơ thể"
 description: "Tiền mãn kinh thường bắt đầu ở tuổi nào, có những dấu hiệu gì và chị em nên chăm sóc cơ thể ra sao? Hướng dẫn dễ hiểu từ SONG DIỆU."
 date: 2026-10-18
 product: vien-uong-noi-tiet-xuan-nu-nhan
+image: ../../assets/images/sp/xuan-nu-nhan-beauty-2.jpg
 ---
 
 **Tiền mãn kinh** là giai đoạn chuyển tiếp trước khi phụ nữ mãn kinh hẳn, khi buồng trứng hoạt động chậm dần và nội tiết tố (chủ yếu là estrogen, progesterone) dao động thất thường. Giai đoạn này thường bắt đầu ở độ tuổi khoảng 40–45, có người sớm hơn, và kéo dài vài năm. Dấu hiệu hay gặp gồm kinh nguyệt không đều, bốc hỏa, đổ mồ hôi đêm, khó ngủ, khô hạn, da khô và tâm trạng thay đổi. Đây là quá trình sinh lý tự nhiên, không phải bệnh, và chị em hoàn toàn có thể chủ động chăm sóc để sống khỏe, dễ chịu hơn.
