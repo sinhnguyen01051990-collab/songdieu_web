@@ -12,7 +12,7 @@ import { NAV, SITE, COMMITMENTS } from '../data/site';
 import { PRODUCTS } from '../data/products';
 
 const path = Astro.url.pathname;
-const overlay = path === '/' || path === '/gioi-thieu/'; // trang có đầu trang đỏ đô: header trong suốt
+const overlay = path === '/';
 const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 const vnd = (n: number) => n.toLocaleString('vi-VN') + 'đ';
 
