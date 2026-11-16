@@ -1,62 +1,476 @@
 ---
-import PageHero from '../components/PageHero.astro';
-import { Image } from 'astro:assets';
+/**
+ * Trang Giới thiệu – thiết kế lại 16/11/2026, đồng bộ phong cách trang chủ (đỏ đô + vàng gold).
+ * Điểm nhấn: đầu trang đỏ đô có ảnh nhà sáng lập khung vàng + nhãn nổi, số liệu đếm lên;
+ * đường vàng tự vẽ nối 5 bước "từ công thức tới tay khách"; mề đay vàng "Chăm ngoài – Uống trong".
+ * Chỉ dùng thông tin đã có trên web / hồ sơ công bố, không thêm số liệu mới.
+ */
+import { Image, Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import { SITE, COMMITMENTS } from '../data/site';
+import { PRODUCTS } from '../data/products';
+import founder from '../assets/images/banner/02-nha-sang-lap-xuan-nu-nhan.jpg';
 import avatar from '../assets/images/chu-thuong-hieu.jpg';
 import vanPhong from '../assets/images/sp/van-phong-song-dieu.jpg';
 import vanPhong2 from '../assets/images/sp/van-phong-2.jpg';
 import nhaMay1 from '../assets/images/sp/nha-may-1.jpg';
 import nhaMay2 from '../assets/images/sp/nha-may-2.jpg';
+import dayChuyen from '../assets/images/banner/05-day-chuyen-sdbody.jpg';
+
+const p = (slug: string) => PRODUCTS.find((x) => x.slug === slug)!;
+const OUTSIDE = [p('gel-gung-que-sdbody'), p('but-gel-hoang-cung-bao-phu-khang')];
+const INSIDE = [p('vien-uong-noi-tiet-xuan-nu-nhan'), p('tra-tao-meo'), p('tra-mam-xoi-tu-vi')];
+
+const STATS = [
+  { n: 11, suf: '+', label: 'năm đồng hành cùng phái đẹp Việt' },
+  { n: 5, suf: '', label: 'dòng sản phẩm từ thảo dược' },
+  { n: 100, suf: '%', label: 'sản phẩm có hồ sơ công bố' },
+  { text: 'ISO 22000', label: 'nhà máy sản xuất đạt chuẩn' },
+];
+const STEPS = [
+  { t: 'Nghiên cứu công thức', d: 'Từ nền tảng chuyên ngành Công nghệ Hóa dược, chọn lọc thảo dược và hoạt chất phù hợp cơ thể phụ nữ.' },
+  { t: 'Tự trải nghiệm trước', d: 'Nhà sáng lập dùng thử trên chính mình trước khi đưa ra thị trường – “mình dùng gì bán đó”.' },
+  { t: 'Sản xuất đạt chuẩn', d: 'Sản xuất tại nhà máy đạt ISO 22000 như Dược phẩm VITATH, Dược Mỹ phẩm Tân Vạn Xuân.' },
+  { t: 'Công bố & kiểm nghiệm', d: 'Đầy đủ phiếu công bố, kiểm nghiệm theo quy định của Bộ Y tế trước khi tới tay khách.' },
+  { t: 'Đồng hành sau mua', d: 'Tư vấn tận tâm trước – trong – sau khi dùng, theo sát từng chị trên hành trình chăm sóc.' },
+];
+const VALUES = [
+  { t: 'Chữ tín', d: 'Giữ trọn chữ tín trên mọi hành trình. Không nói quá về sản phẩm để khách kỳ vọng rồi thất vọng.', i: '<path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/>' },
+  { t: 'Minh bạch', d: '100% sản phẩm có đầy đủ hồ sơ công bố pháp lý, công khai nơi sản xuất và kết quả kiểm nghiệm.', i: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/>' },
+  { t: 'An nhiên từ thảo dược', d: 'Tinh hoa dược liệu tự nhiên kết hợp quy trình hiện đại – an toàn, dịu nhẹ, phù hợp dùng lâu dài.', i: '<path d="M5 19c0-8 6-14 15-14-1 9-6 15-14 15"/><path d="M5 19c3-4 6-6 9-7"/>' },
+  { t: 'Đồng hành trọn đời', d: 'Cam kết đồng hành cùng vẻ đẹp khỏe khoắn, bền vững của phụ nữ Việt, không chỉ một lần mua.', i: '<path d="M20.8 5.6a5 5 0 0 0-7.1 0L12 7.3l-1.7-1.7a5 5 0 1 0-7.1 7.1L12 21.5l8.8-8.8a5 5 0 0 0 0-7.1z"/>' },
+];
+const FACTORIES = [
+  { t: 'Công ty CP Dược phẩm VITATH', d: 'KCN Tiên Sơn, Bắc Ninh · đạt ISO 22000 · sản xuất Viên uống Xuân Nữ Nhan' },
+  { t: 'Công ty CP Dược Mỹ phẩm Tân Vạn Xuân', d: 'Phú Thọ · đạt ISO 22000:2018 · sản xuất Thất Bảo Trà, Bút Gel Hoàng Cung Bảo Phụ Khang' },
+  { t: 'Kiểm nghiệm tại IRDOP', d: 'Thất Bảo Trà kiểm nghiệm vi sinh, kim loại nặng, aflatoxin, thuốc BVTV – kết quả đạt' },
+];
+const GALLERY = [
+  { src: vanPhong, alt: 'Văn phòng Song Diệu Pharma Beauty' },
+  { src: nhaMay1, alt: 'Kiểm tra sản phẩm Gel SDBODY tại nhà máy' },
+  { src: vanPhong2, alt: 'Không gian làm việc tại Song Diệu' },
+  { src: nhaMay2, alt: 'Dây chuyền đóng gói sản phẩm SONG DIỆU' },
+];
+const STAR = 'M12 0l2.2 9.8L24 12l-9.8 2.2L12 24l-2.2-9.8L0 12l9.8-2.2z';
 ---
-<Base title="Giới thiệu" description="Câu chuyện thương hiệu SONG DIỆU Pharma Beauty – Công ty TNHH SINHAN PHARMA BEAUTY. Hơn 11 năm đồng hành chăm sóc vẻ đẹp phụ nữ Việt bằng sản phẩm thảo dược chất lượng."
+<Base title="Giới thiệu Song Diệu Pharma Beauty" description="Câu chuyện thương hiệu SONG DIỆU Pharma Beauty – Công ty TNHH SINHAN PHARMA BEAUTY. Hơn 11 năm đồng hành cùng phái đẹp Việt với sản phẩm thảo dược có đầy đủ hồ sơ công bố, sản xuất đạt chuẩn ISO 22000."
   breadcrumbs={[{ name: 'Trang chủ', href: '/' }, { name: 'Giới thiệu', href: '/gioi-thieu/' }]}>
-  <PageHero badge="Về chúng tôi" title="Song Diệu Pharma Beauty" sub="“Vẻ Đẹp Đến Từ Sự An Nhiên” – tuyệt đối không làm sản phẩm rác." note="Đứa con tinh thần ♥" />
 
-  <section class="section">
-    <div class="container-x grid items-center gap-12 lg:grid-cols-2">
-      <Image src={avatar} alt="Chủ thương hiệu SONG DIỆU tại văn phòng Song Diệu Pharma Beauty" width={640} height={640} class="mx-auto max-w-md rounded-[2rem]" />
-      <div class="prose-sd">
-        <h2>Câu chuyện “đứa con tinh thần”</h2>
-        <p>
-          SONG DIỆU ra đời từ một lý tưởng giản dị của hai vợ chồng: xây dựng một điều gì đó mang tên <strong>đứa con tinh thần</strong> của chính mình, và mang tới những vị khách hàng trân quý những sản phẩm <strong>độc tôn – chất lượng</strong> nhất.
+  <!-- ===== ĐẦU TRANG ===== -->
+  <section class="gt-hero" aria-labelledby="gt-title">
+    <span class="gt-hero-glow" aria-hidden="true"></span>
+    <span class="gt-hero-dust" aria-hidden="true"></span>
+    <div class="container-x gt-hero-in">
+      <div class="gt-hero-copy">
+        <p class="eyebrow gt-eyebrow" data-reveal>Câu chuyện thương hiệu</p>
+        <h1 id="gt-title" class="gt-h1" data-reveal>Song Diệu <span class="gt-gold italic">Pharma Beauty</span></h1>
+        <p class="gt-slogan" data-reveal>“{SITE.tagline}”</p>
+        <p class="gt-lead" data-reveal>Lấy tinh hoa từ dược liệu tự nhiên, Song Diệu mang đến hệ sinh thái giải pháp an toàn chăm sóc vóc dáng và sức khỏe phụ nữ toàn diện từ trong ra ngoài.</p>
+        <div class="gt-hero-act" data-reveal>
+          <a href="#cau-chuyen" class="btn-gold !px-6 !py-3.5">Đọc câu chuyện
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6" /></svg>
+          </a>
+          <a href="/san-pham/" class="btn gt-ghost !px-6 !py-3.5">Xem sản phẩm
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+          </a>
+        </div>
+      </div>
+      <div class="gt-hero-photo" data-reveal>
+        <span class="gt-photo-glow" aria-hidden="true"></span>
+        <div class="gt-frame">
+          <Picture src={founder} alt="Nhà sáng lập SONG DIỆU tại văn phòng Song Diệu Pharma Beauty" widths={[420, 640, 900]} sizes="(min-width: 1024px) 440px, 82vw" formats={['avif', 'webp']} fallbackFormat="webp" loading="eager" fetchpriority="high" class="gt-img" />
+        </div>
+        <span class="gt-tag gt-tag-1"><b>Hơn 11 năm</b>đồng hành cùng phái đẹp</span>
+        <span class="gt-tag gt-tag-2"><b>ISO 22000</b>nhà máy sản xuất đạt chuẩn</span>
+        <svg class="gt-star" width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d={STAR} fill="currentColor" /></svg>
+      </div>
+    </div>
+
+    <!-- số liệu: đếm lên khi cuộn tới -->
+    <div class="container-x">
+      <ul class="gt-stats" data-count-wrap>
+        {STATS.map((s) => (
+          <li>
+            <span class="gt-num">{s.text ?? <><span data-count={s.n}>{s.n}</span>{s.suf}</>}</span>
+            <span class="gt-lbl">{s.label}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== CÂU CHUYỆN ===== -->
+  <section class="section gt-story" id="cau-chuyen" aria-labelledby="gt-story-title">
+    <span class="gt-dust" aria-hidden="true"></span>
+    <div class="container-x grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
+      <div class="gt-story-photo" data-reveal>
+        <div class="gt-frame gt-frame-sq">
+          <Image src={avatar} alt="Chủ thương hiệu SONG DIỆU tại văn phòng" width={640} height={640} widths={[400, 640]} sizes="(min-width: 1024px) 480px, 90vw" class="gt-img" loading="lazy" />
+        </div>
+        <span class="gt-tag gt-tag-3"><b>Đứa con tinh thần</b>của hai vợ chồng nhà sáng lập</span>
+      </div>
+      <div>
+        <p class="eyebrow gt-eyebrow-l" data-reveal>Về chúng tôi</p>
+        <h2 id="gt-story-title" class="mt-3 text-4xl font-bold sm:text-5xl" data-reveal>Câu chuyện <span class="gt-red italic">“đứa con tinh thần”</span></h2>
+        <p class="mt-6 text-lg leading-relaxed text-ink/85" data-reveal>
+          SONG DIỆU ra đời từ một lý tưởng giản dị của hai vợ chồng: xây dựng một điều gì đó mang tên <strong class="text-brand-700">đứa con tinh thần</strong> của chính mình, và mang tới những vị khách hàng trân quý những sản phẩm <strong>chất lượng</strong> nhất.
         </p>
-        <p>
-          Với hơn <strong>11 năm kinh nghiệm</strong> kinh doanh và nền tảng chuyên ngành <strong>Công nghệ Hóa dược</strong>, nhà sáng lập tự tay nghiên cứu, thử nghiệm từng công thức trên chính bản thân trước khi đưa ra thị trường. Gel gừng quế SDBODY ra đời từ chính hành trình chăm sóc vóc dáng sau sinh của nhà sáng lập.
+        <p class="mt-4 text-[1.0625rem] leading-relaxed text-ink/75" data-reveal>
+          Với hơn <strong class="text-brand-700">11 năm kinh nghiệm</strong> và nền tảng chuyên ngành <strong>Công nghệ Hóa dược</strong>, nhà sáng lập tự tay nghiên cứu, thử nghiệm từng công thức trên chính bản thân trước khi đưa ra thị trường. Gel gừng quế SDBODY ra đời từ chính hành trình chăm sóc vóc dáng sau sinh của nhà sáng lập.
         </p>
-        <p><em>“Mình dùng gì bán đó. Không nói điêu, không nói quá về sản phẩm để khách hàng kỳ vọng rồi thất vọng. Uy tín luôn luôn là số 1.”</em></p>
-        <h2>Pháp nhân</h2>
-        <p>Thương hiệu SONG DIỆU thuộc <strong>{SITE.legalName}</strong> – địa chỉ {SITE.address.full}.</p>
-        <p>Các sản phẩm được sản xuất tại những nhà máy đạt chuẩn (Dược phẩm VITATH – ISO 22000, Dược Mỹ phẩm Tân Vạn Xuân…), có đầy đủ phiếu công bố và kiểm nghiệm theo quy định.</p>
+        <figure class="gt-quote" data-reveal>
+          <span class="gt-qmark" aria-hidden="true">“</span>
+          <blockquote>Mình dùng gì bán đó. Không nói điêu, không nói quá về sản phẩm để khách hàng kỳ vọng rồi thất vọng. Uy tín luôn luôn là số 1.</blockquote>
+          <figcaption>Nhà sáng lập SONG DIỆU</figcaption>
+        </figure>
       </div>
     </div>
   </section>
 
-  <section class="section !pt-0">
+  <!-- ===== HÀNH TRÌNH 5 BƯỚC ===== -->
+  <section class="section gt-steps-sec" aria-labelledby="gt-steps-title">
     <div class="container-x">
-      <div class="text-center">
-        <p class="eyebrow">Văn phòng & nhà máy</p>
-        <h2 class="mt-4 text-3xl font-bold">Làm thật – ăn thật – minh bạch</h2>
-        <p class="mx-auto mt-3 max-w-2xl text-mute">Từ văn phòng Song Diệu Pharma Beauty tới dây chuyền sản xuất đạt chuẩn, mỗi sản phẩm đều được kiểm soát chặt chẽ trước khi tới tay khách hàng.</p>
+      <div class="text-center" data-reveal>
+        <p class="eyebrow">Làm thật – minh bạch</p>
+        <h2 id="gt-steps-title" class="mt-3 text-4xl font-bold sm:text-5xl">Từ công thức tới <span class="gt-red italic">tay chị em</span></h2>
+        <p class="mx-auto mt-4 max-w-2xl text-mute">Mỗi sản phẩm SONG DIỆU đi qua 5 bước trước khi được gửi tới khách hàng.</p>
       </div>
-      <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {[
-          { src: vanPhong, alt: 'Văn phòng Song Diệu Pharma Beauty' },
-          { src: vanPhong2, alt: 'Không gian làm việc tại Song Diệu' },
-          { src: nhaMay1, alt: 'Kiểm tra sản phẩm Gel SDBODY tại nhà máy' },
-          { src: nhaMay2, alt: 'Dây chuyền đóng gói sản phẩm SONG DIỆU' },
-        ].map((g) => <Image src={g.src} alt={g.alt} width={600} height={750} class="aspect-[4/5] w-full rounded-3xl object-cover" loading="lazy" />)}
+      <div class="gt-steps" data-draw>
+        <span class="gt-steps-line" aria-hidden="true"><span></span></span>
+        <ol class="gt-steps-ol">
+        {STEPS.map((s, i) => (
+          <li style={`--i:${i}`}>
+            <span class="gt-step-dot"><span>{String(i + 1).padStart(2, '0')}</span></span>
+            <h3 class="gt-step-t">{s.t}</h3>
+            <p class="gt-step-d">{s.d}</p>
+          </li>
+        ))}
+        </ol>
       </div>
     </div>
   </section>
 
-  <section class="section bg-white">
+  <!-- ===== TRIẾT LÝ CHĂM NGOÀI – UỐNG TRONG ===== -->
+  <section class="section gt-philo" aria-labelledby="gt-philo-title">
+    <span class="gt-philo-dust" aria-hidden="true"></span>
     <div class="container-x">
-      <h2 class="text-center text-3xl font-bold">Cam kết của SONG DIỆU</h2>
-      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {COMMITMENTS.map((c) => <div class="rounded-3xl bg-cream p-6 ring-1 ring-black/5"><p class="font-serif text-lg font-bold text-brand-700">{c.title}</p><p class="mt-2 text-sm text-mute">{c.text}</p></div>)}
+      <div class="text-center" data-reveal>
+        <p class="eyebrow gt-eyebrow">Triết lý chăm sóc</p>
+        <h2 id="gt-philo-title" class="mt-3 text-4xl font-bold text-white sm:text-5xl">Chăm ngoài – <span class="gt-gold italic">Uống trong</span></h2>
+        <p class="mx-auto mt-4 max-w-2xl text-white/75">Vẻ đẹp bền vững đến từ sự cân bằng bên trong và chăm sóc đúng cách bên ngoài – Song Diệu đồng hành cùng phái đẹp Việt chủ động gìn giữ nét thanh xuân.</p>
       </div>
-      <div class="mt-10 text-center"><a href="/san-pham/" class="btn-primary">Xem sản phẩm</a></div>
+      <div class="gt-philo-grid">
+        <div class="gt-pcard" data-reveal>
+          <p class="gt-pcard-k">Chăm ngoài</p>
+          <p class="gt-pcard-d">Vóc dáng săn gọn, vùng kín khỏe – chăm sóc tại nhà mỗi ngày.</p>
+          <ul>{OUTSIDE.map((x) => <li><a href={`/san-pham/${x.slug}/`}>{x.image && <Image src={x.image} alt="" width={96} height={96} class="gt-pthumb" loading="lazy" />}<span>{x.name}</span></a></li>)}</ul>
+        </div>
+        <div class="gt-medal" aria-hidden="true">
+          <span class="gt-medal-ring"></span>
+          <span class="gt-medal-in"><svg width="26" height="26" viewBox="0 0 24 24"><path d={STAR} fill="currentColor" /></svg><b>Vẻ đẹp</b><i>an nhiên</i></span>
+        </div>
+        <div class="gt-pcard" data-reveal>
+          <p class="gt-pcard-k">Uống trong</p>
+          <p class="gt-pcard-d">Cân bằng nội tiết, thanh lọc nhẹ nhàng – nuôi dưỡng từ sâu bên trong.</p>
+          <ul>{INSIDE.map((x) => <li><a href={`/san-pham/${x.slug}/`}>{x.image && <Image src={x.image} alt="" width={96} height={96} class="gt-pthumb" loading="lazy" />}<span>{x.name}</span></a></li>)}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GIÁ TRỊ CỐT LÕI ===== -->
+  <section class="section gt-values-sec" aria-labelledby="gt-values-title">
+    <div class="container-x">
+      <div class="text-center" data-reveal>
+        <p class="eyebrow">Giá trị cốt lõi</p>
+        <h2 id="gt-values-title" class="mt-3 text-4xl font-bold sm:text-5xl">Điều SONG DIỆU <span class="gt-red italic">luôn giữ</span></h2>
+      </div>
+      <div class="gt-values" data-reveal-group>
+        {VALUES.map((v) => (
+          <div class="gt-vcell"><div class="gt-vcard">
+            <span class="gt-vico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={v.i} /></span>
+            <h3 class="gt-vt">{v.t}</h3>
+            <p class="gt-vd">{v.d}</p>
+          </div></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NHÀ MÁY & VĂN PHÒNG ===== -->
+  <section class="section gt-fac" aria-labelledby="gt-fac-title">
+    <div class="container-x grid items-center gap-12 lg:grid-cols-5 lg:gap-14">
+      <div class="lg:col-span-2">
+        <p class="eyebrow gt-eyebrow-l" data-reveal>Văn phòng & nhà máy</p>
+        <h2 id="gt-fac-title" class="mt-3 text-4xl font-bold sm:text-5xl" data-reveal>Sản xuất <span class="gt-red italic">đạt chuẩn</span></h2>
+        <p class="mt-5 leading-relaxed text-ink/75" data-reveal>Thương hiệu SONG DIỆU thuộc <strong>{SITE.legalName}</strong>. Sản phẩm được sản xuất tại những nhà máy đạt chuẩn, có đầy đủ phiếu công bố và kiểm nghiệm theo quy định.</p>
+        <ul class="gt-flist" data-reveal-group>
+          {FACTORIES.map((f) => <li><span class="gt-fdot" aria-hidden="true"></span><span><b>{f.t}</b><span>{f.d}</span></span></li>)}
+        </ul>
+        <div class="mt-8" data-reveal>
+          <a href="/ho-so-phap-ly/" class="btn-primary !px-7 !py-3.5">Xem hồ sơ pháp lý
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+          </a>
+        </div>
+      </div>
+      <div class="gt-gallery lg:col-span-3" data-reveal-group>
+        <div class="gt-g gt-g-big"><Image src={dayChuyen} alt="Dây chuyền sản xuất Gel SDBODY" width={900} widths={[480, 720, 900]} sizes="(min-width: 1024px) 640px, 92vw" class="gt-gimg" loading="lazy" /></div>
+        {GALLERY.map((g) => <div class="gt-g"><Image src={g.src} alt={g.alt} width={480} widths={[300, 480]} sizes="(min-width: 1024px) 200px, 45vw" class="gt-gimg" loading="lazy" /></div>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CAM KẾT + LỜI MỜI ===== -->
+  <section class="gt-cta" aria-labelledby="gt-cta-title">
+    <span class="gt-hero-dust" aria-hidden="true"></span>
+    <div class="container-x">
+      <ul class="gt-commit" data-reveal-group>
+        {COMMITMENTS.map((c) => <li><b>{c.title}</b><span>{c.text}</span></li>)}
+      </ul>
+      <div class="gt-cta-in" data-reveal>
+        <h2 id="gt-cta-title" class="text-3xl font-bold text-white sm:text-4xl">Để SONG DIỆU <span class="gt-gold italic">đồng hành</span> cùng chị</h2>
+        <p class="mt-3 text-white/75">“Giữ trọn chữ tín trên mọi hành trình”</p>
+        <div class="gt-hero-act justify-center">
+          <a href="/san-pham/" class="btn-gold !px-6 !py-3.5">Khám phá sản phẩm
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+          </a>
+          <a href={SITE.zalo} target="_blank" rel="noopener" class="btn gt-ghost !px-6 !py-3.5">Tư vấn qua Zalo</a>
+        </div>
+      </div>
     </div>
   </section>
 </Base>
+
+<style>
+  /* ---------- dùng chung ---------- */
+  .gt-gold { background-image: linear-gradient(100deg, #e0bf6e 0 40%, #fff3c4 46%, #ffffff 50%, #fff3c4 54%, #e0bf6e 60% 100%);
+    background-size: 320% 100%; background-position: 0 0; -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .08em; }
+  .gt-red { background-image: linear-gradient(100deg, #7d1424 0 40%, #c9a14a 46%, #f6dc86 50%, #c9a14a 54%, #7d1424 60% 100%);
+    background-size: 320% 100%; background-position: 0 0; -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .08em; }
+  :global(.is-in) .gt-gold, :global(.is-in) .gt-red { animation: sd-gt-sweep 1.4s cubic-bezier(.4,0,.2,1) .35s both; }
+  @keyframes sd-gt-sweep { from { background-position: 100% 0; } to { background-position: 0 0; } }
+  .gt-eyebrow { color: var(--color-gold-300); }
+  .gt-eyebrow-l::before, .gt-hero-copy .gt-eyebrow::before { display: none; }
+  .gt-eyebrow-l::after, .gt-hero-copy .gt-eyebrow::after { width: 44px; }
+  .gt-hero-dust { position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(circle at 8% 22%, rgba(246,220,134,.75) 0 1.3px, transparent 2.4px),
+      radial-gradient(circle at 24% 74%, rgba(246,220,134,.5) 0 1px, transparent 2px),
+      radial-gradient(circle at 40% 14%, rgba(246,220,134,.6) 0 1.2px, transparent 2.2px),
+      radial-gradient(circle at 52% 88%, rgba(246,220,134,.45) 0 1px, transparent 2px),
+      radial-gradient(circle at 63% 34%, rgba(246,220,134,.4) 0 1.1px, transparent 2.1px),
+      radial-gradient(circle at 90% 80%, rgba(246,220,134,.55) 0 1.2px, transparent 2.2px),
+      radial-gradient(circle at 96% 12%, rgba(246,220,134,.5) 0 1px, transparent 2px);
+    animation: sd-gt-twinkle 4.5s ease-in-out infinite alternate; }
+  @keyframes sd-gt-twinkle { from { opacity: .35; } to { opacity: 1; } }
+  .gt-ghost { color: #fff; background: rgba(255, 255, 255, .06); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .6); }
+  .gt-ghost:hover { background: rgba(255, 255, 255, .12); box-shadow: inset 0 0 0 1px rgba(240, 220, 168, .95), 0 0 0 4px rgba(224, 191, 110, .14); }
+
+  /* khung ảnh vàng kép + nhãn nổi (như khối Về chúng tôi trang chủ) */
+  .gt-frame { position: relative; border-radius: 2.25rem; padding: 7px; overflow: hidden;
+    background: linear-gradient(140deg, #f6dc86, #b8862a 35%, #f0dca8 55%, #a8761f 80%, #e8c46a); box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .6); }
+  .gt-frame::before { content: ''; position: absolute; inset: 7px; border-radius: 1.85rem; z-index: 1; pointer-events: none;
+    box-shadow: inset 0 0 0 1px rgba(255, 248, 225, .9), inset 0 0 0 4px rgba(184, 134, 42, .35); }
+  .gt-frame :global(.gt-img) { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 25%; border-radius: 1.85rem; }
+  .gt-frame-sq :global(.gt-img) { aspect-ratio: 1; }
+  .gt-tag { position: absolute; z-index: 3; display: flex; flex-direction: column; gap: 2px; padding: 10px 16px; border-radius: 16px;
+    font-size: 12px; line-height: 1.3; color: rgba(251, 243, 230, .82);
+    background: linear-gradient(180deg, rgba(99, 16, 28, .92), rgba(58, 9, 16, .94));
+    box-shadow: 0 14px 30px -14px rgba(0, 0, 0, .8), inset 0 0 0 1px rgba(224, 191, 110, .55);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); animation: sd-gt-float 6s ease-in-out infinite; }
+  .gt-tag b { font-family: var(--font-serif); font-size: 20px; line-height: 1.1; color: var(--color-gold-300); }
+  @keyframes sd-gt-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+  /* ---------- đầu trang ---------- */
+  .gt-hero { position: relative; isolation: isolate; overflow: hidden; margin-top: -72px; padding-top: 72px; color: #fff;
+    background:
+      radial-gradient(ellipse 55% 60% at 100% 0%, rgba(155, 28, 44, .55), transparent 70%),
+      linear-gradient(135deg, #4a0c15 0%, #63101c 45%, #2b070d 100%); }
+  .gt-hero-glow { position: absolute; right: -6%; top: 6%; width: 55%; height: 80%; z-index: -1; border-radius: 50%; filter: blur(70px);
+    background: radial-gradient(circle, rgba(224, 191, 110, .3), transparent 70%); pointer-events: none; }
+  .gt-hero-in { display: grid; align-items: center; gap: 48px; padding-block: 56px 40px; grid-template-columns: 1.1fr .9fr; }
+  .gt-h1 { margin-top: 14px; font: 700 clamp(44px, 6vw, 78px)/1.04 var(--font-serif); color: #fff; }
+  .gt-slogan { margin-top: 14px; font: italic 600 clamp(20px, 2vw, 26px)/1.3 var(--font-serif); color: var(--color-gold-300); }
+  .gt-lead { margin-top: 16px; max-width: 34rem; font-size: 17px; line-height: 1.7; color: rgba(255, 255, 255, .78); }
+  .gt-hero-act { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+  .gt-hero-photo { position: relative; max-width: 27rem; margin-left: auto; width: 100%; }
+  .gt-photo-glow { position: absolute; inset: 8% 2%; z-index: -1; border-radius: 50%; filter: blur(50px);
+    background: radial-gradient(circle, rgba(224,191,110,.6), rgba(155,28,44,.3) 60%, transparent 75%); }
+  .gt-tag-1 { left: -34px; top: 14%; }
+  .gt-tag-2 { right: -26px; bottom: 12%; animation-delay: -3s; }
+  .gt-star { position: absolute; right: 22px; top: -14px; z-index: 3; color: #f0c95a; filter: drop-shadow(0 0 6px rgba(240,220,168,.9));
+    animation: sd-gt-star 3.2s ease-in-out infinite; }
+  @keyframes sd-gt-star { 0%, 100% { transform: scale(.7) rotate(0); opacity: .6; } 50% { transform: scale(1) rotate(45deg); opacity: 1; } }
+
+  .gt-stats { list-style: none; margin: 0 0 -1px; padding: 26px 8px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid rgba(224, 191, 110, .3); }
+  .gt-stats li { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 12px; text-align: center; }
+  .gt-stats li + li { border-left: 1px solid rgba(224, 191, 110, .22); }
+  .gt-num { font: 700 clamp(34px, 3.6vw, 46px)/1 var(--font-serif);
+    background: linear-gradient(180deg, #f6dc86 0%, #d4a33c 55%, #a8761f 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .gt-lbl { font-size: 13.5px; color: rgba(255, 255, 255, .7); }
+
+  /* ---------- câu chuyện ---------- */
+  .gt-story { position: relative; overflow: hidden; isolation: isolate;
+    background: radial-gradient(ellipse 50% 45% at 8% 12%, rgba(224, 191, 110, .2), transparent 70%), var(--color-cream); }
+  .gt-dust { position: absolute; left: 0; top: 0; width: 55%; height: 320px; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(circle at 12% 18%, rgba(201,161,74,.55) 0 1.4px, transparent 2.5px),
+      radial-gradient(circle at 28% 8%, rgba(201,161,74,.45) 0 1px, transparent 2px),
+      radial-gradient(circle at 44% 30%, rgba(201,161,74,.4) 0 1.2px, transparent 2.2px),
+      radial-gradient(circle at 63% 14%, rgba(201,161,74,.4) 0 1.3px, transparent 2.3px);
+    animation: sd-gt-twinkle 5s ease-in-out infinite alternate; }
+  .gt-story-photo { position: relative; margin: 0 auto; width: 100%; max-width: 30rem; }
+  .gt-tag-3 { right: -24px; bottom: -22px; }
+  .gt-quote { position: relative; margin: 28px 0 0; padding: 18px 24px 16px 62px; border-radius: 18px;
+    background: linear-gradient(135deg, #fdf8ec, #f6ecd6); box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .55), 0 12px 26px -20px rgba(125, 92, 27, .45); }
+  .gt-qmark { position: absolute; left: 18px; top: 14px; font: 700 60px/1 var(--font-serif);
+    background: linear-gradient(180deg, #f6dc86, #b8862a); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .gt-quote blockquote { margin: 0; font: italic 700 clamp(19px, 1.7vw, 22px)/1.4 var(--font-serif); color: var(--color-brand-700); }
+  .gt-quote figcaption { margin-top: 8px; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--color-gold-600); }
+  .gt-quote figcaption::before { content: '— '; }
+
+  /* ---------- 5 bước: đường vàng tự vẽ ---------- */
+  .gt-steps-sec { background: linear-gradient(180deg, var(--color-cream), #fffdf9 50%, var(--color-cream)); }
+  .gt-steps { position: relative; margin-top: 56px; }
+  .gt-steps-ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 24px; }
+  .gt-steps-line { position: absolute; left: 10%; right: 10%; top: 31px; height: 2px; border-radius: 2px; background: rgba(201, 161, 74, .22); }
+  .gt-steps-line > span { position: absolute; inset: 0; border-radius: inherit; transform-origin: 0 50%; transform: scaleX(0);
+    background: linear-gradient(90deg, #b8862a, #f6dc86, #c9a14a); box-shadow: 0 0 10px rgba(240, 220, 168, .8);
+    transition: transform 2.2s cubic-bezier(.45, 0, .2, 1) .2s; }
+  .gt-steps.go .gt-steps-line > span { transform: scaleX(1); }
+  .gt-steps li { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center;
+    opacity: 0; transform: translateY(18px); transition: opacity .7s, transform .7s cubic-bezier(.2, .8, .2, 1); transition-delay: calc(.3s + var(--i) * .4s); }
+  .gt-steps.go li { opacity: 1; transform: none; }
+  .gt-step-dot { position: relative; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 999px;
+    background: linear-gradient(180deg, #fff, #fbf3e4); box-shadow: inset 0 0 0 1.5px rgba(201, 161, 74, .8), 0 12px 24px -14px rgba(99, 16, 28, .6); }
+  .gt-step-dot span { font: 700 22px/1 var(--font-serif); color: var(--color-brand-700); }
+  .gt-steps.go .gt-step-dot { animation: sd-gt-dot .9s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(.4s + var(--i) * .4s); }
+  @keyframes sd-gt-dot { 0% { box-shadow: inset 0 0 0 1.5px rgba(201,161,74,.8), 0 0 0 0 rgba(224,191,110,.7); }
+    100% { box-shadow: inset 0 0 0 1.5px rgba(201,161,74,.8), 0 0 0 14px rgba(224,191,110,0); } }
+  .gt-step-t { margin-top: 18px; font: 700 21px/1.25 var(--font-serif); color: var(--color-ink); }
+  .gt-step-d { margin-top: 8px; font-size: 14px; line-height: 1.6; color: var(--color-mute); }
+  :global(html:not(.rv)) .gt-steps li { opacity: 1; transform: none; }
+  :global(html:not(.rv)) .gt-steps-line > span { transform: scaleX(1); }
+
+  /* ---------- triết lý: nền đỏ đô, mề đay vàng ở giữa ---------- */
+  .gt-philo { position: relative; overflow: hidden; isolation: isolate; color: #fff;
+    background: radial-gradient(ellipse 50% 60% at 50% 55%, rgba(224, 191, 110, .14), transparent 70%), linear-gradient(135deg, #4a0c15, #63101c 50%, #2b070d); }
+  .gt-philo-dust { position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(circle at 12% 30%, rgba(246,220,134,.6) 0 1.2px, transparent 2.2px),
+      radial-gradient(circle at 30% 82%, rgba(246,220,134,.45) 0 1px, transparent 2px),
+      radial-gradient(circle at 70% 18%, rgba(246,220,134,.5) 0 1.2px, transparent 2.2px),
+      radial-gradient(circle at 88% 70%, rgba(246,220,134,.5) 0 1px, transparent 2px);
+    animation: sd-gt-twinkle 4.5s ease-in-out infinite alternate; }
+  .gt-philo-grid { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 36px; margin-top: 48px; }
+  .gt-pcard { padding: 26px; border-radius: 24px; background: rgba(255, 255, 255, .05);
+    box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .45); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+  .gt-pcard-k { font: 700 30px/1.1 var(--font-serif); color: var(--color-gold-300); }
+  .gt-pcard-d { margin-top: 6px; font-size: 14.5px; color: rgba(255, 255, 255, .72); }
+  .gt-pcard ul { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 10px; }
+  .gt-pcard a { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 16px; transition: background .3s, transform .3s cubic-bezier(.2, .8, .2, 1); }
+  .gt-pcard a:hover { background: rgba(255, 255, 255, .08); transform: translateX(4px); }
+  .gt-pcard a span { font-weight: 600; color: #fff; }
+  .gt-pcard :global(.gt-pthumb) { flex: none; width: 52px; height: 52px; border-radius: 12px; object-fit: cover; box-shadow: 0 0 0 1px rgba(224, 191, 110, .6); }
+  .gt-medal { position: relative; display: grid; place-items: center; width: 180px; height: 180px; }
+  .gt-medal-ring { position: absolute; inset: 0; border-radius: 50%;
+    background: conic-gradient(from var(--sd-a), #b8862a, #f6dc86, #fff3c4, #c9a14a, #8a6420, #e8c46a, #b8862a);
+    -webkit-mask: radial-gradient(circle, transparent 62%, #000 63%); mask: radial-gradient(circle, transparent 62%, #000 63%);
+    animation: sd-gt-spin 12s linear infinite; filter: drop-shadow(0 0 14px rgba(240, 220, 168, .45)); }
+  @keyframes sd-gt-spin { to { --sd-a: 360deg; } }
+  .gt-medal-in { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 104px; height: 104px; border-radius: 50%;
+    color: var(--color-gold-300); background: radial-gradient(circle at 50% 30%, #9b1c2c, #3a0910 80%); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .6), 0 10px 30px -10px rgba(0, 0, 0, .7); }
+  .gt-medal-in b { margin-top: 4px; font: 700 18px/1 var(--font-serif); color: #fff; }
+  .gt-medal-in i { font: italic 600 16px/1.1 var(--font-serif); color: var(--color-gold-300); }
+
+  /* ---------- giá trị cốt lõi ---------- */
+  .gt-values-sec { background: #fff; }
+  .gt-values { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; margin-top: 44px; }
+  .gt-vcard { height: 100%; padding: 28px 24px; border-radius: 24px; text-align: center;
+    background: linear-gradient(180deg, #fff 0%, #fffdf8 55%, #fbf3e4 100%);
+    box-shadow: 0 0 0 1px rgba(201, 161, 74, .38), 0 18px 40px -28px rgba(58, 9, 16, .45);
+    transition: transform .45s cubic-bezier(.2, .8, .2, 1), box-shadow .45s; }
+  @media (hover: hover) {
+    .gt-vcard:hover { transform: translateY(-6px); box-shadow: 0 0 0 1px rgba(224, 191, 110, .95), 0 0 0 5px rgba(224, 191, 110, .14), 0 30px 50px -26px rgba(99, 16, 28, .5); }
+    .gt-vcard:hover .gt-vico { color: var(--color-gold-300); background: radial-gradient(circle at 50% 30%, #9b1c2c, #4a0c15 75%); }
+  }
+  .gt-vico { display: inline-grid; place-items: center; width: 56px; height: 56px; border-radius: 999px; color: var(--color-brand-600);
+    background: linear-gradient(180deg, #fdf8ec, #f4e8cc); box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .7); transition: color .35s, background .35s; }
+  .gt-vt { margin-top: 16px; font: 700 23px/1.2 var(--font-serif); color: var(--color-ink); }
+  .gt-vd { margin-top: 8px; font-size: 14px; line-height: 1.6; color: var(--color-mute); }
+
+  /* ---------- nhà máy ---------- */
+  .gt-fac { background: linear-gradient(180deg, #fff, var(--color-cream)); }
+  .gt-flist { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 14px; }
+  .gt-flist li { display: flex; gap: 12px; }
+  .gt-fdot { flex: none; width: 10px; height: 10px; margin-top: 7px; border-radius: 50%; background: radial-gradient(circle, #f6dc86, #b8862a); box-shadow: 0 0 8px rgba(224, 191, 110, .8); }
+  .gt-flist b { display: block; color: var(--color-ink); }
+  .gt-flist li > span:last-child > span { display: block; font-size: 14px; color: var(--color-mute); }
+  .gt-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 14px; aspect-ratio: 6 / 5; }
+  .gt-g { position: relative; overflow: hidden; border-radius: 22px; box-shadow: 0 0 0 1px rgba(201, 161, 74, .4), 0 18px 36px -24px rgba(58, 9, 16, .5); }
+  .gt-g-big { grid-column: span 2; grid-row: span 2; }
+  .gt-g :global(.gt-gimg) { width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.2, .8, .2, 1); }
+  .gt-g:hover :global(.gt-gimg) { transform: scale(1.06); }
+  .gt-gallery .gt-g:nth-child(n+4) { display: none; }
+
+  /* ---------- cam kết + lời mời ---------- */
+  .gt-cta { position: relative; overflow: hidden; isolation: isolate; padding-block: 72px;
+    background: radial-gradient(ellipse 50% 70% at 50% 100%, rgba(224, 191, 110, .16), transparent 70%), linear-gradient(135deg, #4a0c15, #63101c 50%, #2b070d); }
+  .gt-commit { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .gt-commit li { padding: 18px 20px; border-radius: 18px; background: rgba(255, 255, 255, .05); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .4); }
+  .gt-commit b { display: block; font: 700 20px/1.2 var(--font-serif); color: var(--color-gold-300); }
+  .gt-commit span { display: block; margin-top: 6px; font-size: 13.5px; line-height: 1.55; color: rgba(255, 255, 255, .7); }
+  .gt-cta-in { margin-top: 48px; text-align: center; }
+
+  /* ---------- màn nhỏ ---------- */
+  @media (max-width: 1023px) {
+    .gt-hero-in { grid-template-columns: 1fr; gap: 40px; }
+    .gt-hero-photo { margin: 0 auto; max-width: 24rem; }
+    .gt-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 18px; }
+    .gt-stats li:nth-child(3) { border-left: 0; }
+    .gt-steps { max-width: 34rem; margin-inline: auto; }
+    .gt-steps-ol { grid-template-columns: 1fr; gap: 28px; }
+    .gt-steps-line { left: 31px; right: auto; top: 32px; bottom: 32px; width: 2px; height: auto; }
+    .gt-steps-line > span { transform-origin: 50% 0; transform: scaleY(0); }
+    .gt-steps.go .gt-steps-line > span { transform: scaleY(1); }
+    .gt-steps li { display: grid; grid-template-columns: 64px 1fr; column-gap: 18px; text-align: left; align-items: start; }
+    .gt-step-dot { grid-row: span 2; }
+    .gt-step-t { margin-top: 6px; }
+    .gt-philo-grid { grid-template-columns: 1fr; justify-items: center; }
+    .gt-pcard { width: 100%; max-width: 34rem; }
+    .gt-medal { order: -1; width: 150px; height: 150px; }
+    .gt-values { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .gt-commit { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 640px) {
+    .gt-tag-1 { left: -8px; } .gt-tag-2 { right: -8px; } .gt-tag-3 { right: -6px; bottom: -18px; }
+    .gt-tag { padding: 8px 12px; font-size: 11px; } .gt-tag b { font-size: 17px; }
+    .gt-values { grid-template-columns: 1fr; }
+    .gt-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto; aspect-ratio: auto; }
+    .gt-g { aspect-ratio: 1; } .gt-g-big { grid-column: span 2; grid-row: auto; aspect-ratio: 4 / 3; }
+    .gt-commit { grid-template-columns: 1fr; }
+    .gt-quote { padding-left: 54px; } .gt-qmark { left: 14px; font-size: 52px; }
+  }
+</style>
+
+<script>
+  // số liệu đếm lên + đường vàng 5 bước tự vẽ khi cuộn tới (giữ trạng thái sau khi chạy xong)
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      io.unobserve(e.target);
+      const el = e.target as HTMLElement;
+      if (el.hasAttribute('data-draw')) el.classList.add('go');
+      if (el.hasAttribute('data-count-wrap') && !reduce) {
+        el.querySelectorAll<HTMLElement>('[data-count]').forEach((n) => {
+          const to = Number(n.dataset.count); const t0 = performance.now(); const dur = 1400;
+          const step = (t: number) => { const k = Math.min(1, (t - t0) / dur); n.textContent = String(Math.round(to * (1 - Math.pow(1 - k, 3)))); if (k < 1) requestAnimationFrame(step); };
+          n.textContent = '0'; requestAnimationFrame(step);
+        });
+      }
+    }
+  }, { threshold: 0.25 });
+  document.querySelectorAll('[data-draw], [data-count-wrap]').forEach((el) => io.observe(el));
+</script>
