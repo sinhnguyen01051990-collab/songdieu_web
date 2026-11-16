@@ -4,7 +4,7 @@
  * nền trắng → kem, viền vàng mảnh sáng lên khi rê chuột, đường vàng mảnh trong ảnh,
  * vệt sáng vàng lướt qua ảnh, nhãn loại đỏ đô chữ vàng, giá nổi bật, nút tròn mũi tên.
  */
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import { type Product, formatVnd, minPrice } from '../data/products';
 interface Props { product: Product; eager?: boolean }
 const { product: p, eager = false } = Astro.props;
@@ -14,7 +14,7 @@ const href = `/san-pham/${p.slug}/`;
 <article class="pc">
   <a href={href} class="pc-media" tabindex="-1" aria-hidden="true">
     {p.image ? (
-      <Image src={p.image} alt={p.name} width={600} height={600} widths={[320, 480, 600]} sizes="(min-width: 1024px) 360px, (min-width: 640px) 46vw, 92vw" loading={eager ? 'eager' : 'lazy'} class="pc-img" />
+      <Picture src={p.image} alt={p.name} width={600} height={600} widths={[320, 480, 600]} sizes="(min-width: 1024px) 360px, (min-width: 640px) 46vw, 92vw" formats={['avif', 'webp']} fallbackFormat="webp" loading={eager ? 'eager' : 'lazy'} class="pc-img" />
     ) : (
       <div class="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-brand-600 to-brand-900 p-6 text-center text-white">
         <span class="font-serif text-4xl font-bold text-gold-300">SD</span>
@@ -49,6 +49,7 @@ const href = `/san-pham/${p.slug}/`;
   .pc-media { position: relative; display: block; aspect-ratio: 1; overflow: hidden; border-radius: 19px; background: var(--color-brand-50); }
   .pc-media::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
     box-shadow: inset 0 0 0 1px rgba(240, 220, 168, .75), inset 0 0 0 4px rgba(255, 250, 235, .18); }
+  .pc-media :global(picture) { display: block; width: 100%; height: 100%; }
   .pc-media :global(.pc-img) { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
   .pc:hover .pc-media :global(.pc-img) { transform: scale(1.05); }
   .pc-shine { position: absolute; inset: 0; z-index: 1; pointer-events: none;

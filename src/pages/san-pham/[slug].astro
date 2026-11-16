@@ -1,5 +1,5 @@
 ---
-import { Image, getImage } from 'astro:assets';
+import { Picture, getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import LeadForm from '../../components/LeadForm.astro';
 import ProductCard from '../../components/ProductCard.astro';
@@ -56,6 +56,15 @@ const faqLd = p.faq.length
   : [];
 const fullUrls = await Promise.all(p.gallery.map(async (g) => (await getImage({ src: g.src, width: 900, format: 'webp' })).src));
 const others = PRODUCTS.filter((x) => x.slug !== p.slug).slice(0, 3);
+// biểu tượng nét mảnh thay biểu tượng cảm xúc (16/11/2026), cùng kiểu khối Sản Xuất Đạt Chuẩn
+const ico = (d: string, size = 18) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+const PROMISES = [
+  { t: 'Freeship toàn quốc, giao 2–3 ngày', i: '<path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>' },
+  { t: 'Được kiểm hàng trước khi thanh toán', i: '<path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/>' },
+  { t: 'Thẻ bảo hành kèm mỗi đơn hàng', i: '<path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/>' },
+  { t: 'Đổi 1–1 nếu sản phẩm lỗi', i: '<path d="M4 9a8 8 0 0 1 14-3l2 2"/><path d="M20 4v4h-4"/><path d="M20 15a8 8 0 0 1-14 3l-2-2"/><path d="M4 20v-4h4"/>' },
+];
+const icoDoc = '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/>';
 ---
 <Base
   title={p.name}
@@ -66,20 +75,21 @@ const others = PRODUCTS.filter((x) => x.slug !== p.slug).slice(0, 3);
   breadcrumbs={[{ name: 'Trang chủ', href: '/' }, { name: 'Sản phẩm', href: '/san-pham/' }, { name: p.name, href: `/san-pham/${p.slug}/` }]}
 >
   <!-- TOP -->
-  <section class="section !pt-10">
+  <section class="section !pt-10 spd-top">
+    <span class="spd-dust" aria-hidden="true"></span>
     <div class="container-x grid gap-10 lg:grid-cols-2">
       <!-- Gallery -->
       <div>
         {p.gallery.length > 0 ? (
           <div class="space-y-3">
-            <div class="overflow-hidden rounded-3xl bg-white ring-1 ring-black/5">
-              <Image id="main-img" src={p.gallery[0].src} alt={p.gallery[0].alt} widths={[420, 640, 900]} sizes="(min-width: 1024px) 560px, 100vw" loading="eager" fetchpriority="high" class="aspect-square w-full object-contain" />
+            <div class="spd-frame">
+              <Picture id="main-img" src={p.gallery[0].src} alt={p.gallery[0].alt} widths={[420, 640, 900]} sizes="(min-width: 1024px) 560px, 100vw" formats={['avif', 'webp']} fallbackFormat="webp" loading="eager" fetchpriority="high" class="spd-main aspect-square w-full object-contain" />
             </div>
             {p.gallery.length > 1 && (
               <div class="grid grid-cols-4 gap-3 sm:grid-cols-6">
                 {p.gallery.map((g, i) => (
-                  <button type="button" class="thumb overflow-hidden rounded-xl ring-1 ring-black/10 hover:ring-brand-600 data-[active]:ring-2 data-[active]:ring-brand-600" data-active={i === 0 ? '' : undefined} aria-label={`Xem ảnh: ${g.alt}`}>
-                    <Image src={g.src} alt="" width={160} height={160} class="aspect-square w-full object-cover" data-full={fullUrls[i]} loading="lazy" />
+                  <button type="button" class="thumb spd-thumb" data-active={i === 0 ? '' : undefined} aria-label={`Xem ảnh: ${g.alt}`}>
+                    <Picture src={g.src} alt="" width={160} height={160} formats={['avif', 'webp']} fallbackFormat="webp" class="aspect-square w-full object-cover" data-full={fullUrls[i]} loading="lazy" />
                   </button>
                 ))}
               </div>
@@ -100,39 +110,39 @@ const others = PRODUCTS.filter((x) => x.slug !== p.slug).slice(0, 3);
         <h1 class="mt-2 text-4xl font-bold sm:text-5xl">{p.name}</h1>
         <p class="mt-3 text-lg text-mute">{p.tagline}</p>
         <p class="mt-2 text-sm text-mute">Quy cách: {p.size}</p>
-        <ul class="mt-6 space-y-2">
-          {p.benefits.map((b) => <li class="flex gap-3 text-ink/80"><span class="text-brand-600">✔</span>{b}</li>)}
+        <ul class="spd-benefits">
+          {p.benefits.map((b) => <li><span class="spd-check" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span>{b}</li>)}
         </ul>
 
-        <div id="dat-hang" class="mt-8 rounded-3xl bg-brand-50 p-5 sm:p-6 ring-1 ring-brand-100">
+        <div id="dat-hang" class="spd-order" data-reveal>
           {p.offers.length > 0 ? (
             <>
-              <p class="mb-4 font-serif text-xl font-bold text-brand-700">Đặt hàng – Freeship toàn quốc</p>
+              <p class="spd-order-t">Đặt hàng – Freeship toàn quốc</p>
               <LeadForm product={p} variant="order" />
             </>
           ) : (
             <>
-              <p class="mb-2 font-serif text-xl font-bold text-brand-700">Liên hệ để nhận báo giá</p>
+              <p class="spd-order-t !mb-2">Liên hệ để nhận báo giá</p>
               <p class="mb-4 text-sm text-mute">Để lại họ tên + SĐT, nhân viên báo giá và lên đơn cho chị ngay ạ.</p>
               <LeadForm product={p} variant="order" />
             </>
           )}
         </div>
-        <p class="mt-4 text-xs text-mute">📄 {p.legal}</p>
+        <p class="spd-legal"><span set:html={ico(icoDoc, 16)} />{p.legal}</p>
       </div>
     </div>
   </section>
 
   <!-- DETAILS -->
-  <section class="section bg-white !pt-16">
+  <section class="section bg-white !pt-16 spd-cv">
     <div class="container-x grid gap-12 lg:grid-cols-3">
-      <article class="prose-sd lg:col-span-2">
+      <article class="prose-sd spd-prose lg:col-span-2">
         {p.ingredients.length > 0 && (
           <>
-            <h2>Thành phần chính</h2>
+            <h2>Thành Phần Chính</h2>
             <div class="not-prose grid gap-4 sm:grid-cols-2">
               {p.ingredients.map((i) => (
-                <div class="rounded-2xl bg-cream p-5 ring-1 ring-black/5">
+                <div class="spd-ing">
                   <p class="font-semibold text-ink">{i.name}{i.amount && <span class="ml-2 rounded-full bg-gold-300/40 px-2 py-0.5 text-xs text-gold-600">{i.amount}/viên</span>}</p>
                   <p class="mt-2 text-sm text-mute">{i.desc}</p>
                 </div>
@@ -140,23 +150,23 @@ const others = PRODUCTS.filter((x) => x.slug !== p.slug).slice(0, 3);
             </div>
           </>
         )}
-        <h2>Hướng dẫn sử dụng</h2>
+        <h2>Hướng Dẫn Sử Dụng</h2>
         <ol>{p.usage.map((u) => <li>{u}</li>)}</ol>
-        <h2>Lưu ý</h2>
+        <h2>Lưu Ý Khi Dùng</h2>
         <ul>{p.notes.map((n) => <li>{n}</li>)}</ul>
         {p.gallery.length > 1 && (
           <div class="not-prose mt-8 grid gap-4 sm:grid-cols-2">
-            {p.gallery.slice(1).map((g) => <Image src={g.src} alt={g.alt} widths={[400, 700]} sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 100vw" class="w-full rounded-2xl" loading="lazy" />)}
+            {p.gallery.slice(1).map((g) => <Picture src={g.src} alt={g.alt} widths={[400, 700]} sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 100vw" formats={['avif', 'webp']} fallbackFormat="webp" class="spd-gimg w-full rounded-2xl" loading="lazy" />)}
           </div>
         )}
         {p.faq.length > 0 && (
           <>
-            <h2>Câu hỏi thường gặp</h2>
+            <h2>Câu Hỏi Thường Gặp</h2>
             <div class="not-prose space-y-3">
               {p.faq.map((f) => (
-                <details class="group rounded-2xl bg-cream p-5 ring-1 ring-black/5">
-                  <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold">
-                    {f.q}<span class="text-brand-600 transition group-open:rotate-45">+</span>
+                <details class="spd-faq">
+                  <summary>
+                    {f.q}<span class="spd-plus" aria-hidden="true"></span>
                   </summary>
                   <p class="mt-3 text-sm leading-relaxed text-mute">{f.a}</p>
                 </details>
@@ -168,27 +178,24 @@ const others = PRODUCTS.filter((x) => x.slug !== p.slug).slice(0, 3);
       </article>
 
       <aside class="space-y-4 lg:sticky lg:top-24 lg:self-start">
-        <div class="card p-6">
-          <p class="font-semibold">Bảng giá {p.shortName}</p>
+        <div class="card spd-price p-6">
+          <p class="spd-price-t">Bảng giá {p.shortName}</p>
           {p.offers.length > 0 ? (
             <ul class="mt-4 space-y-3 text-sm">
               {p.offers.map((o) => (
                 <li class="flex justify-between gap-3 border-b border-black/5 pb-3">
-                  <span>{o.label}{o.best && <span class="ml-1 rounded bg-brand-600 px-1.5 py-0.5 text-[10px] text-white">HOT</span>}<span class="block text-xs text-mute">{o.note}</span></span>
-                  <strong class="text-brand-600">{formatVnd(o.price)}</strong>
+                  <span>{o.label}{o.best && <span class="spd-best">Bán chạy</span>}<span class="block text-xs text-mute">{o.note}</span></span>
+                  <strong class="spd-pv">{formatVnd(o.price)}</strong>
                 </li>
               ))}
             </ul>
           ) : <p class="mt-3 text-sm text-mute">Liên hệ hotline để nhận báo giá.</p>}
           <a href="#dat-hang" class="btn-primary mt-5 w-full">Đặt hàng ngay</a>
-          <a href={`tel:${SITE.phone}`} class="btn mt-2 w-full border border-brand-600 text-brand-600 hover:bg-brand-50">Gọi {SITE.phoneDisplay}</a>
+          <a href={`tel:${SITE.phone}`} class="btn spd-call mt-2 w-full">Gọi {SITE.phoneDisplay}</a>
         </div>
-        <div class="card p-6 text-sm space-y-2">
-          <p>🚚 Freeship toàn quốc, giao 2–3 ngày</p>
-          <p>📦 Được kiểm hàng trước khi thanh toán</p>
-          <p>🛡️ Thẻ bảo hành kèm mỗi đơn hàng</p>
-          <p>🔁 Đổi 1–1 nếu sản phẩm lỗi</p>
-        </div>
+        <ul class="card spd-promise p-5">
+          {PROMISES.map((x) => <li><span class="spd-ico" set:html={ico(x.i)} />{x.t}</li>)}
+        </ul>
       </aside>
     </div>
   </section>
@@ -197,18 +204,21 @@ const others = PRODUCTS.filter((x) => x.slug !== p.slug).slice(0, 3);
   <VideoGallery videos={VIDEOS[p.slug] ?? []} title={`Video về ${p.shortName}`} />
 
   <!-- RELATED -->
-  <section class="section">
+  <section class="section spd-cv spd-rel" aria-labelledby="spd-rel-title">
     <div class="container-x">
-      <h2 class="text-2xl font-bold">Sản phẩm khác</h2>
-      <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {others.map((o) => <ProductCard product={o} />)}
+      <div class="text-center" data-reveal>
+        <p class="eyebrow">Gợi ý cho chị</p>
+        <h2 id="spd-rel-title" class="mt-3 text-4xl font-bold sm:text-5xl">Có Thể Chị <span class="spd-em italic">Cũng Thích</span></h2>
+      </div>
+      <div class="spd-rgrid mt-10" data-reveal-group>
+        {others.map((o) => <div class="spd-rcell"><ProductCard product={o} /></div>)}
       </div>
     </div>
   </section>
 
   <!-- Mobile sticky CTA -->
-  <div class="fixed inset-x-0 bottom-0 z-40 flex gap-2 border-t border-black/10 bg-white p-3 pr-20 md:hidden">
-    <a href={`tel:${SITE.phone}`} class="btn flex-1 border border-brand-600 !px-3 text-brand-600">Gọi ngay</a>
+  <div class="spd-bar md:hidden" id="spd-bar">
+    <a href={`tel:${SITE.phone}`} class="btn spd-call flex-1 !px-3">Gọi ngay</a>
     <a href="#dat-hang" class="btn-primary flex-1 !px-3">Đặt hàng</a>
   </div>
 </Base>
@@ -218,9 +228,115 @@ const others = PRODUCTS.filter((x) => x.slug !== p.slug).slice(0, 3);
   document.querySelectorAll<HTMLButtonElement>('.thumb').forEach((btn) => {
     btn.addEventListener('click', () => {
       const img = btn.querySelector('img')!;
-      if (main) { main.srcset = ''; main.src = img.dataset.full || img.src; main.alt = btn.getAttribute('aria-label')?.replace('Xem ảnh: ', '') || ''; }
+      if (main) { main.closest('picture')?.querySelectorAll('source').forEach((s) => s.remove()); main.srcset = ''; main.src = img.dataset.full || img.src; main.alt = btn.getAttribute('aria-label')?.replace('Xem ảnh: ', '') || ''; }
       document.querySelectorAll('.thumb').forEach((t) => t.removeAttribute('data-active'));
       btn.setAttribute('data-active', '');
     });
   });
+  // thanh Gọi / Đặt hàng trên điện thoại tự ẩn khi khách đang ở ngay form đặt hàng
+  const bar = document.getElementById('spd-bar');
+  const order = document.getElementById('dat-hang');
+  if (bar && order && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => bar.classList.toggle('is-off', e.isIntersecting), { threshold: 0.15 }).observe(order);
+  }
 </script>
+
+<style>
+  /* đầu trang chi tiết: nền kem có quầng vàng + bụi vàng như các trang khác (16/11/2026) */
+  .spd-top { position: relative; overflow: hidden; isolation: isolate;
+    background: radial-gradient(ellipse 50% 45% at 6% 6%, rgba(224, 191, 110, .2), transparent 70%),
+      radial-gradient(ellipse 40% 45% at 100% 100%, rgba(155, 28, 44, .05), transparent 70%), var(--color-cream); }
+  .spd-dust { position: absolute; left: 0; top: 0; width: 50%; height: 300px; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(circle at 10% 16%, rgba(201,161,74,.5) 0 1.3px, transparent 2.4px),
+      radial-gradient(circle at 30% 6%, rgba(201,161,74,.4) 0 1px, transparent 2px),
+      radial-gradient(circle at 52% 22%, rgba(201,161,74,.35) 0 1.2px, transparent 2.2px);
+    animation: sd-spd-twinkle 5s ease-in-out infinite alternate; }
+  @keyframes sd-spd-twinkle { from { opacity: .45; } to { opacity: 1; } }
+
+  /* khung ảnh vàng như ảnh trang Giới thiệu */
+  .spd-frame { position: relative; border-radius: 2rem; padding: 6px; overflow: hidden;
+    background: linear-gradient(140deg, #f6dc86, #b8862a 35%, #f0dca8 55%, #a8761f 80%, #e8c46a); box-shadow: 0 28px 56px -30px rgba(58, 9, 16, .5); }
+  .spd-frame::before { content: ''; position: absolute; inset: 6px; border-radius: 1.65rem; z-index: 1; pointer-events: none;
+    box-shadow: inset 0 0 0 1px rgba(255, 248, 225, .9); }
+  .spd-frame :global(picture) { display: block; }
+  .spd-frame :global(.spd-main) { display: block; border-radius: 1.65rem; background: #fff; }
+  .spd-thumb { overflow: hidden; border-radius: 14px; background: #fff; box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .35);
+    transition: box-shadow .3s, transform .3s; }
+  .spd-thumb :global(picture) { display: block; }
+  .spd-thumb :global(img) { border-radius: 12px; padding: 2px; }
+  .spd-thumb:hover { transform: translateY(-2px); box-shadow: inset 0 0 0 1px var(--color-gold-500); }
+  .spd-thumb[data-active] { box-shadow: inset 0 0 0 2px var(--color-gold-500), 0 0 0 3px rgba(224, 191, 110, .25); }
+
+  /* công dụng: dấu tích vàng trong vòng tròn */
+  .spd-benefits { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 10px; }
+  .spd-benefits li { display: flex; align-items: flex-start; gap: 12px; color: rgba(35, 24, 25, .82); }
+  .spd-check { flex: none; display: grid; place-items: center; width: 22px; height: 22px; margin-top: 1px; border-radius: 999px; color: #fff;
+    background: linear-gradient(180deg, #e0bf6e, #b8862a); box-shadow: 0 3px 8px -4px rgba(125, 92, 27, .8); }
+
+  /* thẻ đặt hàng viền vàng, tia sáng chạy quanh viền một lần như form trang chủ */
+  .spd-order { position: relative; margin-top: 32px; padding: 24px; border-radius: 28px;
+    background: linear-gradient(180deg, #fffdf8 0%, #fbf5ea 100%);
+    box-shadow: 0 0 0 1px rgba(224, 191, 110, .75), 0 0 0 6px rgba(224, 191, 110, .12), 0 30px 60px -36px rgba(58, 9, 16, .5); }
+  .spd-order::after { content: ''; position: absolute; inset: -1px; border-radius: 29px; padding: 1.5px; pointer-events: none; opacity: 0;
+    background: conic-gradient(from var(--sd-a), transparent 0 78%, rgba(246, 220, 134, .2) 86%, #fff3c4 93%, #e0bf6e 96%, transparent 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+  .spd-order:global(.is-in)::after { animation: sd-spd-ring 1.8s cubic-bezier(.45, 0, .2, 1) .35s both; }
+  @keyframes sd-spd-ring { 0% { --sd-a: 0deg; opacity: 0; } 12% { opacity: 1; } 85% { opacity: 1; } 100% { --sd-a: 360deg; opacity: 0; } }
+  .spd-order-t { margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid rgba(201, 161, 74, .3);
+    font: 700 24px/1.2 var(--font-serif); color: var(--color-brand-700); }
+  .spd-legal { display: flex; align-items: flex-start; gap: 8px; margin-top: 16px; font-size: 12.5px; line-height: 1.5; color: var(--color-mute); }
+  .spd-legal > span { flex: none; color: var(--color-gold-600); margin-top: 1px; }
+
+  /* tiêu đề nội dung: viết hoa chữ đầu, vạch vàng nhỏ phía trước */
+  .spd-prose > :global(h2) { display: flex; align-items: center; gap: 12px; font-size: 30px; }
+  .spd-prose > :global(h2)::before { content: ''; flex: none; width: 28px; height: 1px; background: linear-gradient(90deg, transparent, var(--color-gold-500)); }
+  .spd-ing { border-radius: 18px; padding: 20px; background: linear-gradient(180deg, #fffdf8, #fbf5ea); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .4);
+    transition: box-shadow .35s, transform .35s; }
+  .spd-ing:hover { transform: translateY(-2px); box-shadow: inset 0 0 0 1px var(--color-gold-500), 0 14px 28px -20px rgba(99, 16, 28, .45); }
+
+  /* câu hỏi thường gặp: dấu cộng trong vòng tròn vàng, mở ra thì xoay thành dấu nhân */
+  .spd-faq { border-radius: 18px; padding: 16px 20px; background: var(--color-cream); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .4); transition: box-shadow .3s; }
+  .spd-faq[open] { box-shadow: inset 0 0 0 1px var(--color-gold-500); }
+  .spd-faq summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; font-weight: 600; list-style: none; }
+  .spd-faq summary::-webkit-details-marker { display: none; }
+  .spd-plus { position: relative; flex: none; width: 28px; height: 28px; border-radius: 999px; box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .8);
+    transition: transform .35s cubic-bezier(.2,.8,.2,1), background .3s; }
+  .spd-plus::before, .spd-plus::after { content: ''; position: absolute; left: 50%; top: 50%; width: 11px; height: 1.6px; margin: -.8px 0 0 -5.5px; border-radius: 2px; background: var(--color-brand-600); }
+  .spd-plus::after { transform: rotate(90deg); }
+  .spd-faq[open] .spd-plus { transform: rotate(45deg); background: rgba(224, 191, 110, .2); }
+
+  /* bảng giá + cam kết */
+  .spd-price-t { font: 700 22px/1.2 var(--font-serif); color: var(--color-ink); }
+  .spd-best { display: inline-block; margin-left: 6px; padding: 2px 8px; border-radius: 999px; font-size: 10.5px; font-weight: 600; vertical-align: 1px;
+    color: var(--color-gold-300); background: linear-gradient(180deg, var(--color-brand-500), var(--color-brand-700)); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .6); }
+  .spd-pv { color: var(--color-brand-700); white-space: nowrap; }
+  .spd-call { color: var(--color-brand-700); background: rgba(255, 255, 255, .8); box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .8); }
+  .spd-call:hover { background: #fff; box-shadow: inset 0 0 0 1px var(--color-gold-500), 0 0 0 4px rgba(224, 191, 110, .14); }
+  .spd-promise { list-style: none; margin: 0; display: grid; gap: 12px; font-size: 14px; }
+  .spd-promise li { display: flex; align-items: center; gap: 12px; color: var(--color-ink); }
+  .spd-ico { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 999px; color: var(--color-gold-300);
+    background: radial-gradient(circle at 50% 30%, #9b1c2c, #4a0c15 75%); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .7); }
+
+  /* sản phẩm gợi ý: tiêu đề có vệt vàng, lưới căn giữa */
+  .spd-rel { background: var(--color-cream); }
+  .spd-em { background-image: linear-gradient(100deg, #7d1424 0 40%, #c9a14a 46%, #f6dc86 50%, #c9a14a 54%, #7d1424 60% 100%);
+    background-size: 320% 100%; background-position: 0 0; -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .08em; }
+  :global(.is-in) .spd-em { animation: sd-spd-sweep 1.4s cubic-bezier(.4,0,.2,1) .35s both; }
+  @keyframes sd-spd-sweep { from { background-position: 100% 0; } to { background-position: 0 0; } }
+  .spd-rgrid { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; }
+  .spd-rcell { width: 100%; }
+  @media (min-width: 640px) { .spd-rcell { width: calc((100% - 24px) / 2); } }
+  @media (min-width: 1024px) { .spd-rgrid { gap: 28px; } .spd-rcell { width: calc((100% - 56px) / 3); } }
+
+  /* tốc độ: phần dưới chỉ dựng khi sắp cuộn tới */
+  .spd-cv { content-visibility: auto; contain-intrinsic-size: auto 900px; }
+
+  /* thanh Gọi / Đặt hàng trên điện thoại: nền kem viền vàng, tự ẩn khi đang ở form */
+  .spd-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: flex; gap: 8px; padding: 10px 80px calc(10px + env(safe-area-inset-bottom, 0px)) 12px;
+    background: rgba(251, 247, 241, .96); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 -1px 0 rgba(201, 161, 74, .55), 0 -10px 24px -16px rgba(58, 9, 16, .35);
+    transition: transform .4s cubic-bezier(.2,.8,.2,1); }
+  .spd-bar.is-off { transform: translateY(110%); }
+</style>
