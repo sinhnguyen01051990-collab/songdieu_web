@@ -23,7 +23,6 @@ const STATS = [
   { n: '11+', label: 'năm đồng hành cùng phái đẹp Việt' },
   { n: '5', label: 'dòng sản phẩm từ thảo dược' },
   { n: '100%', label: 'sản phẩm có hồ sơ công bố' },
-  { n: 'ISO 22000', label: 'nhà máy sản xuất đạt chuẩn' },
 ];
 const FACTORIES = [
   { i: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/>', t: 'Đầy đủ giấy phép lưu hành & công bố chất lượng', d: 'Nội tiết tố Xuân Nữ Nhan, Gel Gừng Quế SDBODY, Bút Gel Hoàng Cung Bảo Phụ Khang...' },
@@ -50,10 +49,16 @@ const HALVES = [
     <span class="gt-dust" aria-hidden="true"></span>
     <div class="container-x grid items-center gap-12 py-14 lg:grid-cols-2 lg:gap-16 lg:py-20">
       <div>
-        <p class="eyebrow gt-eyebrow-l" data-reveal>Về Song Diệu</p>
-        <h1 id="gt-title" class="gt-h1" data-reveal>SONG DIỆU <span class="gt-red italic">Pharma Beauty</span></h1>
-        <p class="gt-slogan" data-reveal>“{SITE.tagline}”</p>
+        <p class="eyebrow gt-eyebrow-l" data-reveal>Về SONG DIỆU Pharma Beauty</p>
+        <h1 id="gt-title" class="gt-h1" data-reveal>Đồng Hành Cùng Vẻ Đẹp <span class="gt-red italic">An Nhiên</span> Của Phụ Nữ Việt</h1>
         <p class="gt-lead" data-reveal>Lấy tinh hoa từ dược liệu tự nhiên, Song Diệu mang đến hệ sinh thái giải pháp an toàn chăm sóc vóc dáng và sức khỏe phụ nữ toàn diện từ trong ra ngoài.</p>
+        <div class="gt-act" data-reveal>
+          <a href="/san-pham/" class="btn-primary !px-7 !py-3.5">Xem sản phẩm <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={arrow} /></a>
+          <a href={SITE.zalo} target="_blank" rel="noopener" class="btn gt-zalo !px-7 !py-3.5">Nhắn Zalo tư vấn</a>
+        </div>
+        <ul class="gt-stats" data-reveal>
+          {STATS.map((s) => <li><span class="gt-num">{s.n}</span><span class="gt-lbl">{s.label}</span></li>)}
+        </ul>
       </div>
       <div class="gt-photo" data-reveal>
         <span class="gt-glow" aria-hidden="true"></span>
@@ -64,11 +69,6 @@ const HALVES = [
           <span class="gt-glare" aria-hidden="true"></span>
         </div>
       </div>
-    </div>
-    <div class="container-x">
-      <ul class="gt-stats" data-reveal>
-        {STATS.map((s) => <li><span class="gt-num">{s.n}</span><span class="gt-lbl">{s.label}</span></li>)}
-      </ul>
     </div>
   </section>
 
@@ -160,8 +160,10 @@ const HALVES = [
       radial-gradient(circle at 63% 14%, rgba(201,161,74,.4) 0 1.3px, transparent 2.3px);
     animation: sd-gt-twinkle 5s ease-in-out infinite alternate; }
   @keyframes sd-gt-twinkle { from { opacity: .45; } to { opacity: 1; } }
-  .gt-h1 { margin-top: 12px; font: 700 clamp(42px, 5.6vw, 72px)/1.05 var(--font-serif); color: var(--color-ink); }
-  .gt-slogan { margin-top: 12px; font: italic 600 clamp(20px, 2vw, 25px)/1.3 var(--font-serif); color: var(--color-gold-600); }
+  .gt-h1 { margin-top: 12px; font: 700 clamp(36px, 4.4vw, 58px)/1.1 var(--font-serif); color: var(--color-ink); }
+  .gt-act { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+  .gt-zalo { color: var(--color-brand-700); background: rgba(255, 255, 255, .7); box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .8); }
+  .gt-zalo:hover { background: #fff; box-shadow: inset 0 0 0 1px var(--color-gold-500), 0 12px 24px -14px rgba(99, 16, 28, .4), 0 0 0 4px rgba(224, 191, 110, .16); }
   .gt-lead { margin-top: 14px; max-width: 34rem; font-size: 17px; line-height: 1.7; color: rgba(35, 24, 25, .78); }
 
   .gt-photo { position: relative; width: 100%; max-width: 26rem; margin: 0 auto; }
@@ -178,7 +180,7 @@ const HALVES = [
     background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,250,230,.95), rgba(255,236,190,.3) 30%, transparent 60%); transition: opacity .4s; }
   .gt-tilt.on .gt-glare { opacity: 1; }
 
-  .gt-stats { list-style: none; margin: 0; padding: 22px 8px; margin-bottom: 56px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  .gt-stats { list-style: none; margin: 32px 0 0; padding: 16px 4px; max-width: 34rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
     border-radius: 24px; background: linear-gradient(180deg, #fffdf8, #fbf5ea);
     box-shadow: 0 0 0 1px rgba(224, 191, 110, .55), 0 24px 50px -30px rgba(58, 9, 16, .45); }
   .gt-stats { position: relative; }
@@ -188,11 +190,11 @@ const HALVES = [
     mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
   .gt-stats:global(.is-in)::after { animation: sd-gt-ring 1.8s cubic-bezier(.45, 0, .2, 1) .35s both; }
   @keyframes sd-gt-ring { 0% { --sd-a: 0deg; opacity: 0; } 12% { opacity: 1; } 85% { opacity: 1; } 100% { --sd-a: 360deg; opacity: 0; } }
-  .gt-stats li { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 4px 12px; text-align: center; }
+  .gt-stats li { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 4px 10px; text-align: center; }
   .gt-stats li + li { border-left: 1px solid rgba(201, 161, 74, .3); }
-  .gt-num { padding: 0 .04em; font: 700 clamp(30px, 3.2vw, 40px)/1.1 var(--font-serif);
+  .gt-num { padding: 0 .04em; font: 700 clamp(26px, 2.6vw, 34px)/1.1 var(--font-serif);
     background: linear-gradient(180deg, #d9b25a 0%, #b8862a 50%, #7d5c1b 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .gt-lbl { font-size: 13.5px; color: var(--color-mute); }
+  .gt-lbl { font-size: 13px; line-height: 1.35; color: var(--color-mute); }
 
   /* trích dẫn */
 
@@ -299,6 +301,10 @@ const HALVES = [
   .gt-g-big :global(.gt-gimg) { object-position: 50% 50%; }
   .gt-g-top :global(.gt-gimg) { object-position: 50% 18%; }
 
+  @media (max-width: 640px) {
+    .gt-act > a { flex: 1 1 auto; }
+    .gt-stats li { padding: 4px 6px; }
+  }
   @media (max-width: 1023px) {
     .gt-pwrap { grid-template-columns: minmax(0, 1fr); row-gap: 0; max-width: 34rem; }
     .gt-pwrap::before { left: 50%; right: auto; top: 10%; bottom: 10%; width: 1px; height: auto;
@@ -307,8 +313,6 @@ const HALVES = [
     .gt-pc-media { aspect-ratio: 2 / 1; }
     :global(.rv) .gt-pc-l[data-reveal]:not(:global(.is-in)), :global(.rv) .gt-pc-r[data-reveal]:not(:global(.is-in)) { transform: translateY(28px); }
     .gt-pcta { justify-content: center; text-align: center; }
-    .gt-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 16px; }
-    .gt-stats li:nth-child(3) { border-left: 0; }
   }
 </style>
 
