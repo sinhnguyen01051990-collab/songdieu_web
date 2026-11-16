@@ -25,9 +25,9 @@ const STATS = [
   { n: 'ISO 22000', label: 'nhà máy sản xuất đạt chuẩn' },
 ];
 const FACTORIES = [
-  { t: 'Công ty CP Dược phẩm VITATH', d: 'KCN Tiên Sơn, Bắc Ninh · đạt ISO 22000 · sản xuất Viên uống Xuân Nữ Nhan' },
-  { t: 'Công ty CP Dược Mỹ phẩm Tân Vạn Xuân', d: 'Phú Thọ · đạt ISO 22000:2018 · sản xuất Thất Bảo Trà, Bút Gel Hoàng Cung Bảo Phụ Khang' },
-  { t: 'Kiểm nghiệm tại IRDOP', d: 'Thất Bảo Trà đạt các chỉ tiêu vi sinh, kim loại nặng, aflatoxin, thuốc BVTV' },
+  { t: 'Đầy đủ giấy phép lưu hành & công bố chất lượng', d: 'Nội tiết tố Xuân Nữ Nhan, Gel Gừng Quế SDBODY, Bút Gel Hoàng Cung Bảo Phụ Khang...' },
+  { t: 'Kiểm nghiệm an toàn nghiêm ngặt tại Viện IRDOP', d: 'Đạt chuẩn kiểm nghiệm khắt khe về chỉ tiêu vi sinh, kim loại nặng, aflatoxin và dư lượng thuốc bảo vệ thực vật' },
+  { t: 'Thẻ bảo hành chính hãng & Cam kết đồng hành', d: 'Thẻ bảo hành minh bạch trong mỗi đơn hàng và cam kết hoàn tiền 100% theo đúng chính sách của công ty.' },
 ];
 const arrow = '<path d="M5 12h14M13 6l6 6-6 6" />';
 const TOPIC: Record<string, string> = { 'gel-gung-que-sdbody': 'Vóc dáng', 'but-gel-hoang-cung-bao-phu-khang': 'Vùng kín',
@@ -119,13 +119,13 @@ const HALVES = [
       <div>
         <p class="eyebrow gt-eyebrow-l" data-reveal>Văn phòng & nhà máy</p>
         <h2 id="gt-fac-title" class="mt-3 text-4xl font-bold sm:text-5xl" data-reveal>Sản xuất <span class="gt-red italic">đạt chuẩn</span></h2>
-        <p class="mt-5 leading-relaxed text-ink/75" data-reveal>Thương hiệu SONG DIỆU thuộc <strong>{SITE.legalName}</strong>. Sản phẩm được sản xuất tại những nhà máy đạt chuẩn, có đầy đủ phiếu công bố và kiểm nghiệm theo quy định.</p>
+        <p class="mt-5 leading-relaxed text-ink/75" data-reveal>Thương hiệu SONG DIỆU thuộc <strong>{SITE.legalName}</strong>. 100% sản phẩm đều trải qua quy trình nghiên cứu chuyên sâu, có đầy đủ hồ sơ công bố của Sở Y tế và phiếu kiểm nghiệm đạt chuẩn chất lượng trước khi đến tay khách hàng.</p>
         <ul class="gt-flist" data-reveal>
           {FACTORIES.map((f) => <li><span class="gt-fdot" aria-hidden="true"></span><span><b>{f.t}</b><span>{f.d}</span></span></li>)}
         </ul>
         <div class="mt-8 flex flex-wrap gap-3" data-reveal>
-          <a href="/ho-so-phap-ly/" class="btn-primary !px-7 !py-3.5">Xem hồ sơ pháp lý <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={arrow} /></a>
-          <a href="/san-pham/" class="btn-white !px-7 !py-3.5">Xem sản phẩm</a>
+          
+          <a href="/san-pham/" class="btn-primary !px-7 !py-3.5">Xem sản phẩm <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={arrow} /></a>
         </div>
       </div>
       <div class="gt-gallery" data-reveal>
