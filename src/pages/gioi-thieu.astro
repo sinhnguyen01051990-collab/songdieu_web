@@ -1,7 +1,7 @@
 ---
 /**
  * Trang Giới thiệu – bản gọn (16/11/2026, bản 2): header thường như các trang con (không trong suốt),
- * 4 phần: đầu trang (ảnh nhà sáng lập khung vàng + số liệu), câu chuyện + trích dẫn,
+ * 3 phần (bỏ khối Câu chuyện 16/11): đầu trang (ảnh nhà sáng lập khung vàng + số liệu),
  * Chăm ngoài – Uống trong, nhà máy & hồ sơ + lời mời. Chỉ dùng thông tin đã có, không mã chạy.
  */
 import { Image, Picture } from 'astro:assets';
@@ -9,7 +9,6 @@ import Base from '../layouts/Base.astro';
 import { SITE } from '../data/site';
 import { PRODUCTS } from '../data/products';
 import founder from '../assets/images/banner/02-nha-sang-lap-xuan-nu-nhan.jpg';
-import avatar from '../assets/images/chu-thuong-hieu.jpg';
 import nhaMay1 from '../assets/images/sp/nha-may-1.jpg';
 import vanPhong from '../assets/images/sp/van-phong-song-dieu.jpg';
 import dayChuyen from '../assets/images/banner/05-day-chuyen-sdbody.jpg';
@@ -58,32 +57,6 @@ const arrow = '<path d="M5 12h14M13 6l6 6-6 6" />';
     </div>
   </section>
 
-  <!-- ===== CÂU CHUYỆN ===== -->
-  <section class="section bg-white" aria-labelledby="gt-story-title">
-    <div class="container-x grid items-center gap-12 lg:grid-cols-5 lg:gap-16">
-      <div class="lg:col-span-2" data-reveal>
-        <div class="gt-frame gt-frame-sq mx-auto max-w-sm">
-          <Image src={avatar} alt="Chủ thương hiệu SONG DIỆU tại văn phòng" width={640} height={640} widths={[400, 640]} sizes="(min-width: 1024px) 400px, 90vw" class="gt-img" loading="lazy" />
-        </div>
-      </div>
-      <div class="lg:col-span-3">
-        <p class="eyebrow gt-eyebrow-l" data-reveal>Về chúng tôi</p>
-        <h2 id="gt-story-title" class="mt-3 text-4xl font-bold sm:text-5xl" data-reveal>Câu chuyện <span class="gt-red italic">“đứa con tinh thần”</span></h2>
-        <p class="mt-6 text-lg leading-relaxed text-ink/85" data-reveal>
-          SONG DIỆU ra đời từ một lý tưởng giản dị của hai vợ chồng: xây dựng một điều gì đó mang tên <strong class="text-brand-700">đứa con tinh thần</strong> của chính mình, và mang tới những vị khách hàng trân quý những sản phẩm <strong>chất lượng</strong> nhất.
-        </p>
-        <p class="mt-4 text-[1.0625rem] leading-relaxed text-ink/75" data-reveal>
-          Với hơn <strong class="text-brand-700">11 năm kinh nghiệm</strong> và nền tảng chuyên ngành <strong>Công nghệ Hóa dược</strong>, nhà sáng lập tự tay nghiên cứu, thử nghiệm từng công thức trên chính bản thân trước khi đưa ra thị trường. Gel gừng quế SDBODY ra đời từ chính hành trình chăm sóc vóc dáng sau sinh của nhà sáng lập.
-        </p>
-        <figure class="gt-quote" data-reveal>
-          <span class="gt-qmark" aria-hidden="true">“</span>
-          <blockquote>Mình dùng gì bán đó. Không nói điêu, không nói quá về sản phẩm để khách hàng kỳ vọng rồi thất vọng. Uy tín luôn luôn là số 1.</blockquote>
-          <figcaption>Nhà sáng lập SONG DIỆU</figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
-
   <!-- ===== CHĂM NGOÀI – UỐNG TRONG ===== -->
   <section class="section gt-philo" aria-labelledby="gt-philo-title">
     <div class="container-x">
@@ -106,7 +79,7 @@ const arrow = '<path d="M5 12h14M13 6l6 6-6 6" />';
   </section>
 
   <!-- ===== NHÀ MÁY & HỒ SƠ ===== -->
-  <section class="section bg-white" aria-labelledby="gt-fac-title">
+  <section class="section gt-fac" aria-labelledby="gt-fac-title">
     <div class="container-x grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
       <div>
         <p class="eyebrow gt-eyebrow-l" data-reveal>Văn phòng & nhà máy</p>
@@ -186,7 +159,7 @@ const arrow = '<path d="M5 12h14M13 6l6 6-6 6" />';
   .gt-quote figcaption::before { content: '— '; }
 
   /* chăm ngoài – uống trong */
-  .gt-philo { background: var(--color-cream); }
+  .gt-philo { background: #fff; }
   .gt-pgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; max-width: 60rem; margin: 44px auto 0; }
   .gt-pcard { height: 100%; padding: 26px; border-radius: 24px; background: linear-gradient(180deg, #fff 0%, #fffdf8 55%, #fbf3e4 100%);
     box-shadow: 0 0 0 1px rgba(201, 161, 74, .38), 0 18px 40px -28px rgba(58, 9, 16, .45); }
@@ -201,6 +174,7 @@ const arrow = '<path d="M5 12h14M13 6l6 6-6 6" />';
   .gt-pcard :global(.gt-thumb) { flex: none; width: 52px; height: 52px; border-radius: 12px; object-fit: cover; box-shadow: 0 0 0 1px rgba(201, 161, 74, .5); }
 
   /* nhà máy */
+  .gt-fac { background: var(--color-cream); }
   .gt-flist { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 14px; }
   .gt-flist li { display: flex; gap: 12px; }
   .gt-fdot { flex: none; width: 10px; height: 10px; margin-top: 7px; border-radius: 50%; background: radial-gradient(circle, #f6dc86, #b8862a); }
