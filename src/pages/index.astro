@@ -4,11 +4,11 @@ import Base from '../layouts/Base.astro';
 import ProductCard from '../components/ProductCard.astro';
 import Testimonials from '../components/Testimonials.astro';
 import HeroCarousel from '../components/HeroCarousel.astro';
-import LeadForm from '../components/LeadForm.astro';
 import TrustStrip from '../components/TrustStrip.astro';
 import AboutBrand from '../components/AboutBrand.astro';
 import XnnSpotlight from '../components/XnnSpotlight.astro';
 import KnowledgeSection from '../components/KnowledgeSection.astro';
+import ConsultSection from '../components/ConsultSection.astro';
 import { PRODUCTS } from '../data/products';
 import { SITE } from '../data/site';
 ---
@@ -57,18 +57,7 @@ import { SITE } from '../data/site';
   <KnowledgeSection />
 
   <!-- ĐĂNG KÝ TƯ VẤN -->
-  <section class="section relative overflow-hidden bg-gradient-to-br from-brand-700 via-brand-600 to-brand-900 text-white">
-    <div class="container-x grid gap-10 lg:grid-cols-2" data-reveal-group>
-      <div>
-        <p class="eyebrow !text-gold-300">Tư vấn miễn phí</p>
-        <h2 class="mt-3 text-4xl font-bold sm:text-5xl">Để lại thông tin, SONG DIỆU gọi lại ngay</h2>
-        <p class="mt-4 text-white/75">Nhận tư vấn liệu trình phù hợp và ưu đãi mới nhất. Hoặc gọi trực tiếp hotline <a class="font-bold text-brand-100" href={`tel:${SITE.phone}`}>{SITE.phoneDisplay}</a>.</p>
-      </div>
-      <div class="rounded-3xl bg-cream p-6 text-ink sm:p-8">
-        <LeadForm variant="contact" />
-      </div>
-    </div>
-  </section>
+  <ConsultSection />
 </Base>
 
 <style>
