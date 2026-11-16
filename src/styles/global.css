@@ -30,6 +30,8 @@
   body { @apply bg-cream text-ink font-sans antialiased; overflow-x: clip; } /* chặn mọi phần tử làm trang cuộn ngang */
   h1, h2, h3 { @apply font-serif font-bold; letter-spacing: -0.005em; line-height: 1.12; text-wrap: balance; }
   p { text-wrap: pretty; }
+  /* Tailwind 4 để nút <button> con trỏ mũi tên: trả lại bàn tay cho mọi nút bấm được (16/11/2026) */
+  button:not(:disabled), [role="button"]:not([aria-disabled="true"]), summary, label:has(> input[type="checkbox"]), label:has(> input[type="radio"]) { cursor: pointer; }
 }
 
 @utility container-x { @apply mx-auto w-full max-w-6xl px-4 sm:px-6; }
