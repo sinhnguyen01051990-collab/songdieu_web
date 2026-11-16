@@ -25,6 +25,8 @@ import { SITE } from '../data/site';
   <!-- CAM KẾT (thẻ nổi) + VỀ CHÚNG TÔI -->
   <TrustStrip />
   <AboutBrand />
+  <!-- vạch vàng có ngôi sao ngăn Về chúng tôi và Sản phẩm (cùng nền kem) -->
+  <div class="sec-sep" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 0l2.2 9.8L24 12l-9.8 2.2L12 24l-2.2-9.8L0 12l9.8-2.2z" fill="currentColor" /></svg></div>
 
   <!-- SẢN PHẨM -->
   <section class="section prod-sec" aria-labelledby="sp-title">
@@ -32,7 +34,7 @@ import { SITE } from '../data/site';
     <div class="container-x">
       <div class="text-center" data-reveal>
         <p class="eyebrow">Sản phẩm</p>
-        <h2 id="sp-title" class="mt-3 text-4xl font-bold sm:text-5xl">Bộ sản phẩm SONG DIỆU</h2>
+        <h2 id="sp-title" class="mt-3 text-4xl font-bold sm:text-5xl">Bộ sản phẩm <span class="sp-em italic">SONG DIỆU</span></h2>
         <p class="mx-auto mt-4 max-w-2xl text-mute">Hơn 11 năm đồng hành cùng phái đẹp Việt, Song Diệu kiến tạo vẻ đẹp khỏe khoắn, tự tin và rạng rỡ bền vững qua các dòng sản phẩm chăm sóc nội tiết, sắc vóc từ thiên nhiên.</p>
       </div>
       <!-- xếp 3 + 2 cân giữa, không để trống ô -->
@@ -75,6 +77,21 @@ import { SITE } from '../data/site';
       radial-gradient(circle at 40% 10%, rgba(201,161,74,.3) 0 1px, transparent 2px);
     animation: sd-prod-twinkle 5s ease-in-out infinite alternate; }
   @keyframes sd-prod-twinkle { from { opacity: .45; } to { opacity: 1; } }
+
+  /* "SONG DIỆU" đỏ đô có vệt vàng quét qua một lần khi cuộn tới, như các khối khác (16/11) */
+  .sp-em { background-image: linear-gradient(100deg, #7d1424 0 40%, #c9a14a 46%, #f6dc86 50%, #c9a14a 54%, #7d1424 60% 100%);
+    background-size: 320% 100%; background-position: 0 0;
+    -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .08em; }
+  :global(.is-in) .sp-em { animation: sd-sp-sweep 1.4s cubic-bezier(.4,0,.2,1) .35s both; }
+  @keyframes sd-sp-sweep { from { background-position: 100% 0; } to { background-position: 0 0; } }
+
+  /* vạch vàng có ngôi sao giữa hai khối nền kem (giống ranh giới footer) */
+  .sec-sep { position: relative; z-index: 4; height: 1px; max-width: 72rem; margin: 0 auto;
+    background: linear-gradient(90deg, transparent 0, rgba(201, 161, 74, .6) 22%, rgba(201, 161, 74, .6) calc(50% - 20px), transparent calc(50% - 16px),
+      transparent calc(50% + 16px), rgba(201, 161, 74, .6) calc(50% + 20px), rgba(201, 161, 74, .6) 78%, transparent 100%); }
+  .sec-sep svg { position: absolute; left: 50%; top: 0; margin: -10px 0 0 -10px; color: #d6aa45;
+    filter: drop-shadow(0 0 5px rgba(240, 220, 168, .9)); animation: sd-sep-star 3.2s ease-in-out infinite; }
+  @keyframes sd-sep-star { 0%, 100% { transform: scale(.75) rotate(0); opacity: .75; } 50% { transform: scale(1) rotate(45deg); opacity: 1; } }
 
   .prod-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; }
   .prod-cell { width: 100%; }
