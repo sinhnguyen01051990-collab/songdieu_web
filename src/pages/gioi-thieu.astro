@@ -8,7 +8,7 @@ import { Image, Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import { SITE } from '../data/site';
 import { PRODUCTS } from '../data/products';
-import founder from '../assets/images/chu-thuong-hieu.jpg'; // ảnh văn phòng có biển SONG DIỆU
+import founder from '../assets/images/gioi-thieu/chu-thuong-hieu-van-phong.jpg'; // ảnh chủ thương hiệu tại văn phòng – anh gửi Drive 16/11/2026
 // ảnh khối Sản xuất đạt chuẩn: anh gửi qua Drive 16/11/2026
 import gNhaMay from '../assets/images/gioi-thieu/kiem-tra-tai-nha-may.jpg';
 import gDayChuyen from '../assets/images/gioi-thieu/day-chuyen-sdbody.jpg';
@@ -63,8 +63,6 @@ const HALVES = [
         </div>
           <span class="gt-glare" aria-hidden="true"></span>
         </div>
-        <span class="gt-tag"><b>Hơn 11 năm</b>đồng hành cùng phái đẹp</span>
-        <span class="gt-tag gt-tag-2"><b>ISO 22000</b>nhà máy sản xuất đạt chuẩn</span>
       </div>
     </div>
     <div class="container-x">
@@ -173,15 +171,7 @@ const HALVES = [
     background: linear-gradient(140deg, #f6dc86, #b8862a 35%, #f0dca8 55%, #a8761f 80%, #e8c46a); box-shadow: 0 28px 56px -30px rgba(58, 9, 16, .55); }
   .gt-frame::before { content: ''; position: absolute; inset: 6px; border-radius: 1.65rem; z-index: 1; pointer-events: none;
     box-shadow: inset 0 0 0 1px rgba(255, 248, 225, .9), inset 0 0 0 4px rgba(184, 134, 42, .3); }
-  .gt-frame :global(.gt-img) { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 25%; border-radius: 1.65rem; }
-  .gt-tag { position: absolute; left: -26px; bottom: 12%; z-index: 3; display: flex; flex-direction: column; gap: 2px; padding: 10px 16px; border-radius: 16px;
-    font-size: 12px; line-height: 1.3; color: rgba(251, 243, 230, .82);
-    background: linear-gradient(180deg, rgba(99, 16, 28, .92), rgba(58, 9, 16, .94));
-    box-shadow: 0 14px 30px -14px rgba(58, 9, 16, .8), inset 0 0 0 1px rgba(224, 191, 110, .55); }
-  .gt-tag b { font-family: var(--font-serif); font-size: 20px; line-height: 1.1; color: var(--color-gold-300); }
-  .gt-tag { animation: sd-gt-float 6s ease-in-out infinite; }
-  .gt-tag-2 { left: auto; right: -26px; bottom: auto; top: 10%; animation-delay: -3s; }
-  @keyframes sd-gt-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .gt-frame :global(.gt-img) { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; object-position: 50% 30%; border-radius: 1.65rem; }
   /* nghiêng 3D + vệt sáng kính khi rê chuột (như ảnh khối Về chúng tôi trang chủ) */
   .gt-tilt { position: relative; transform-style: preserve-3d; transition: transform .5s cubic-bezier(.2,.8,.2,1); will-change: transform; }
   .gt-glare { position: absolute; inset: 6px; border-radius: 1.65rem; z-index: 2; pointer-events: none; opacity: 0; mix-blend-mode: soft-light;
@@ -319,10 +309,6 @@ const HALVES = [
     .gt-pcta { justify-content: center; text-align: center; }
     .gt-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 16px; }
     .gt-stats li:nth-child(3) { border-left: 0; }
-  }
-  @media (max-width: 640px) {
-    .gt-tag { left: -8px; padding: 8px 12px; font-size: 11px; } .gt-tag b { font-size: 17px; }
-    .gt-tag-2 { left: auto; right: -8px; }
   }
 </style>
 
