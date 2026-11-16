@@ -12,9 +12,7 @@ const year = new Date().getFullYear();
 const LINKS = [
   ...NAV,
   { href: '/cau-hoi-thuong-gap/', label: 'Câu hỏi thường gặp' },
-  { href: '/ho-so-phap-ly/', label: 'Hồ sơ pháp lý sản phẩm' },
   { href: '/chinh-sach/', label: 'Chính sách đổi trả & bảo hành' },
-  { href: '/chinh-sach-bao-mat/', label: 'Chính sách bảo mật' },
 ];
 const SOCIAL_ICON: Record<string, string> = {
   facebook: '<path d="M14 8h3V4h-3a4 4 0 0 0-4 4v2H8v4h2v6h4v-6h3l1-4h-4V8z"/>',
@@ -91,7 +89,7 @@ const ICO = {
   <div class="ft-bottom">
     <div class="container-x ft-bottom-in">
       <p>© {year} SONG DIỆU – {SITE.legalName}.</p>
-      <p class="ft-note">Hiệu quả sản phẩm có thể khác nhau ở mỗi người.</p>
+      <p class="ft-note">Giữ trọn chữ tín trên mọi hành trình</p>
       <a href="#top" class="ft-top" aria-label="Lên đầu trang" title="Lên đầu trang" onclick="event.preventDefault();window.scrollTo({top:0,behavior:'smooth'})">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" /></svg>
       </a>
@@ -100,16 +98,18 @@ const ICO = {
 </footer>
 
 <style>
-  .ft { position: relative; isolation: isolate; overflow: hidden; color: rgba(255, 255, 255, .72);
+  .ft { position: relative; isolation: isolate; color: rgba(255, 255, 255, .72);
     background:
       radial-gradient(ellipse 45% 55% at 0% 0%, rgba(224, 191, 110, .1), transparent 70%),
       radial-gradient(ellipse 40% 60% at 100% 100%, rgba(155, 28, 44, .35), transparent 70%),
       linear-gradient(180deg, #2b070d 0%, #22050a 100%); }
   /* vạch vàng có ngôi sao ngăn với khối phía trên */
-  .ft-line { position: absolute; left: 0; right: 0; top: 0; height: 1px; display: grid; place-items: center;
-    background: linear-gradient(90deg, transparent 4%, rgba(224, 191, 110, .75) 30%, rgba(224, 191, 110, .75) 70%, transparent 96%); }
-  .ft-line svg { margin-top: 1px; padding: 0 10px; box-sizing: content-box; color: #f0c95a; background: #2b070d;
-    filter: drop-shadow(0 0 6px rgba(240, 220, 168, .8)); animation: sd-ft-star 3.2s ease-in-out infinite; }
+  /* sao nằm giữa vạch, vắt nửa lên khối trên (footer không cắt tràn nên sao không bị cụt); vạch chừa khoảng trống quanh sao */
+  .ft-line { position: absolute; left: 0; right: 0; top: 0; z-index: 2; height: 1px; pointer-events: none;
+    background: linear-gradient(90deg, transparent 4%, rgba(224, 191, 110, .75) 28%, rgba(224, 191, 110, .75) calc(50% - 22px), transparent calc(50% - 18px),
+      transparent calc(50% + 18px), rgba(224, 191, 110, .75) calc(50% + 22px), rgba(224, 191, 110, .75) 72%, transparent 96%); }
+  .ft-line svg { position: absolute; left: 50%; top: 0; margin: -11px 0 0 -11px; color: #f0c95a;
+    filter: drop-shadow(0 0 6px rgba(240, 220, 168, .85)); animation: sd-ft-star 3.2s ease-in-out infinite; transform-origin: 50% 50%; }
   @keyframes sd-ft-star { 0%, 100% { transform: scale(.75) rotate(0); opacity: .75; } 50% { transform: scale(1) rotate(45deg); opacity: 1; } }
   .ft-dust { position: absolute; inset: 0; z-index: -1; pointer-events: none;
     background:
