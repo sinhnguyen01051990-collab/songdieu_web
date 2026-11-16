@@ -2,7 +2,7 @@
 /**
  * Footer đồng bộ phong cách đã duyệt (16/11/2026):
  * vạch vàng có ngôi sao ngăn với khối Đăng ký; nền đỏ đô sâu + quầng vàng + bụi vàng;
- * logo có vệt sáng lướt theo chu kỳ, rê chuột nghiêng nhẹ có chiều sâu; tiêu đề cột serif vàng + gạch vàng;
+ * logo cùng kiểu logo đầu trang (sửa 16/11); tiêu đề cột serif vàng + gạch vàng;
  * link có chấm vàng trượt vào; cột Liên hệ có biểu tượng viền vàng, hotline lớn, nút Zalo/Gọi; nút Lên đầu trang.
  * Điện thoại: cột Sản phẩm / Liên kết thành mục bấm mở (mặc định mở khi không có JS).
  */
@@ -34,13 +34,10 @@ const ICO = {
   <div class="container-x ft-grid">
     <div class="ft-brand">
       <a href="/" class="ft-logo" aria-label="SONG DIỆU – Trang chủ">
-        <span class="ft-emblem">
-          <img src="/logo-sd-128.webp" alt="" width="56" height="60" loading="lazy" />
-          <span class="ft-emblem-shine" aria-hidden="true"></span>
-        </span>
+        <img src="/logo-sd-128.webp" alt="" width="55" height="60" class="ft-logo-img" loading="lazy" />
         <span class="flex flex-col leading-none">
-          <span class="wordmark gold-text whitespace-nowrap text-[26px]">Song Diệu</span>
-          <span class="mt-1 font-brand text-xs font-semibold italic tracking-[0.2em] text-gold-400 uppercase">Pharma Beauty</span>
+          <span class="wordmark ft-logo-word">Song Diệu</span>
+          <span class="ft-logo-sub">Pharma Beauty</span>
         </span>
       </a>
       <p class="hand mt-4 !text-gold-300 text-lg">{SITE.tagline}</p>
@@ -123,16 +120,13 @@ const ICO = {
 
   .ft-grid { display: grid; gap: 40px; padding-block: 64px 48px; grid-template-columns: 1.35fr 1fr 1fr 1.15fr; }
 
-  /* logo: vệt sáng lướt theo chu kỳ, rê chuột nghiêng nhẹ có chiều sâu */
-  .ft-logo { display: inline-flex; align-items: center; gap: 12px; perspective: 600px; }
-  .ft-emblem { position: relative; display: block; overflow: hidden; border-radius: 12px; transition: transform .6s cubic-bezier(.2, .8, .2, 1), filter .6s; }
-  .ft-emblem img { display: block; height: 64px; width: auto; }
-  .ft-emblem-shine { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen;
-    background: linear-gradient(115deg, transparent 35%, rgba(255, 243, 196, .75) 50%, transparent 65%);
-    transform: translateX(-130%); animation: sd-sweep 6s ease-in-out infinite; }
-  @media (hover: hover) {
-    .ft-logo:hover .ft-emblem { transform: rotateY(-18deg) rotateX(6deg) scale(1.06); filter: drop-shadow(0 10px 14px rgba(0, 0, 0, .45)) drop-shadow(0 0 12px rgba(240, 220, 168, .35)); }
-  }
+  /* logo: cùng kiểu logo đầu trang khi nằm trên nền đỏ đô (chữ vàng chuyển sắc, dòng phụ chữ thường giãn rộng), phóng to theo cùng tỉ lệ */
+  .ft-logo { display: inline-flex; align-items: center; gap: 12px; }
+  .ft-logo-img { height: 60px; width: auto; }
+  .ft-logo-word { font-size: 27px; white-space: nowrap;
+    background-image: linear-gradient(180deg, #f6dc86 0%, #d4a33c 50%, #a8761f 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .ft-logo-sub { margin-top: 5px; font-size: 13px; font-weight: 600; letter-spacing: .3em; text-transform: uppercase; color: var(--color-gold-300); }
   .ft-about { margin-top: 14px; max-width: 24rem; font-size: 14px; line-height: 1.7; }
   .ft-social { display: flex; gap: 10px; margin-top: 18px; }
   .ft-social a { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 999px; color: var(--color-gold-300);
