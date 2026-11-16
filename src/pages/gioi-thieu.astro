@@ -9,9 +9,10 @@ import Base from '../layouts/Base.astro';
 import { SITE } from '../data/site';
 import { PRODUCTS } from '../data/products';
 import founder from '../assets/images/banner/02-nha-sang-lap-xuan-nu-nhan.jpg';
-import nhaMay1 from '../assets/images/sp/nha-may-1.jpg';
-import vanPhong from '../assets/images/sp/van-phong-song-dieu.jpg';
-import dayChuyen from '../assets/images/banner/05-day-chuyen-sdbody.jpg';
+// ảnh khối Sản xuất đạt chuẩn: anh gửi qua Drive 16/11/2026
+import gNhaMay from '../assets/images/gioi-thieu/kiem-tra-tai-nha-may.jpg';
+import gDayChuyen from '../assets/images/gioi-thieu/day-chuyen-sdbody.jpg';
+import gXnn from '../assets/images/gioi-thieu/xuan-nu-nhan-van-phong.jpg';
 import imgNgoai from '../assets/images/sp/gel-sdbody-beauty-1.jpg';
 import imgTrong from '../assets/images/sp/xuan-nu-nhan-beauty-1.jpg';
 
@@ -129,9 +130,9 @@ const HALVES = [
         </div>
       </div>
       <div class="gt-gallery" data-reveal>
-        <div class="gt-g gt-g-big"><Image src={dayChuyen} alt="Dây chuyền sản xuất Gel SDBODY" width={800} widths={[480, 800]} sizes="(min-width: 1024px) 360px, 60vw" class="gt-gimg" loading="lazy" /></div>
-        <div class="gt-g"><Image src={nhaMay1} alt="Kiểm tra sản phẩm tại nhà máy" width={480} widths={[300, 480]} sizes="(min-width: 1024px) 180px, 40vw" class="gt-gimg" loading="lazy" /></div>
-        <div class="gt-g"><Image src={vanPhong} alt="Văn phòng Song Diệu Pharma Beauty" width={480} widths={[300, 480]} sizes="(min-width: 1024px) 180px, 40vw" class="gt-gimg" loading="lazy" /></div>
+        <div class="gt-g gt-g-big"><Picture src={gNhaMay} alt="Kiểm tra sản phẩm SONG DIỆU tại nhà máy" widths={[480, 720, 960]} sizes="(min-width: 1024px) 340px, 58vw" formats={['avif', 'webp']} fallbackFormat="webp" class="gt-gimg" loading="lazy" /></div>
+        <div class="gt-g"><Picture src={gDayChuyen} alt="Dây chuyền sản xuất Gel SDBODY" widths={[320, 520]} sizes="(min-width: 1024px) 240px, 40vw" formats={['avif', 'webp']} fallbackFormat="webp" class="gt-gimg" loading="lazy" /></div>
+        <div class="gt-g gt-g-top"><Picture src={gXnn} alt="Viên uống nội tiết Xuân Nữ Nhan tại văn phòng Song Diệu" widths={[320, 520]} sizes="(min-width: 1024px) 240px, 40vw" formats={['avif', 'webp']} fallbackFormat="webp" class="gt-gimg" loading="lazy" /></div>
       </div>
     </div>
   </section>
@@ -282,6 +283,9 @@ const HALVES = [
   .gt-g-big { grid-row: span 2; }
   .gt-g :global(.gt-gimg) { width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.2, .8, .2, 1); }
   .gt-g:hover :global(.gt-gimg) { transform: scale(1.05); }
+  .gt-g :global(picture) { display: block; width: 100%; height: 100%; }
+  .gt-g-big :global(.gt-gimg) { object-position: 50% 30%; }
+  .gt-g-top :global(.gt-gimg) { object-position: 50% 18%; }
 
   @media (max-width: 1023px) {
     .gt-pwrap { grid-template-columns: minmax(0, 1fr); row-gap: 0; max-width: 34rem; }
