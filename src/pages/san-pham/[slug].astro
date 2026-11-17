@@ -59,6 +59,23 @@ const lowest = minPrice(p);
 const others = PRODUCTS.filter((x) => x.slug !== p.slug).slice(0, 3);
 // biểu tượng nét mảnh thay biểu tượng cảm xúc (16/11/2026), cùng kiểu khối Sản Xuất Đạt Chuẩn
 const ico = (d: string, size = 18) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+// biểu tượng nét mảnh cho từng thành phần
+const ING_ICO: Record<string, string> = {
+  flame: '<path d="M12 3c1 3.5 5 5.5 5 10a5 5 0 0 1-10 0c0-2.5 1.5-3.5 2-5 .8 1.5 1.5 2 2.5 2C11.5 7.5 11 5.5 12 3z"/>',
+  bark: '<path d="M7 20c-1.5-5 0-11 4-16"/><path d="M12 20c-1.5-5 0-11 4-16"/><path d="M17 20c-1-3-.5-6 1-9"/>',
+  flower: '<circle cx="12" cy="12" r="2.5"/><path d="M12 9.5C10 6 10.5 3.5 12 3c1.5.5 2 3 0 6.5zM12 14.5c2 3.5 1.5 6 0 6.5-1.5-.5-2-3 0-6.5zM9.5 12C6 10 3.5 10.5 3 12c.5 1.5 3 2 6.5 0zM14.5 12c3.5 2 6 1.5 6.5 0-.5-1.5-3-2-6.5 0z"/>',
+  drop: '<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>',
+  shield: '<path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/>',
+  root: '<path d="M12 3v5"/><path d="M12 8c-3 0-4 3-4 6s2 6 4 6 4-3 4-6-1-6-4-6z"/><path d="M8 16l-3 2M16 16l3 2"/>',
+  leaf: '<path d="M5 19c0-8 6-14 15-14-1 9-6 15-14 15"/><path d="M5 19c3-4 6-6 9-7"/>',
+  moon: '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
+  seed: '<ellipse cx="12" cy="12" rx="5" ry="8"/><path d="M12 5v14"/>',
+  clover: '<circle cx="12" cy="8" r="3"/><circle cx="8" cy="13" r="3"/><circle cx="16" cy="13" r="3"/><path d="M12 15v6"/>',
+  sparkle: '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M18.5 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  heart: '<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',
+  berry: '<circle cx="9" cy="14" r="3"/><circle cx="15" cy="14" r="3"/><circle cx="12" cy="9" r="3"/><path d="M12 6V3"/>',
+};
 const PROMISES = [
   { t: 'Freeship toàn quốc, giao 2–3 ngày', i: '<path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>' },
   { t: 'Được kiểm hàng trước khi thanh toán', i: '<path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/>' },
@@ -152,14 +169,19 @@ const PROMISES = [
         {p.ingredients.length > 0 && (
           <>
             <h2>Thành Phần Chính</h2>
-            <div class="not-prose grid gap-4 sm:grid-cols-2">
+            {p.ingredientsIntro && <p class="spd-ing-intro">{p.ingredientsIntro}</p>}
+            <ul class="not-prose spd-ings" data-reveal-group>
               {p.ingredients.map((i) => (
-                <div class="spd-ing">
-                  <p class="font-semibold text-ink">{i.name}{i.amount && <span class="ml-2 rounded-full bg-gold-300/40 px-2 py-0.5 text-xs text-gold-600">{i.amount}/viên</span>}</p>
-                  <p class="mt-2 text-sm text-mute">{i.desc}</p>
-                </div>
+                <li class="spd-ing">
+                  <span class="spd-ing-ico" set:html={ico(ING_ICO[i.icon ?? 'leaf'] ?? ING_ICO.leaf, 20)} />
+                  <span class="spd-ing-txt">
+                    <span class="spd-ing-name">{i.name}{i.amount && <span class="spd-ing-amt">{i.amount}/viên</span>}</span>
+                    {i.tag && <span class="spd-ing-tag">{i.tag}</span>}
+                    <span class="spd-ing-desc">{i.desc}</span>
+                  </span>
+                </li>
               ))}
-            </div>
+            </ul>
           </>
         )}
         <h2>Hướng Dẫn Sử Dụng</h2>
@@ -368,9 +390,24 @@ const PROMISES = [
   /* tiêu đề nội dung: viết hoa chữ đầu, vạch vàng nhỏ phía trước */
   .spd-prose > :global(h2) { display: flex; align-items: center; gap: 12px; font-size: 30px; }
   .spd-prose > :global(h2)::before { content: ''; flex: none; width: 28px; height: 1px; background: linear-gradient(90deg, transparent, var(--color-gold-500)); }
-  .spd-ing { border-radius: 18px; padding: 20px; background: linear-gradient(180deg, #fffdf8, #fbf5ea); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .4);
-    transition: box-shadow .35s, transform .35s; }
-  .spd-ing:hover { transform: translateY(-2px); box-shadow: inset 0 0 0 1px var(--color-gold-500), 0 14px 28px -20px rgba(99, 16, 28, .45); }
+  /* thành phần: danh sách 2 cột nhẹ, biểu tượng tròn đỏ đô viền vàng, vạch vàng mảnh giữa các dòng */
+  .spd-ing-intro { margin: -4px 0 18px !important; font: italic 600 19px/1.4 var(--font-serif) !important; color: var(--color-gold-600) !important; }
+  .spd-ings { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); column-gap: 36px; }
+  @media (min-width: 640px) { .spd-ings { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .spd-ing { display: flex; align-items: flex-start; gap: 14px; padding: 16px 4px; border-bottom: 1px solid rgba(201, 161, 74, .28);
+    transition: opacity .9s, filter .9s, transform .9s cubic-bezier(.2,.8,.2,1); }
+  .spd-ing-ico { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; color: var(--color-gold-300);
+    background: radial-gradient(circle at 50% 30%, #9b1c2c, #4a0c15 75%);
+    box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .7), 0 8px 16px -10px rgba(58, 9, 16, .7);
+    transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s; }
+  .spd-ing:hover .spd-ing-ico { transform: translateY(-3px); box-shadow: inset 0 0 0 1px #f0dca8, 0 0 0 5px rgba(224, 191, 110, .18), 0 12px 20px -10px rgba(58, 9, 16, .8); }
+  .spd-ing-txt { min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+  .spd-ing-name { font-weight: 600; color: var(--color-ink); transition: color .3s; }
+  .spd-ing:hover .spd-ing-name { color: var(--color-brand-600); }
+  .spd-ing-amt { margin-left: 6px; padding: 1px 7px; border-radius: 999px; font-size: 11.5px; font-weight: 600; color: var(--color-gold-600); background: rgba(224, 191, 110, .25); }
+  .spd-ing-tag { padding: 2px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 600; color: var(--color-gold-300);
+    background: linear-gradient(180deg, var(--color-brand-500), var(--color-brand-700)); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .55); }
+  .spd-ing-desc { flex-basis: 100%; font-size: 14px; line-height: 1.6; color: var(--color-mute); }
 
   /* câu hỏi thường gặp: dấu cộng trong vòng tròn vàng, mở ra thì xoay thành dấu nhân */
   .spd-faq { border-radius: 18px; padding: 16px 20px; background: var(--color-cream); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .4); transition: box-shadow .3s; }
