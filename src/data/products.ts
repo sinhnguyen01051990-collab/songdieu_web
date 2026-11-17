@@ -69,7 +69,7 @@ export const PRODUCTS: Product[] = [
     name: 'Gel Gừng Quế SDBODY',
     shortName: 'Gel SDBODY',
     category: 'Chăm sóc vóc dáng',
-    tagline: 'Ấm nóng dịu nhẹ – hỗ trợ săn chắc vòng eo, mịn màng làn da',
+    tagline: 'Ấm nóng dịu nhẹ – hỗ trợ giảm mỡ, săn chắc vòng eo, mịn màng làn da',
     description:
       'Gel gừng quế SDBODY 100ml: gừng, quế, VBE, vitamin E. Ấm nhẹ khi massage, hỗ trợ săn chắc vùng bụng, eo, đùi. Freeship, kiểm hàng COD.',
     image: gelMoi1,
@@ -85,8 +85,6 @@ export const PRODUCTS: Product[] = [
     offers: [
       { label: 'Combo 2 tuýp', price: 499000, note: 'Tặng 1 hộp Trà Táo Mèo + Freeship' },
       { label: 'Combo 3 tuýp', price: 749000, note: 'Tặng 2 hộp Trà Táo Mèo + Freeship', best: true },
-      { label: '2 tuýp + 1 Đai Latex', price: 799000, note: 'Giá gốc 949K · Tặng 1 trà + Freeship' },
-      { label: '3 tuýp + 1 Đai Latex', price: 999000, note: 'Giá gốc 1.199K · Tặng 2 trà + Freeship' },
     ],
     benefits: [
       'Tạo cảm giác ấm nóng dịu nhẹ khi massage – không nóng rát, bỏng da',

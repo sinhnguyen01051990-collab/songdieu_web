@@ -3,9 +3,8 @@ import { Picture, getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import LeadForm from '../../components/LeadForm.astro';
 import ProductCard from '../../components/ProductCard.astro';
-import VideoGallery from '../../components/VideoGallery.astro';
 import FeedbackGallery from '../../components/FeedbackGallery.astro';
-import { VIDEOS, FEEDBACK } from '../../data/media';
+import { FEEDBACK } from '../../data/media';
 import { PRODUCTS, type Product, formatVnd, minPrice } from '../../data/products';
 import { SITE } from '../../data/site';
 
@@ -68,7 +67,6 @@ const PROMISES = [
   { t: 'Thẻ bảo hành kèm mỗi đơn hàng', i: '<path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/>' },
   { t: 'Đổi 1–1 nếu sản phẩm lỗi', i: '<path d="M4 9a8 8 0 0 1 14-3l2 2"/><path d="M20 4v4h-4"/><path d="M20 15a8 8 0 0 1-14 3l-2-2"/><path d="M4 20v-4h4"/>' },
 ];
-const icoDoc = '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/>';
 ---
 <Base
   title={p.name}
@@ -81,8 +79,10 @@ const icoDoc = '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2
   <!-- TOP -->
   <section class="section !pt-10 spd-top">
     <span class="spd-dust" aria-hidden="true"></span>
-    <div class="container-x grid gap-10 lg:grid-cols-2">
-      <!-- Gallery: máy tính đứng yên khi cuộn phần thông tin; bấm ảnh xem to; điện thoại vuốt ngang -->
+    <!-- bố cục: máy tính ảnh + công dụng bên trái, tên + giá + đặt hàng bên phải (hai cột cân nhau);
+         điện thoại: ảnh → tên, giá → công dụng → đặt hàng (17/11/2026) -->
+    <div class="container-x spd-grid">
+      <!-- Gallery: bấm ảnh xem to; điện thoại vuốt ngang -->
       <div class="spd-gal">
         {p.gallery.length > 0 ? (
           <div class="space-y-3">
@@ -110,8 +110,7 @@ const icoDoc = '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2
         )}
       </div>
 
-      <!-- Info + order -->
-      <div>
+      <div class="spd-head">
         <p class="eyebrow">{p.category}</p>
         <h1 class="mt-2 text-4xl font-bold sm:text-5xl">{p.name}</h1>
         <p class="mt-3 text-lg text-mute">{p.tagline}</p>
@@ -122,10 +121,14 @@ const icoDoc = '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2
             <li><span set:html={ico(PROMISES[1].i, 15)} />Kiểm hàng rồi thanh toán</li>
           </ul>
         </div>
-        <p class="mt-3 text-sm text-mute">Quy cách: {p.size}</p>
+      </div>
+
+      <div class="spd-ben">
+        <p class="spd-ben-t">Công dụng nổi bật <span>· Quy cách: {p.size}</span></p>
         <ul class="spd-benefits">
           {p.benefits.map((b) => <li><span class="spd-check" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span>{b}</li>)}
         </ul>
+      </div>
 
         <div id="dat-hang" class="spd-order" data-reveal>
           {p.offers.length > 0 ? (
@@ -141,8 +144,6 @@ const icoDoc = '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2
             </>
           )}
         </div>
-        <p class="spd-legal"><span set:html={ico(icoDoc, 16)} />{p.legal}</p>
-      </div>
     </div>
   </section>
 
@@ -208,14 +209,13 @@ const icoDoc = '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2
   </section>
 
   <FeedbackGallery items={FEEDBACK[p.slug] ?? []} />
-  <VideoGallery videos={VIDEOS[p.slug] ?? []} title={`Video về ${p.shortName}`} />
 
   <!-- RELATED -->
   <section class="section spd-cv spd-rel" aria-labelledby="spd-rel-title">
     <div class="container-x">
       <div class="text-center" data-reveal>
-        <p class="eyebrow">Gợi ý cho chị</p>
-        <h2 id="spd-rel-title" class="mt-3 text-4xl font-bold sm:text-5xl">Có Thể Chị <span class="spd-em italic">Cũng Thích</span></h2>
+        <p class="eyebrow">Gợi ý cho bạn</p>
+        <h2 id="spd-rel-title" class="mt-3 text-4xl font-bold sm:text-5xl">Có Thể Bạn <span class="spd-em italic">Cũng Thích</span></h2>
       </div>
       <div class="spd-rgrid mt-10" data-reveal-group>
         {others.map((o) => <div class="spd-rcell"><ProductCard product={o} /></div>)}
@@ -367,8 +367,6 @@ const icoDoc = '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2
   @keyframes sd-spd-ring { 0% { --sd-a: 0deg; opacity: 0; } 12% { opacity: 1; } 85% { opacity: 1; } 100% { --sd-a: 360deg; opacity: 0; } }
   .spd-order-t { margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid rgba(201, 161, 74, .3);
     font: 700 24px/1.2 var(--font-serif); color: var(--color-brand-700); }
-  .spd-legal { display: flex; align-items: flex-start; gap: 8px; margin-top: 16px; font-size: 12.5px; line-height: 1.5; color: var(--color-mute); }
-  .spd-legal > span { flex: none; color: var(--color-gold-600); margin-top: 1px; }
 
   /* tiêu đề nội dung: viết hoa chữ đầu, vạch vàng nhỏ phía trước */
   .spd-prose > :global(h2) { display: flex; align-items: center; gap: 12px; font-size: 30px; }
@@ -438,7 +436,18 @@ const icoDoc = '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2
   .spd-pr-tags li span { display: grid; color: var(--color-gold-600); }
 
   /* cột ảnh: máy tính đứng yên khi cuộn phần thông tin */
-  @media (min-width: 1024px) { .spd-gal { position: sticky; top: 96px; align-self: start; } }
+  .spd-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .spd-grid > * { min-width: 0; }
+  .spd-grid > .spd-order { margin-top: 0; }
+  @media (min-width: 1024px) {
+    .spd-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "gal head" "gal order" "ben order"; column-gap: 48px; row-gap: 28px; align-items: start; }
+    .spd-gal { grid-area: gal; } .spd-head { grid-area: head; } .spd-ben { grid-area: ben; } .spd-grid > .spd-order { grid-area: order; }
+  }
+  /* công dụng: thẻ kem viền vàng mảnh */
+  .spd-ben { padding: 20px 22px; border-radius: 22px; background: rgba(255, 255, 255, .7); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .45); }
+  .spd-ben-t { font: 700 22px/1.2 var(--font-serif); color: var(--color-ink); }
+  .spd-ben-t span { font: 400 13px var(--font-sans); color: var(--color-mute); }
+  .spd-ben .spd-benefits { margin-top: 14px; }
   .spd-frame :global(.spd-main) { cursor: zoom-in; transition: opacity .35s ease; }
   .spd-frame :global(.spd-main.is-fade) { opacity: 0; }
   .spd-zoom { position: absolute; right: 16px; top: 16px; z-index: 3; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 999px;
