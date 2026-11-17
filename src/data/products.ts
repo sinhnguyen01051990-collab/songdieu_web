@@ -119,10 +119,10 @@ export const PRODUCTS: Product[] = [
     legal: 'Phiếu công bố mỹ phẩm số 59/26/CBMP-BN – Sở Y tế Bắc Ninh.',
     faq: [
       { q: 'Gel SDBODY có nóng rát không?', a: 'Không nóng rát, nóng bỏng – chỉ ấm nhẹ, rất êm khi massage. Mức độ ấm có thể khác nhau tùy làn da.' },
-      { q: 'Mẹ đang cho con bú có dùng được không?', a: 'Được. Gel dùng ngoài da, thẩm thấu nhanh, không nhờn rít; mẹ chỉ cần rửa tay sau khi thoa và tránh thoa vùng ngực khi cho bé ti.' },
-      { q: 'Sinh mổ bao lâu thì dùng được?', a: 'Sinh thường có thể dùng ngay; sinh mổ sau khoảng 5 tuần là có thể sử dụng.' },
+      { q: 'Mẹ đang cho con bú có dùng được không?', a: 'Mẹ đang cho con bú dùng bình thường ạ. Gel dùng ngoài da, thẩm thấu nhanh, không nhờn rít; mẹ chỉ cần rửa tay sau khi thoa và tránh thoa vùng ngực khi cho bé ti.' },
+      { q: 'Sinh mổ bao lâu thì dùng được?', a: 'Sinh thường mình có thể dùng ngay. Sinh mổ sau khoảng 5 tuần là mình có thể sử dụng.' },
       { q: 'Một tuýp dùng được bao lâu?', a: 'Khoảng 25–30 ngày nếu thoa mỏng 3–5 lần/ngày. Vòng bụng trên 80cm nên dùng combo 3 tuýp, dưới 80cm dùng combo 2 tuýp.' },
-      { q: 'Có cần đeo đai khi dùng không?', a: 'Không bắt buộc. Đeo đai hoặc quấn nilon giúp định hình dáng nhanh hơn, không dùng vẫn chăm sóc bình thường.' },
+      { q: 'Có cần đeo đai khi dùng không?', a: 'Không bắt buộc phải đeo đai. Đeo đai hoặc quấn nilon giúp định hình dáng nhanh hơn, không dùng vẫn giảm vòng eo bình thường.' },
     ],
     featured: true,
   },
