@@ -11,7 +11,7 @@ import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import LeadForm from '../components/LeadForm.astro';
 import { SITE } from '../data/site';
-import office from '../assets/images/gioi-thieu/chu-thuong-hieu-van-phong.jpg';
+import office from '../assets/images/lien-he/van-phong-song-dieu.jpg'; // ảnh văn phòng anh gửi 17/11/2026
 const mapQuery = encodeURIComponent(SITE.address.full);
 const mapEmbed = `https://www.google.com/maps?q=${mapQuery}&output=embed`;
 const mapDir = `https://www.google.com/maps/dir/?api=1&destination=${mapQuery}`;
@@ -75,7 +75,7 @@ const social = [
 
       <aside class="lh-visit" aria-labelledby="lh-visit-t" data-reveal>
         <div class="lh-photo" id="lh-map" data-src={mapEmbed}>
-          <Picture src={office} alt="Văn phòng SONG DIỆU Pharma Beauty" widths={[420, 640, 900]} sizes="(min-width: 1024px) 460px, 92vw"
+          <Picture src={office} alt="Văn phòng SONG DIỆU Pharma Beauty với Trà Mâm Xôi Tứ Vị và Bút Gel Hoàng Cung Bảo Phụ Khang" widths={[420, 640, 900]} sizes="(min-width: 1024px) 460px, 92vw"
             formats={['avif', 'webp']} fallbackFormat="webp" loading="lazy" class="lh-img" />
         </div>
         <div class="lh-visit-b">
@@ -164,9 +164,9 @@ const social = [
 
   /* Ghé thăm: ảnh văn phòng + địa chỉ, không viền đậm */
   .lh-visit { min-width: 0; border-radius: 26px; overflow: hidden; background: rgba(255, 255, 255, .7); box-shadow: 0 14px 36px -26px rgba(58, 9, 16, .45); }
-  .lh-photo { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #f4e8cc; }
+  .lh-photo { position: relative; aspect-ratio: 1 / 1; overflow: hidden; background: #f4e8cc; }
   .lh-photo :global(picture) { display: block; width: 100%; height: 100%; }
-  .lh-photo :global(.lh-img) { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; }
+  .lh-photo :global(.lh-img) { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
   .lh-photo::after { content: ''; position: absolute; inset: auto 0 0; height: 40%; pointer-events: none; background: linear-gradient(transparent, rgba(255, 253, 248, .35)); }
   .lh-photo.is-live { aspect-ratio: 4 / 3; }
   .lh-photo.is-live::after { display: none; }
