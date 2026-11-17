@@ -176,7 +176,6 @@ const PROMISES = [
                   <span class="spd-ing-ico" set:html={ico(ING_ICO[i.icon ?? 'leaf'] ?? ING_ICO.leaf, 20)} />
                   <span class="spd-ing-txt">
                     <span class="spd-ing-name">{i.name}{i.amount && <span class="spd-ing-amt">{i.amount}/viên</span>}</span>
-                    {i.tag && <span class="spd-ing-tag">{i.tag}</span>}
                     <span class="spd-ing-desc">{i.desc}</span>
                   </span>
                 </li>
@@ -405,8 +404,6 @@ const PROMISES = [
   .spd-ing-name { font-weight: 600; color: var(--color-ink); transition: color .3s; }
   .spd-ing:hover .spd-ing-name { color: var(--color-brand-600); }
   .spd-ing-amt { margin-left: 6px; padding: 1px 7px; border-radius: 999px; font-size: 11.5px; font-weight: 600; color: var(--color-gold-600); background: rgba(224, 191, 110, .25); }
-  .spd-ing-tag { padding: 2px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 600; color: var(--color-gold-300);
-    background: linear-gradient(180deg, var(--color-brand-500), var(--color-brand-700)); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .55); }
   .spd-ing-desc { flex-basis: 100%; font-size: 14px; line-height: 1.6; color: var(--color-mute); }
 
   /* câu hỏi thường gặp: dấu cộng trong vòng tròn vàng, mở ra thì xoay thành dấu nhân */

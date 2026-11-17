@@ -36,8 +36,8 @@ import gung1 from '../assets/images/gung1.jpeg';
 import xnnBanner from '../assets/images/background-1.png';
 
 export interface Offer { label: string; price: number; note?: string; best?: boolean }
-// tag: nhãn công dụng ngắn (rút từ mô tả); icon: tên biểu tượng ở trang chi tiết (17/11/2026)
-export interface Ingredient { name: string; amount?: string; desc: string; tag?: string; icon?: string }
+// icon: tên biểu tượng ở trang chi tiết (17/11/2026)
+export interface Ingredient { name: string; amount?: string; desc: string; icon?: string }
 export interface Faq { q: string; a: string }
 
 export interface Product {
@@ -97,11 +97,11 @@ export const PRODUCTS: Product[] = [
     ],
     ingredientsIntro: '5 thành phần chọn lọc – ấm dịu, không nóng rát, dưỡng da mềm mịn.',
     ingredients: [
-      { name: 'Chiết xuất Gừng', icon: 'flame', tag: 'Làm ấm', desc: 'Chứa Gingerol và Shogaol tạo nhiệt tự nhiên, hỗ trợ tuần hoàn máu, giúp vùng da săn chắc hơn khi kết hợp massage.' },
-      { name: 'Vỏ Quế', icon: 'bark', tag: 'Tạo nhiệt', desc: 'Giàu cinnamaldehyde với tính ấm tự nhiên, hỗ trợ tạo nhiệt tại chỗ và thúc đẩy trao đổi chất ở vùng da được massage.' },
-      { name: 'Vanillyl Butyl Ether (VBE)', icon: 'flower', tag: 'Ấm dịu', desc: 'Chiết xuất từ hoa Tulip, hương vani nhẹ. Tạo cảm giác ấm kéo dài nhưng dịu nhẹ hơn chiết xuất tiêu/ớt, ít châm chích, ổn định trong nền gel.' },
-      { name: 'Glycerin', icon: 'drop', tag: 'Giữ ẩm', desc: '“Hoạt chất vàng” giữ ẩm: dẫn truyền hoạt chất, làm mềm da, hỗ trợ độ đàn hồi và bảo vệ hàng rào da.' },
-      { name: 'Vitamin E (Tocopheryl Acetate)', icon: 'shield', tag: 'Dưỡng da', desc: 'Dưỡng ẩm sâu, chống oxy hóa, hỗ trợ ngăn ngừa rạn da, giúp làn da mịn màng và săn chắc hơn.' },
+      { name: 'Chiết xuất Gừng', icon: 'flame', desc: 'Chứa Gingerol và Shogaol tạo nhiệt tự nhiên, hỗ trợ tuần hoàn máu, giúp vùng da săn chắc hơn khi kết hợp massage.' },
+      { name: 'Vỏ Quế', icon: 'bark', desc: 'Giàu cinnamaldehyde với tính ấm tự nhiên, hỗ trợ tạo nhiệt tại chỗ và thúc đẩy trao đổi chất ở vùng da được massage.' },
+      { name: 'Vanillyl Butyl Ether (VBE)', icon: 'flower', desc: 'Chiết xuất từ hoa Tulip, hương vani nhẹ. Tạo cảm giác ấm kéo dài nhưng dịu nhẹ hơn chiết xuất tiêu/ớt, ít châm chích, ổn định trong nền gel.' },
+      { name: 'Glycerin', icon: 'drop', desc: '“Hoạt chất vàng” giữ ẩm: dẫn truyền hoạt chất, làm mềm da, hỗ trợ độ đàn hồi và bảo vệ hàng rào da.' },
+      { name: 'Vitamin E (Tocopheryl Acetate)', icon: 'shield', desc: 'Dưỡng ẩm sâu, chống oxy hóa, hỗ trợ ngăn ngừa rạn da, giúp làn da mịn màng và săn chắc hơn.' },
     ],
     usage: [
       'Làm sạch và lau khô vùng da cần chăm sóc.',
@@ -161,16 +161,16 @@ export const PRODUCTS: Product[] = [
     ],
     ingredientsIntro: '10 thảo dược quý trong mỗi viên – hỗ trợ cân bằng nội tiết, nuôi dưỡng từ bên trong.',
     ingredients: [
-      { name: 'Sâm tố nữ (Pueraria mirifica)', icon: 'root', tag: 'Cân bằng nội tiết', amount: '200mg', desc: 'Hỗ trợ cân bằng nội tiết tố, điều hòa kinh nguyệt, trẻ hóa, tiết nước tự nhiên.' },
-      { name: 'Đương quy', icon: 'leaf', tag: 'Bổ huyết', amount: '60mg', desc: 'Bổ huyết, hoạt huyết, điều kinh, tăng tuần hoàn máu, nâng cao miễn dịch.' },
-      { name: 'Thiên môn chùm', icon: 'moon', tag: 'Làm dịu', amount: '50mg', desc: 'Hỗ trợ cân bằng nội tiết, làm dịu cáu gắt, bốc hỏa, mất ngủ; làm ẩm các mô khô.' },
-      { name: 'Hạt cỏ cà ri', icon: 'seed', tag: 'Hỗ trợ mãn kinh', amount: '30mg', desc: 'Chứa saponin, trigonelline; hỗ trợ triệu chứng mãn kinh và chuyển hóa.' },
-      { name: 'Rễ Bạch thược', icon: 'flower', tag: 'Điều kinh', amount: '30mg', desc: 'Dưỡng huyết, điều kinh, hỗ trợ giảm các chứng đau liên quan kinh nguyệt.' },
-      { name: 'Lá Cỏ ba lá đỏ', icon: 'clover', tag: 'Cải thiện bốc hỏa', amount: '30mg', desc: 'Chứa isoflavone (formononetin, biochanin A), hỗ trợ cải thiện bốc hỏa.' },
-      { name: 'Đông trùng hạ thảo', icon: 'sparkle', tag: 'Ngủ ngon', amount: '30mg', desc: 'Chống oxy hóa, hỗ trợ cải thiện giấc ngủ, tăng cường sinh lý nữ.' },
-      { name: 'Nghệ', icon: 'sun', tag: 'Da tươi sáng', amount: '30mg', desc: 'Chống oxy hóa, hỗ trợ làn da tươi sáng.' },
-      { name: 'Củ Maca', icon: 'heart', tag: 'Cải thiện tâm trạng', amount: '20mg', desc: 'Hỗ trợ tăng cường ham muốn, cải thiện tâm trạng cảm xúc.' },
-      { name: 'Collagen peptide', icon: 'drop', tag: 'Bổ sung collagen', amount: '10mg', desc: 'Bổ sung collagen cho cơ thể.' },
+      { name: 'Sâm tố nữ (Pueraria mirifica)', icon: 'root', amount: '200mg', desc: 'Hỗ trợ cân bằng nội tiết tố, điều hòa kinh nguyệt, trẻ hóa, tiết nước tự nhiên.' },
+      { name: 'Đương quy', icon: 'leaf', amount: '60mg', desc: 'Bổ huyết, hoạt huyết, điều kinh, tăng tuần hoàn máu, nâng cao miễn dịch.' },
+      { name: 'Thiên môn chùm', icon: 'moon', amount: '50mg', desc: 'Hỗ trợ cân bằng nội tiết, làm dịu cáu gắt, bốc hỏa, mất ngủ; làm ẩm các mô khô.' },
+      { name: 'Hạt cỏ cà ri', icon: 'seed', amount: '30mg', desc: 'Chứa saponin, trigonelline; hỗ trợ triệu chứng mãn kinh và chuyển hóa.' },
+      { name: 'Rễ Bạch thược', icon: 'flower', amount: '30mg', desc: 'Dưỡng huyết, điều kinh, hỗ trợ giảm các chứng đau liên quan kinh nguyệt.' },
+      { name: 'Lá Cỏ ba lá đỏ', icon: 'clover', amount: '30mg', desc: 'Chứa isoflavone (formononetin, biochanin A), hỗ trợ cải thiện bốc hỏa.' },
+      { name: 'Đông trùng hạ thảo', icon: 'sparkle', amount: '30mg', desc: 'Chống oxy hóa, hỗ trợ cải thiện giấc ngủ, tăng cường sinh lý nữ.' },
+      { name: 'Nghệ', icon: 'sun', amount: '30mg', desc: 'Chống oxy hóa, hỗ trợ làn da tươi sáng.' },
+      { name: 'Củ Maca', icon: 'heart', amount: '20mg', desc: 'Hỗ trợ tăng cường ham muốn, cải thiện tâm trạng cảm xúc.' },
+      { name: 'Collagen peptide', icon: 'drop', amount: '10mg', desc: 'Bổ sung collagen cho cơ thể.' },
     ],
     usage: [
       'Uống 2 viên/ngày, uống cùng lúc vào buổi sáng, sau bữa ăn sáng khoảng 30 phút.',
@@ -291,10 +291,10 @@ export const PRODUCTS: Product[] = [
     ],
     ingredientsIntro: '4 thảo dược truyền thống chăm sóc sức khỏe phụ nữ, vị ngọt tự nhiên không đường.',
     ingredients: [
-      { name: 'Mâm xôi rừng', icon: 'berry', tag: 'Chăm sóc phụ nữ', desc: 'Thảo dược truyền thống chăm sóc sức khỏe phụ nữ.' },
-      { name: 'Sâm tố nữ', icon: 'root', tag: 'Cân bằng nội tiết', desc: 'Hỗ trợ cân bằng nội tiết tố.' },
-      { name: 'Cỏ ngọt', icon: 'leaf', tag: 'Ngọt tự nhiên', desc: 'Tạo vị ngọt tự nhiên, không đường.' },
-      { name: 'Cỏ máu', icon: 'heart', tag: 'Bổ huyết', desc: 'Hỗ trợ bổ huyết, dưỡng huyết.' },
+      { name: 'Mâm xôi rừng', icon: 'berry', desc: 'Thảo dược truyền thống chăm sóc sức khỏe phụ nữ.' },
+      { name: 'Sâm tố nữ', icon: 'root', desc: 'Hỗ trợ cân bằng nội tiết tố.' },
+      { name: 'Cỏ ngọt', icon: 'leaf', desc: 'Tạo vị ngọt tự nhiên, không đường.' },
+      { name: 'Cỏ máu', icon: 'heart', desc: 'Hỗ trợ bổ huyết, dưỡng huyết.' },
     ],
     usage: ['Hãm 1 gói với nước sôi, uống trong ngày.'],
     notes: ['Không dùng cho phụ nữ đang mang thai.'],
