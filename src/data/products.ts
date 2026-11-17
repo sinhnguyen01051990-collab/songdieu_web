@@ -1,49 +1,39 @@
 import type { ImageMetadata } from 'astro';
+// ảnh sản phẩm mới – anh gửi Drive 17/11/2026
+import gelMoi1 from '../assets/images/sp/gel-sdbody-moi-1.jpg';
+import gelMoi2 from '../assets/images/sp/gel-sdbody-moi-2.jpg';
+import gelMoi3 from '../assets/images/sp/gel-sdbody-moi-3.jpg';
+import gelMoi4 from '../assets/images/sp/gel-sdbody-moi-4.jpg';
+import gelMoi5 from '../assets/images/sp/gel-sdbody-moi-5.jpg';
+import gelMoi6 from '../assets/images/sp/gel-sdbody-moi-6.jpg';
+import xnnMoi1 from '../assets/images/sp/xuan-nu-nhan-moi-1.jpg';
+import xnnMoi2 from '../assets/images/sp/xuan-nu-nhan-moi-2.jpg';
+import xnnMoi3 from '../assets/images/sp/xuan-nu-nhan-moi-3.jpg';
+import xnnMoi4 from '../assets/images/sp/xuan-nu-nhan-moi-4.jpg';
+import xnnMoi5 from '../assets/images/sp/xuan-nu-nhan-moi-5.jpg';
+import xnnMoi6 from '../assets/images/sp/xuan-nu-nhan-moi-6.jpg';
+import taoMeoMoi1 from '../assets/images/sp/tra-tao-meo-moi-1.jpg';
+import taoMeoMoi2 from '../assets/images/sp/tra-tao-meo-moi-2.jpg';
+import taoMeoMoi3 from '../assets/images/sp/tra-tao-meo-moi-3.jpg';
+import taoMeoMoi4 from '../assets/images/sp/tra-tao-meo-moi-4.jpg';
+import taoMeoMoi5 from '../assets/images/sp/tra-tao-meo-moi-5.jpg';
+import taoMeoMoi6 from '../assets/images/sp/tra-tao-meo-moi-6.jpg';
+import butMoi1 from '../assets/images/sp/but-gel-hcbpk-moi-1.jpg';
+import butMoi2 from '../assets/images/sp/but-gel-hcbpk-moi-2.jpg';
+import butMoi3 from '../assets/images/sp/but-gel-hcbpk-moi-3.jpg';
+import butMoi4 from '../assets/images/sp/but-gel-hcbpk-moi-4.jpg';
+import butMoi5 from '../assets/images/sp/but-gel-hcbpk-moi-5.jpg';
+import butMoi6 from '../assets/images/sp/but-gel-hcbpk-moi-6.jpg';
+import mamXoiMoi1 from '../assets/images/sp/tra-mam-xoi-moi-1.jpg';
+import mamXoiMoi2 from '../assets/images/sp/tra-mam-xoi-moi-2.jpg';
+import mamXoiMoi3 from '../assets/images/sp/tra-mam-xoi-moi-3.jpg';
+import mamXoiMoi4 from '../assets/images/sp/tra-mam-xoi-moi-4.jpg';
+import mamXoiMoi5 from '../assets/images/sp/tra-mam-xoi-moi-5.jpg';
+import mamXoiMoi6 from '../assets/images/sp/tra-mam-xoi-moi-6.jpg';
 import tanmo from '../assets/images/tanmo.jpeg';
 import congthuc from '../assets/images/congthuc.jpeg';
 import gung1 from '../assets/images/gung1.jpeg';
 import xnnBanner from '../assets/images/background-1.png';
-import xnnThanhPhan from '../assets/images/thanhphan.jpg';
-import gel1 from '../assets/images/sp/gel-sdbody-1.jpg';
-import gel2 from '../assets/images/sp/gel-sdbody-2.jpg';
-import gel3 from '../assets/images/sp/gel-sdbody-3.jpg';
-import gel4 from '../assets/images/sp/gel-sdbody-4.jpg';
-import gel5 from '../assets/images/sp/gel-sdbody-5.jpg';
-import gel6 from '../assets/images/sp/gel-sdbody-6.jpg';
-import gelThanhPhan from '../assets/images/sp/gel-sdbody-thanh-phan.jpg';
-import gelBeauty1 from '../assets/images/sp/gel-sdbody-beauty-1.jpg';
-import gelBeauty2 from '../assets/images/sp/gel-sdbody-beauty-2.jpg';
-import gelBeauty3 from '../assets/images/sp/gel-sdbody-beauty-3.jpg';
-import traTaoMeo1 from '../assets/images/sp/tra-tao-meo-1.jpg';
-import traTaoMeo2 from '../assets/images/sp/tra-tao-meo-2.jpg';
-import traTaoMeo3 from '../assets/images/sp/tra-tao-meo-3.jpg';
-import traTaoMeo4 from '../assets/images/sp/tra-tao-meo-4.jpg';
-import traTaoMeo5 from '../assets/images/sp/tra-tao-meo-5.jpg';
-import traTaoMeoCongDung from '../assets/images/sp/tra-tao-meo-cong-dung.jpg';
-import traTaoMeoThanhPhan from '../assets/images/sp/tra-tao-meo-thanh-phan.jpg';
-import traTaoMeoBeauty1 from '../assets/images/sp/tra-tao-meo-beauty-1.jpg';
-import traTaoMeoBeauty2 from '../assets/images/sp/tra-tao-meo-beauty-2.jpg';
-import traTaoMeoBeauty3 from '../assets/images/sp/tra-tao-meo-beauty-3.jpg';
-import xuanNuNhan1 from '../assets/images/sp/xuan-nu-nhan-1.jpg';
-import xuanNuNhan2 from '../assets/images/sp/xuan-nu-nhan-2.jpg';
-import xuanNuNhan3 from '../assets/images/sp/xuan-nu-nhan-3.jpg';
-import xuanNuNhan4 from '../assets/images/sp/xuan-nu-nhan-4.jpg';
-import xuanNuNhanBeauty1 from '../assets/images/sp/xuan-nu-nhan-beauty-1.jpg';
-import xuanNuNhanBeauty2 from '../assets/images/sp/xuan-nu-nhan-beauty-2.jpg';
-import xuanNuNhanBeauty3 from '../assets/images/sp/xuan-nu-nhan-beauty-3.jpg';
-import butGel1 from '../assets/images/sp/but-gel-hcbpk-1.jpg';
-import butGel2 from '../assets/images/sp/but-gel-hcbpk-2.jpg';
-import butGel4 from '../assets/images/sp/but-gel-hcbpk-4.jpg';
-import butGel5 from '../assets/images/sp/but-gel-hcbpk-5.jpg';
-import butGelBeauty1 from '../assets/images/sp/but-gel-hcbpk-beauty-1.jpg';
-import butGelBeauty2 from '../assets/images/sp/but-gel-hcbpk-beauty-2.jpg';
-import butGelBeauty3 from '../assets/images/sp/but-gel-hcbpk-beauty-3.jpg';
-import traMamXoi1 from '../assets/images/sp/tra-mam-xoi-1.jpg';
-import traMamXoi2 from '../assets/images/sp/tra-mam-xoi-2.jpg';
-import traMamXoi3 from '../assets/images/sp/tra-mam-xoi-3.jpg';
-import traMamXoi4 from '../assets/images/sp/tra-mam-xoi-4.jpg';
-import traMamXoiCongDung from '../assets/images/sp/tra-mam-xoi-cong-dung.jpg';
-import comboButGelMamXoi from '../assets/images/sp/combo-but-gel-mam-xoi.jpg';
 
 export interface Offer { label: string; price: number; note?: string; best?: boolean }
 export interface Ingredient { name: string; amount?: string; desc: string }
@@ -82,21 +72,14 @@ export const PRODUCTS: Product[] = [
     tagline: 'Ấm nóng dịu nhẹ – hỗ trợ săn chắc vòng eo, mịn màng làn da',
     description:
       'Gel gừng quế SDBODY 100ml: gừng, quế, VBE, vitamin E. Ấm nhẹ khi massage, hỗ trợ săn chắc vùng bụng, eo, đùi. Freeship, kiểm hàng COD.',
-    image: gel1,
+    image: gelMoi1,
     gallery: [
-      { src: gel1, alt: 'Tuýp và hộp Gel gừng quế SDBODY 100ml' },
-      { src: gel2, alt: 'Gel gừng quế SDBODY bên quế và gừng' },
-      { src: gel3, alt: 'Gel SDBODY giữa hoa hồng' },
-      { src: gel4, alt: 'Hộp và tuýp Gel SDBODY' },
-      { src: gel5, alt: 'Gel SDBODY – Song Diệu Pharma Beauty' },
-      { src: gel6, alt: 'Gel SDBODY ngoài trời' },
-      { src: tanmo, alt: 'Tuýp Gel SDBODY trên bãi biển' },
-      { src: gelThanhPhan, alt: 'Thành phần Gel gừng quế SDBODY' },
-      { src: congthuc, alt: 'Công thức thành phần Gel SDBODY' },
-      { src: gung1, alt: 'Chiết xuất gừng trong Gel SDBODY' },
-      { src: gelBeauty1, alt: 'Khách hàng dùng Gel SDBODY chăm sóc vòng eo' },
-      { src: gelBeauty2, alt: 'Gel SDBODY kết hợp đai latex' },
-      { src: gelBeauty3, alt: 'Gel SDBODY tại văn phòng Song Diệu' },
+      { src: gelMoi1, alt: 'Tuýp và hộp Gel gừng quế SDBODY 100ml' },
+      { src: gelMoi2, alt: 'Combo 2 tuýp Gel gừng quế SDBODY tặng 1 hộp Thất Bảo Trà' },
+      { src: gelMoi3, alt: 'Combo 3 tuýp Gel gừng quế SDBODY tặng 2 hộp Thất Bảo Trà' },
+      { src: gelMoi4, alt: 'Khách hàng cầm hộp Gel SDBODY' },
+      { src: gelMoi5, alt: 'Kiểm tra Gel SDBODY tại nhà máy' },
+      { src: gelMoi6, alt: 'Khách hàng cầm tuýp và hộp Gel SDBODY' },
     ],
     size: 'Tuýp 100ml',
     offers: [
@@ -152,17 +135,14 @@ export const PRODUCTS: Product[] = [
     description:
       'Viên uống Xuân Nữ Nhan với sâm tố nữ, đương quy, thiên môn chùm, maca – hỗ trợ cân bằng nội tiết, làn da, giấc ngủ. Freeship toàn quốc.',
     banner: xnnBanner,
-    image: xuanNuNhan1,
+    image: xnnMoi1,
     gallery: [
-      { src: xuanNuNhan1, alt: 'Hộp và lọ viên uống Xuân Nữ Nhan 30 viên' },
-      { src: xuanNuNhan2, alt: 'Thành phần thảo dược quý của Xuân Nữ Nhan' },
-      { src: xuanNuNhan3, alt: 'Công dụng viên uống Xuân Nữ Nhan' },
-      { src: xuanNuNhan4, alt: 'Xuân Nữ Nhan – vẻ đẹp đến từ sự an nhiên' },
-      { src: xnnThanhPhan, alt: 'Bảng thành phần Xuân Nữ Nhan' },
-      { src: xnnBanner, alt: 'Xuân Nữ Nhan cân bằng nội tiết' },
-      { src: xuanNuNhanBeauty1, alt: 'Nhà sáng lập Song Diệu cùng Xuân Nữ Nhan' },
-      { src: xuanNuNhanBeauty2, alt: 'Xuân Nữ Nhan – chăm sóc từ bên trong' },
-      { src: xuanNuNhanBeauty3, alt: 'Khách hàng cầm sản phẩm Xuân Nữ Nhan' },
+      { src: xnnMoi1, alt: 'Hũ và hộp viên uống nội tiết Xuân Nữ Nhan' },
+      { src: xnnMoi2, alt: 'Thảo dược quý trong Xuân Nữ Nhan: sâm tố nữ, đông trùng hạ thảo, collagen, thiên môn chùm' },
+      { src: xnnMoi3, alt: 'Khách hàng cầm hộp và hũ Xuân Nữ Nhan' },
+      { src: xnnMoi4, alt: 'Công dụng viên uống nội tiết Xuân Nữ Nhan' },
+      { src: xnnMoi5, alt: 'Thành phần cho 1 viên Xuân Nữ Nhan' },
+      { src: xnnMoi6, alt: 'Khách hàng cầm combo Xuân Nữ Nhan' },
     ],
     size: 'Hộp 1 lọ 30 viên nang (600mg/viên)',
     offers: [
@@ -220,18 +200,14 @@ export const PRODUCTS: Product[] = [
     tagline: 'Uống trong – chăm ngoài – vận động nhẹ',
     description:
       'Thất Bảo Trà – Trà Táo Mèo SONG DIỆU, hộp 30 gói: trà thảo mộc hỗ trợ chuyển hoá, thanh lọc, đồng hành chăm sóc vóc dáng. Freeship.',
-    image: traTaoMeo1,
+    image: taoMeoMoi1,
     gallery: [
-      { src: traTaoMeo1, alt: 'Hộp Thất Bảo Trà – Trà Táo Mèo' },
-      { src: traTaoMeo2, alt: 'Thất Bảo Trà bên tách trà táo mèo' },
-      { src: traTaoMeo3, alt: 'Hộp Trà Táo Mèo 30 gói' },
-      { src: traTaoMeo4, alt: 'Thất Bảo Trà – Song Diệu' },
-      { src: traTaoMeo5, alt: 'Mặt sau hộp Thất Bảo Trà' },
-      { src: traTaoMeoCongDung, alt: 'Công dụng Thất Bảo Trà' },
-      { src: traTaoMeoThanhPhan, alt: 'Thành phần Thất Bảo Trà' },
-      { src: traTaoMeoBeauty1, alt: 'Thưởng thức Trà Táo Mèo tại văn phòng' },
-      { src: traTaoMeoBeauty2, alt: 'Khách hàng cầm hộp Trà Táo Mèo' },
-      { src: traTaoMeoBeauty3, alt: 'Pha Trà Táo Mèo mỗi ngày' },
+      { src: taoMeoMoi1, alt: 'Hộp Thất Bảo Trà – Trà Táo Mèo bên quả táo mèo' },
+      { src: taoMeoMoi2, alt: 'Khách hàng thưởng thức Trà Táo Mèo' },
+      { src: taoMeoMoi3, alt: 'Công dụng và hướng dẫn dùng Trà Táo Mèo' },
+      { src: taoMeoMoi4, alt: 'Khách hàng cầm hộp Trà Táo Mèo' },
+      { src: taoMeoMoi5, alt: 'Chủ thương hiệu SONG DIỆU dùng Trà Táo Mèo tại văn phòng' },
+      { src: taoMeoMoi6, alt: 'Hộp Trà Táo Mèo và tách trà thảo mộc' },
     ],
     size: 'Hộp 30 gói',
     offers: [
@@ -259,16 +235,14 @@ export const PRODUCTS: Product[] = [
     tagline: 'Bút gel thảo dược làm sạch dịu nhẹ vùng kín bên ngoài',
     description:
       'Bút gel Hoàng Cung Bảo Phụ Khang – gel thảo dược làm sạch dịu nhẹ vùng kín bên ngoài, khử mùi, hộp 8 bút. Mỹ phẩm đã công bố, freeship.',
-    image: butGel1,
+    image: butMoi1,
     gallery: [
-      { src: butGel1, alt: 'Hộp Bút gel Hoàng Cung Bảo Phụ Khang' },
-      { src: butGel2, alt: 'Bút gel thảo dược Hoàng Cung Bảo Phụ Khang' },
-      { src: butGel4, alt: 'Bút gel Hoàng Cung Bảo Phụ Khang – hộp 8 bút' },
-      { src: butGel5, alt: 'Khách hàng cầm Bút gel Hoàng Cung Bảo Phụ Khang' },
-      { src: butGelBeauty1, alt: 'Bút gel Hoàng Cung Bảo Phụ Khang – chăm sóc vùng kín' },
-      { src: butGelBeauty2, alt: 'Bút gel Hoàng Cung Bảo Phụ Khang' },
-      { src: butGelBeauty3, alt: 'Bút gel Hoàng Cung Bảo Phụ Khang – Song Diệu' },
-      { src: comboButGelMamXoi, alt: 'Combo Bút gel và Trà Mâm Xôi Tứ Vị' },
+      { src: butMoi1, alt: 'Hộp và bút gel Hoàng Cung Bảo Phụ Khang' },
+      { src: butMoi2, alt: 'Chủ thương hiệu SONG DIỆU với Trà Mâm Xôi và Bút Gel Hoàng Cung' },
+      { src: butMoi3, alt: 'Khách hàng cầm Trà Mâm Xôi và Bút Gel Hoàng Cung' },
+      { src: butMoi4, alt: 'Công dụng Bút Gel Hoàng Cung Bảo Phụ Khang' },
+      { src: butMoi5, alt: 'Bút gel Hoàng Cung Bảo Phụ Khang – bí quyết vẻ đẹp an nhiên' },
+      { src: butMoi6, alt: 'Thành phần hoạt động Bút Gel Hoàng Cung Bảo Phụ Khang' },
     ],
     size: 'Hộp 8 bút',
     offers: [
@@ -296,14 +270,14 @@ export const PRODUCTS: Product[] = [
     tagline: 'Tứ bảo dưỡng nhan: Mâm xôi rừng, Sâm tố nữ, Cỏ ngọt, Cỏ máu',
     description:
       'Trà Mâm Xôi Tứ Vị: mâm xôi rừng, sâm tố nữ, cỏ ngọt, cỏ máu – trà thảo mộc hỗ trợ cân bằng nội tiết, dưỡng huyết cho phụ nữ.',
-    image: traMamXoi1,
+    image: mamXoiMoi1,
     gallery: [
-      { src: traMamXoi1, alt: 'Hộp Trà Mâm Xôi Tứ Vị' },
-      { src: traMamXoi2, alt: 'Trà Mâm Xôi Tứ Vị bên tách trà' },
-      { src: traMamXoi3, alt: 'Trà Mâm Xôi Tứ Vị – Song Diệu' },
-      { src: traMamXoi4, alt: 'Thưởng thức Trà Mâm Xôi Tứ Vị' },
-      { src: traMamXoiCongDung, alt: 'Công dụng Trà Mâm Xôi Tứ Vị' },
-      { src: comboButGelMamXoi, alt: 'Combo Bút gel tặng Trà Mâm Xôi' },
+      { src: mamXoiMoi1, alt: 'Hộp Trà Mâm Xôi Tứ Vị và tách trà' },
+      { src: mamXoiMoi2, alt: 'Khách hàng cầm Trà Mâm Xôi và Bút Gel Hoàng Cung' },
+      { src: mamXoiMoi3, alt: 'Khách hàng cầm combo Trà Mâm Xôi và Bút Gel' },
+      { src: mamXoiMoi4, alt: 'Công dụng Trà Mâm Xôi Tứ Vị' },
+      { src: mamXoiMoi5, alt: 'Trà Mâm Xôi Tứ Vị và Bút Gel Hoàng Cung bên thảo dược' },
+      { src: mamXoiMoi6, alt: 'Khách hàng cầm Trà Mâm Xôi và Bút Gel Hoàng Cung' },
     ],
     size: 'Hộp 20 gói x 4g',
     offers: [],
