@@ -3,8 +3,6 @@ import { Picture, getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import LeadForm from '../../components/LeadForm.astro';
 import ProductCard from '../../components/ProductCard.astro';
-import FeedbackGallery from '../../components/FeedbackGallery.astro';
-import { FEEDBACK } from '../../data/media';
 import { PRODUCTS, type Product, formatVnd, minPrice } from '../../data/products';
 import { SITE } from '../../data/site';
 
@@ -187,9 +185,9 @@ const PROMISES = [
       </article>
 
       <aside class="space-y-4 lg:sticky lg:top-24 lg:self-start">
-        <!-- ô "Đơn của chị": combo đang chọn ở form + tổng tiền (thay bảng giá lặp, 17/11/2026) -->
+        <!-- ô "Đơn của bạn": combo đang chọn ở form + tổng tiền (thay bảng giá lặp, 17/11/2026) -->
         <div class="card spd-price p-6">
-          <p class="spd-price-t">Đơn của chị</p>
+          <p class="spd-price-t">Đơn của bạn</p>
           {bestOffer ? (
             <div class="spd-sum">
               <p class="spd-sum-k">{p.shortName}</p>
@@ -208,7 +206,6 @@ const PROMISES = [
     </div>
   </section>
 
-  <FeedbackGallery items={FEEDBACK[p.slug] ?? []} />
 
   <!-- RELATED -->
   <section class="section spd-cv spd-rel" aria-labelledby="spd-rel-title">
@@ -305,7 +302,7 @@ const PROMISES = [
   lb?.addEventListener('touchstart', (e) => { lx = e.touches[0].clientX; }, { passive: true });
   lb?.addEventListener('touchend', (e) => { const dx = e.changedTouches[0].clientX - lx; if (Math.abs(dx) > 45) show(li + (dx < 0 ? 1 : -1)); }, { passive: true });
 
-  // combo đang chọn ở form → ô "Đơn của chị" và thanh điện thoại
+  // combo đang chọn ở form → ô "Đơn của bạn" và thanh điện thoại
   const setOffer = (label?: string, price?: string) => {
     if (label) document.querySelectorAll('[data-offer-label]').forEach((el) => (el.textContent = label));
     if (price) document.querySelectorAll('[data-offer-price]').forEach((el) => (el.textContent = price));
@@ -459,7 +456,7 @@ const PROMISES = [
   .spd-dots i.on { width: 20px; background: var(--color-gold-500); }
   @media (max-width: 767px) { .spd-dots { display: flex; } }
 
-  /* ô "Đơn của chị" */
+  /* ô "Đơn của bạn" */
   .spd-sum { margin-top: 14px; padding: 14px 16px; border-radius: 16px; background: linear-gradient(180deg, #fffaf0, #fbf0da); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .6); }
   .spd-sum-k { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--color-gold-600); }
   .spd-sum-l { margin-top: 4px; font-weight: 600; color: var(--color-ink); }

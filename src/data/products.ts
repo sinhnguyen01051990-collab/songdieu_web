@@ -110,7 +110,7 @@ export const PRODUCTS: Product[] = [
     notes: [
       'Dùng cho vùng bụng, hông, eo, mông, đùi (theo phiếu công bố). Không thoa lên mặt, mắt, môi, niêm mạc.',
       'Không bôi lên vết thương hở, vùng da trầy xước. Mẹ sinh mổ dùng sau 5 tuần.',
-      'Lần đầu nên thử một lượng nhỏ trên vùng da nhỏ. Nếu nóng rát kéo dài, rửa sạch bằng nước và ngưng dùng.',
+      'Lần đầu nên thử một lượng nhỏ trên vùng da nhỏ. Thoa lớp gel mỏng và đều mỗi ngày để có hiệu quả tốt.',
       'Mỗi đơn hàng đều kèm thước dây đo vòng bụng và thẻ bảo hành.',
     ],
     legal: 'Phiếu công bố mỹ phẩm số 59/26/CBMP-BN – Sở Y tế Bắc Ninh.',
