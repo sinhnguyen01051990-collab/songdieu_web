@@ -55,6 +55,10 @@ const faqLd = p.faq.length
   ? [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: p.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }]
   : [];
 const fullUrls = await Promise.all(p.gallery.map(async (g) => (await getImage({ src: g.src, width: 900, format: 'webp' })).src));
+// ảnh to khi bấm xem (đọc rõ chữ trên ảnh công dụng/thành phần) – chỉ tải khi khách mở
+const zoomUrls = await Promise.all(p.gallery.map(async (g) => (await getImage({ src: g.src, width: 1400, format: 'webp' })).src));
+const bestOffer = p.offers.find((o) => o.best) ?? p.offers[0];
+const lowest = minPrice(p);
 const others = PRODUCTS.filter((x) => x.slug !== p.slug).slice(0, 3);
 // biểu tượng nét mảnh thay biểu tượng cảm xúc (16/11/2026), cùng kiểu khối Sản Xuất Đạt Chuẩn
 const ico = (d: string, size = 18) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
@@ -78,11 +82,13 @@ const icoDoc = '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2
   <section class="section !pt-10 spd-top">
     <span class="spd-dust" aria-hidden="true"></span>
     <div class="container-x grid gap-10 lg:grid-cols-2">
-      <!-- Gallery -->
-      <div>
+      <!-- Gallery: máy tính đứng yên khi cuộn phần thông tin; bấm ảnh xem to; điện thoại vuốt ngang -->
+      <div class="spd-gal">
         {p.gallery.length > 0 ? (
           <div class="space-y-3">
-            <div class="spd-frame">
+            <div class="spd-frame" id="spd-frame" data-zoom={JSON.stringify(zoomUrls)} data-full={JSON.stringify(fullUrls)} data-alts={JSON.stringify(p.gallery.map((g) => g.alt))}>
+              <button type="button" class="spd-zoom" aria-label="Xem ảnh lớn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/></svg></button>
+              {p.gallery.length > 1 && <span class="spd-dots" aria-hidden="true">{p.gallery.map((_, i) => <i class={i === 0 ? 'on' : ''} />)}</span>}
               <Picture id="main-img" src={p.gallery[0].src} alt={p.gallery[0].alt} widths={[420, 640, 900]} sizes="(min-width: 1024px) 560px, 100vw" formats={['avif', 'webp']} fallbackFormat="webp" loading="eager" fetchpriority="high" class="spd-main aspect-square w-full object-contain" />
             </div>
             {p.gallery.length > 1 && (
@@ -109,7 +115,14 @@ const icoDoc = '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2
         <p class="eyebrow">{p.category}</p>
         <h1 class="mt-2 text-4xl font-bold sm:text-5xl">{p.name}</h1>
         <p class="mt-3 text-lg text-mute">{p.tagline}</p>
-        <p class="mt-2 text-sm text-mute">Quy cách: {p.size}</p>
+        <div class="spd-pr">
+          <p class="spd-pr-v">{lowest ? <><span>Từ</span> {formatVnd(lowest)}</> : 'Liên hệ báo giá'}</p>
+          <ul class="spd-pr-tags">
+            <li><span set:html={ico(PROMISES[0].i, 15)} />Freeship toàn quốc</li>
+            <li><span set:html={ico(PROMISES[1].i, 15)} />Kiểm hàng rồi thanh toán</li>
+          </ul>
+        </div>
+        <p class="mt-3 text-sm text-mute">Quy cách: {p.size}</p>
         <ul class="spd-benefits">
           {p.benefits.map((b) => <li><span class="spd-check" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span>{b}</li>)}
         </ul>
@@ -154,11 +167,6 @@ const icoDoc = '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2
         <ol>{p.usage.map((u) => <li>{u}</li>)}</ol>
         <h2>Lưu Ý Khi Dùng</h2>
         <ul>{p.notes.map((n) => <li>{n}</li>)}</ul>
-        {p.gallery.length > 1 && (
-          <div class="not-prose mt-8 grid gap-4 sm:grid-cols-2">
-            {p.gallery.slice(1).map((g) => <Picture src={g.src} alt={g.alt} widths={[400, 700]} sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 100vw" formats={['avif', 'webp']} fallbackFormat="webp" class="spd-gimg w-full rounded-2xl" loading="lazy" />)}
-          </div>
-        )}
         {p.faq.length > 0 && (
           <>
             <h2>Câu Hỏi Thường Gặp</h2>
@@ -178,19 +186,18 @@ const icoDoc = '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2
       </article>
 
       <aside class="space-y-4 lg:sticky lg:top-24 lg:self-start">
+        <!-- ô "Đơn của chị": combo đang chọn ở form + tổng tiền (thay bảng giá lặp, 17/11/2026) -->
         <div class="card spd-price p-6">
-          <p class="spd-price-t">Bảng giá {p.shortName}</p>
-          {p.offers.length > 0 ? (
-            <ul class="mt-4 space-y-3 text-sm">
-              {p.offers.map((o) => (
-                <li class="flex justify-between gap-3 border-b border-black/5 pb-3">
-                  <span>{o.label}{o.best && <span class="spd-best">Bán chạy</span>}<span class="block text-xs text-mute">{o.note}</span></span>
-                  <strong class="spd-pv">{formatVnd(o.price)}</strong>
-                </li>
-              ))}
-            </ul>
+          <p class="spd-price-t">Đơn của chị</p>
+          {bestOffer ? (
+            <div class="spd-sum">
+              <p class="spd-sum-k">{p.shortName}</p>
+              <p class="spd-sum-l" data-offer-label>{bestOffer.label}</p>
+              <p class="spd-sum-p"><span>Tổng</span><b data-offer-price>{formatVnd(bestOffer.price)}</b></p>
+              <p class="spd-sum-n">Freeship · thanh toán khi nhận hàng</p>
+            </div>
           ) : <p class="mt-3 text-sm text-mute">Liên hệ hotline để nhận báo giá.</p>}
-          <a href="#dat-hang" class="btn-primary mt-5 w-full">Đặt hàng ngay</a>
+          <a href="#dat-hang" class="btn-primary mt-5 w-full">{bestOffer ? 'Đặt hàng ngay' : 'Để lại thông tin'}</a>
           <a href={`tel:${SITE.phone}`} class="btn spd-call mt-2 w-full">Gọi {SITE.phoneDisplay}</a>
         </div>
         <ul class="card spd-promise p-5">
@@ -218,21 +225,95 @@ const icoDoc = '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2
 
   <!-- Mobile sticky CTA -->
   <div class="spd-bar md:hidden" id="spd-bar">
-    <a href={`tel:${SITE.phone}`} class="btn spd-call flex-1 !px-3">Gọi ngay</a>
-    <a href="#dat-hang" class="btn-primary flex-1 !px-3">Đặt hàng</a>
+    <a href={`tel:${SITE.phone}`} class="spd-bar-call" aria-label={`Gọi ${SITE.phoneDisplay}`}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></a>
+    {bestOffer ? (
+      <span class="spd-bar-info"><span data-offer-label>{bestOffer.label}</span><b data-offer-price>{formatVnd(bestOffer.price)}</b></span>
+    ) : <span class="spd-bar-info"><span>{p.shortName}</span><b>Liên hệ báo giá</b></span>}
+    <a href="#dat-hang" class="btn-primary spd-bar-go">Đặt ngay</a>
   </div>
+
+  <!-- xem ảnh lớn -->
+  {p.gallery.length > 0 && (
+    <dialog class="spd-lb" id="spd-lb" aria-label="Xem ảnh sản phẩm">
+      <img id="spd-lb-img" alt="" />
+      <p class="spd-lb-cap" id="spd-lb-cap"></p>
+      <button type="button" class="spd-lb-x" data-lb="close" aria-label="Đóng"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      {p.gallery.length > 1 && <>
+        <button type="button" class="spd-lb-nav spd-lb-prev" data-lb="prev" aria-label="Ảnh trước"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <button type="button" class="spd-lb-nav spd-lb-next" data-lb="next" aria-label="Ảnh sau"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+      </>}
+    </dialog>
+  )}
 </Base>
 
 <script>
+  // ảnh sản phẩm: đổi ảnh mờ dần, bấm xem lớn, vuốt ngang trên điện thoại (17/11/2026)
   const main = document.getElementById('main-img') as HTMLImageElement | null;
-  document.querySelectorAll<HTMLButtonElement>('.thumb').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const img = btn.querySelector('img')!;
-      if (main) { main.closest('picture')?.querySelectorAll('source').forEach((s) => s.remove()); main.srcset = ''; main.src = img.dataset.full || img.src; main.alt = btn.getAttribute('aria-label')?.replace('Xem ảnh: ', '') || ''; }
-      document.querySelectorAll('.thumb').forEach((t) => t.removeAttribute('data-active'));
-      btn.setAttribute('data-active', '');
-    });
+  const frame = document.getElementById('spd-frame');
+  const thumbs = [...document.querySelectorAll<HTMLButtonElement>('.thumb')];
+  const dots = [...document.querySelectorAll<HTMLElement>('.spd-dots i')];
+  const full: string[] = frame ? JSON.parse(frame.dataset.full || '[]') : [];
+  const zoom: string[] = frame ? JSON.parse(frame.dataset.zoom || '[]') : [];
+  const alts: string[] = frame ? JSON.parse(frame.dataset.alts || '[]') : [];
+  let cur = 0;
+  const go = (i: number) => {
+    if (!main || !full.length) return;
+    cur = (i + full.length) % full.length;
+    main.closest('picture')?.querySelectorAll('source').forEach((s) => s.remove());
+    main.srcset = '';
+    main.classList.add('is-fade');
+    const next = new Image();
+    next.onload = next.onerror = () => { main.src = full[cur]; main.alt = alts[cur] || ''; requestAnimationFrame(() => main.classList.remove('is-fade')); };
+    next.src = full[cur];
+    thumbs.forEach((t, k) => t.toggleAttribute('data-active', k === cur));
+    dots.forEach((d, k) => d.classList.toggle('on', k === cur));
+    if (full[cur + 1]) new Image().src = full[cur + 1]; // tải trước ảnh kế
+  };
+  thumbs.forEach((btn, i) => btn.addEventListener('click', () => go(i)));
+
+  // vuốt ngang ảnh chính
+  let x0 = 0, y0 = 0;
+  frame?.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+  frame?.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.3) go(cur + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+
+  // xem ảnh lớn
+  const lb = document.getElementById('spd-lb') as HTMLDialogElement | null;
+  const lbImg = document.getElementById('spd-lb-img') as HTMLImageElement | null;
+  const lbCap = document.getElementById('spd-lb-cap');
+  let li = 0;
+  const show = (i: number) => {
+    if (!lbImg || !zoom.length) return;
+    li = (i + zoom.length) % zoom.length;
+    lbImg.src = zoom[li]; lbImg.alt = alts[li] || '';
+    if (lbCap) lbCap.textContent = `${li + 1} / ${zoom.length} · ${alts[li] || ''}`;
+    if (zoom[li + 1]) new Image().src = zoom[li + 1];
+  };
+  const open = () => { if (!lb) return; show(cur); lb.showModal(); };
+  frame?.querySelector('.spd-zoom')?.addEventListener('click', open);
+  main?.addEventListener('click', open);
+  lb?.addEventListener('click', (e) => {
+    const k = (e.target as HTMLElement).closest<HTMLElement>('[data-lb]')?.dataset.lb;
+    if (k === 'close' || e.target === lb) lb.close();
+    else if (k === 'prev') show(li - 1);
+    else if (k === 'next') show(li + 1);
   });
+  lb?.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') show(li - 1); if (e.key === 'ArrowRight') show(li + 1); });
+  let lx = 0;
+  lb?.addEventListener('touchstart', (e) => { lx = e.touches[0].clientX; }, { passive: true });
+  lb?.addEventListener('touchend', (e) => { const dx = e.changedTouches[0].clientX - lx; if (Math.abs(dx) > 45) show(li + (dx < 0 ? 1 : -1)); }, { passive: true });
+
+  // combo đang chọn ở form → ô "Đơn của chị" và thanh điện thoại
+  const setOffer = (label?: string, price?: string) => {
+    if (label) document.querySelectorAll('[data-offer-label]').forEach((el) => (el.textContent = label));
+    if (price) document.querySelectorAll('[data-offer-price]').forEach((el) => (el.textContent = price));
+  };
+  window.addEventListener('sd-offer', (e) => { const d = (e as CustomEvent).detail; setOffer(d.label, d.price); });
+  const chk = document.querySelector<HTMLInputElement>('#dat-hang input[name=offer]:checked');
+  if (chk) setOffer(chk.dataset.label, Number(chk.dataset.price).toLocaleString('vi-VN') + 'đ');
+
   // thanh Gọi / Đặt hàng trên điện thoại tự ẩn khi khách đang ở ngay form đặt hàng
   const bar = document.getElementById('spd-bar');
   const order = document.getElementById('dat-hang');
@@ -334,9 +415,61 @@ const icoDoc = '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2
   .spd-cv { content-visibility: auto; contain-intrinsic-size: auto 900px; }
 
   /* thanh Gọi / Đặt hàng trên điện thoại: nền kem viền vàng, tự ẩn khi đang ở form */
-  .spd-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: flex; gap: 8px; padding: 10px 80px calc(10px + env(safe-area-inset-bottom, 0px)) 12px;
+  .spd-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: none; align-items: center; gap: 10px; padding: 10px 80px calc(10px + env(safe-area-inset-bottom, 0px)) 12px;
     background: rgba(251, 247, 241, .96); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     box-shadow: 0 -1px 0 rgba(201, 161, 74, .55), 0 -10px 24px -16px rgba(58, 9, 16, .35);
     transition: transform .4s cubic-bezier(.2,.8,.2,1); }
   .spd-bar.is-off { transform: translateY(110%); }
+  @media (max-width: 767px) { .spd-bar { display: flex; } }
+  .spd-bar-call { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; color: var(--color-brand-700);
+    background: #fff; box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .8); }
+  .spd-bar-info { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.2; }
+  .spd-bar-info span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 12px; color: var(--color-mute); }
+  .spd-bar-info b { font-size: 17px; color: var(--color-brand-700); }
+  .spd-bar-go { flex: none; padding: 11px 18px !important; }
+
+  /* dòng giá dưới tên sản phẩm */
+  .spd-pr { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 18px; padding: 14px 0; border-block: 1px solid rgba(201, 161, 74, .3); }
+  .spd-pr-v { font: 700 34px/1 var(--font-serif); color: var(--color-brand-700); }
+  .spd-pr-v span { font: 500 15px var(--font-sans); color: var(--color-mute); margin-right: 2px; }
+  .spd-pr-tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .spd-pr-tags li { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-size: 12.5px; font-weight: 500;
+    color: var(--color-brand-700); background: rgba(255, 255, 255, .75); box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .55); }
+  .spd-pr-tags li span { display: grid; color: var(--color-gold-600); }
+
+  /* cột ảnh: máy tính đứng yên khi cuộn phần thông tin */
+  @media (min-width: 1024px) { .spd-gal { position: sticky; top: 96px; align-self: start; } }
+  .spd-frame :global(.spd-main) { cursor: zoom-in; transition: opacity .35s ease; }
+  .spd-frame :global(.spd-main.is-fade) { opacity: 0; }
+  .spd-zoom { position: absolute; right: 16px; top: 16px; z-index: 3; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 999px;
+    color: var(--color-brand-700); background: rgba(255, 255, 255, .85); box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .7), 0 6px 14px -8px rgba(58, 9, 16, .5);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); transition: transform .3s, background .3s; }
+  .spd-zoom:hover { transform: scale(1.08); background: #fff; }
+  .spd-dots { position: absolute; left: 0; right: 0; bottom: 16px; z-index: 3; display: none; justify-content: center; gap: 6px; pointer-events: none; }
+  .spd-dots i { width: 7px; height: 7px; border-radius: 999px; background: rgba(255, 255, 255, .8); box-shadow: 0 0 0 1px rgba(201, 161, 74, .6); transition: width .3s, background .3s; }
+  .spd-dots i.on { width: 20px; background: var(--color-gold-500); }
+  @media (max-width: 767px) { .spd-dots { display: flex; } }
+
+  /* ô "Đơn của chị" */
+  .spd-sum { margin-top: 14px; padding: 14px 16px; border-radius: 16px; background: linear-gradient(180deg, #fffaf0, #fbf0da); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .6); }
+  .spd-sum-k { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--color-gold-600); }
+  .spd-sum-l { margin-top: 4px; font-weight: 600; color: var(--color-ink); }
+  .spd-sum-p { display: flex; align-items: baseline; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(201, 161, 74, .5); }
+  .spd-sum-p span { font-size: 13px; color: var(--color-mute); }
+  .spd-sum-p b { font: 700 26px/1 var(--font-serif); color: var(--color-brand-700); }
+  .spd-sum-n { margin-top: 6px; font-size: 12px; color: var(--color-mute); }
+
+  /* xem ảnh lớn: nền tối, nút tròn viền vàng */
+  .spd-lb { width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 56px 16px 64px; border: 0; background: transparent; }
+  .spd-lb[open] { display: flex; align-items: center; justify-content: center; animation: sd-spd-lb .3s ease both; }
+  .spd-lb::backdrop { background: rgba(28, 6, 10, .88); backdrop-filter: blur(4px); }
+  @keyframes sd-spd-lb { from { opacity: 0; } to { opacity: 1; } }
+  .spd-lb img { max-width: min(100%, 1100px); max-height: 100%; object-fit: contain; border-radius: 14px; box-shadow: 0 0 0 1px rgba(224, 191, 110, .5), 0 30px 80px -20px rgba(0, 0, 0, .8); }
+  .spd-lb-cap { position: fixed; left: 16px; right: 16px; bottom: 18px; text-align: center; font-size: 13px; color: rgba(255, 243, 220, .85); }
+  .spd-lb-x, .spd-lb-nav { position: fixed; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; color: var(--color-gold-300);
+    background: rgba(58, 9, 16, .7); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .7); transition: background .3s, transform .3s; }
+  .spd-lb-x:hover, .spd-lb-nav:hover { background: rgba(125, 20, 36, .9); transform: scale(1.06); }
+  .spd-lb-x { right: 16px; top: 12px; }
+  .spd-lb-nav { top: 50%; margin-top: -22px; }
+  .spd-lb-prev { left: 16px; } .spd-lb-next { right: 16px; }
 </style>
