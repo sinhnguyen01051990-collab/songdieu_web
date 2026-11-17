@@ -259,7 +259,7 @@ export const PRODUCTS: Product[] = [
     name: 'Bút Gel Hoàng Cung Bảo Phụ Khang',
     shortName: 'Bút gel HCBPK',
     category: 'Chăm sóc vùng kín',
-    tagline: 'Bút gel thảo dược làm sạch dịu nhẹ vùng kín bên ngoài',
+    tagline: 'Hỗ trợ giảm tình trạng viêm nhiễm, viêm lộ tuyến, khí hư tái tạo và phục hồi niêm mạc vùng kín',
     description:
       'Bút gel Hoàng Cung Bảo Phụ Khang – gel thảo dược làm sạch dịu nhẹ vùng kín bên ngoài, khử mùi, hộp 8 bút. Mỹ phẩm đã công bố, freeship.',
     image: butMoi1,
@@ -278,9 +278,14 @@ export const PRODUCTS: Product[] = [
       { label: 'Mua 4 tặng 1 hộp', price: 1500000, note: 'Freeship' },
     ],
     benefits: [
-      'Làm sạch dịu nhẹ vùng kín bên ngoài',
-      'Hỗ trợ khử mùi, mang lại cảm giác thơm mát, khô thoáng',
-      'Dạng bút tiện lợi, vệ sinh, dễ mang theo',
+      'Detox, thải độc & làm sạch sâu vùng kín',
+      'Hỗ trợ đào thải ổ viêm, chân nấm, vi khuẩn, tạp khuẩn',
+      'Hỗ trợ làm sạch vùng kín nhẹ nhàng, khử mùi hôi',
+      'Tái tạo, trẻ hóa & khôi phục độ đàn hồi "cô bé"',
+      'Hỗ trợ dưỡng ẩm, làm mềm, tăng độ đàn hồi',
+      'Hỗ trợ tái tạo và phục hồi niêm mạc vùng kín',
+      'Bổ sung lợi khuẩn & bảo vệ hàng rào sinh lý tự nhiên',
+      'Hỗ trợ phòng ngừa các bệnh phụ khoa',
     ],
     ingredientsIntro: '7 chiết xuất thảo dược cùng thành phần giữ ẩm, tạo mát – không chứa kháng sinh.',
     ingredients: [
@@ -298,9 +303,12 @@ export const PRODUCTS: Product[] = [
     usage: [
       'Mỗi hộp gồm 8 bút gel.',
       'Dùng mỗi ngày 1 bút, liên tục 14 ngày; giai đoạn duy trì dùng 2 bút mỗi tuần.',
-      'Đến kỳ kinh thì ngưng, hết kỳ dùng tiếp bình thường.',
     ],
-    notes: ['Không dùng cho phụ nữ đang mang thai. Ngưng dùng nếu có dấu hiệu kích ứng.'],
+    notes: [
+      'Khi đến ngày hành kinh thì tạm ngưng sử dụng; sau khi sạch kinh hoàn toàn thì tiếp tục dùng tiếp liệu trình còn lại để hỗ trợ làm sạch cặn bẩn tồn đọng sau kỳ kinh.',
+      'Khi dùng để dưỡng ẩm, bôi trơn tự nhiên: Nếu muốn hỗ trợ giảm khô rát và tăng cảm xúc trước khi gần gũi, nên bơm gel trước khi quan hệ khoảng 15 phút để tinh chất thẩm thấu và làm mềm niêm mạc tự nhiên.',
+      'Không dùng cho phụ nữ đang mang thai. Phụ nữ đang mang thai tạm thời chưa sử dụng sản phẩm.',
+    ],
     legal: 'Phiếu công bố mỹ phẩm số 270/26/CBMP-PT – Sở Y tế Phú Thọ; sản xuất bởi Tân Vạn Xuân, kiểm nghiệm IRDOP.',
     faq: [],
   },
