@@ -1,13 +1,17 @@
 ---
 /**
- * Trang Liên hệ (17/11/2026, đồng bộ Trang chủ · Giới thiệu · Sản phẩm):
- * đầu trang nền kem có quầng + bụi vàng, tiêu đề viết hoa chữ đầu có vệt vàng quét; 3 ô liên hệ nhanh (Gọi · Zalo · Email);
- * cột trái: thẻ thông tin thương hiệu + bản đồ tĩnh (bấm mới tải Google Maps, trang nhẹ);
- * cột phải: thẻ form viền vàng có vòng sáng chạy một lần, dòng trấn an.
+ * Trang Liên hệ – bản nhẹ (17/11/2026):
+ * đầu trang nền kem + bụi vàng, tiêu đề viết hoa chữ đầu có vệt vàng quét, mô tả 1 dòng;
+ * 3 ô liên hệ nhanh – Zalo nổi bật (đỏ đô chữ vàng, nhãn "Nhanh nhất"), Gọi & Email nền trắng nhẹ, viền vàng chỉ hiện khi rê chuột;
+ * form là điểm nhấn duy nhất (viền vàng + vòng sáng chạy một lần), đứng trước khối "Ghé thăm" trên điện thoại;
+ * khối "Ghé Thăm SONG DIỆU": ảnh văn phòng + tên công ty + địa chỉ + Chỉ đường / Xem bản đồ (bấm mới tải Google Maps),
+ * máy tính: đứng yên khi cuộn cạnh form.
  */
+import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import LeadForm from '../components/LeadForm.astro';
 import { SITE } from '../data/site';
+import office from '../assets/images/gioi-thieu/chu-thuong-hieu-van-phong.jpg';
 const mapQuery = encodeURIComponent(SITE.address.full);
 const mapEmbed = `https://www.google.com/maps?q=${mapQuery}&output=embed`;
 const mapDir = `https://www.google.com/maps/dir/?api=1&destination=${mapQuery}`;
@@ -18,14 +22,15 @@ const I = {
   mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
   pin: '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
   clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  map: '<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/>',
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
 };
 const ico = (d: string, s = 20) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 
 const QUICK = [
-  { t: 'Gọi hotline', v: SITE.phoneDisplay, d: 'Nghe máy tư vấn trực tiếp', href: `tel:${SITE.phone}`, i: I.phone, ext: false },
-  { t: 'Nhắn Zalo', v: SITE.phoneDisplay, d: 'Trả lời nhanh trong ít phút', href: SITE.zalo, i: I.chat, ext: true },
-  { t: 'Gửi email', v: SITE.email, d: 'Hợp tác, đại lý, góp ý', href: `mailto:${SITE.email}`, i: I.mail, ext: false },
+  { t: 'Nhắn Zalo', v: SITE.phoneDisplay, d: 'Trả lời trong ít phút', href: SITE.zalo, i: I.chat, ext: true, hot: true },
+  { t: 'Gọi hotline', v: SITE.phoneDisplay, d: 'Nghe máy tư vấn trực tiếp', href: `tel:${SITE.phone}`, i: I.phone, ext: false, hot: false },
+  { t: 'Gửi email', v: SITE.email, d: 'Hợp tác, đại lý, góp ý', href: `mailto:${SITE.email}`, i: I.mail, ext: false, hot: false },
 ];
 const social = [
   SITE.messenger && { t: 'Messenger', href: SITE.messenger },
@@ -42,12 +47,13 @@ const social = [
     <div class="container-x lh-hero">
       <p class="eyebrow" data-reveal>Liên hệ SONG DIỆU</p>
       <h1 id="lh-title" class="lh-h1" data-reveal>Luôn Sẵn Sàng <span class="lh-em italic">Lắng Nghe Bạn</span></h1>
-      <p class="lh-sub" data-reveal>Cần tư vấn chọn sản phẩm, hỏi cách dùng hay theo dõi đơn hàng – chọn cách liên hệ tiện nhất, SONG DIỆU phản hồi nhanh nhất có thể.</p>
+      <p class="lh-sub" data-reveal>Chọn cách liên hệ tiện nhất – SONG DIỆU phản hồi trong ít phút.</p>
 
       <ul class="lh-quick" data-reveal-group>
         {QUICK.map((q) => (
           <li>
-            <a class="lh-q" href={q.href} target={q.ext ? '_blank' : undefined} rel={q.ext ? 'noopener' : undefined}>
+            <a class:list={['lh-q', { 'lh-q-hot': q.hot }]} href={q.href} target={q.ext ? '_blank' : undefined} rel={q.ext ? 'noopener' : undefined}>
+              {q.hot && <span class="lh-tag">Nhanh nhất</span>}
               <span class="lh-ico" set:html={ico(q.i)} />
               <span class="lh-q-txt">
                 <span class="lh-q-t">{q.t}</span>
@@ -62,43 +68,40 @@ const social = [
     </div>
 
     <div class="container-x lh-body">
-      <div class="lh-left">
-        <div class="lh-card" data-reveal>
-          <p class="lh-brand">SONG DIỆU <span>Pharma Beauty</span></p>
-          <p class="lh-legal">{SITE.legalName}</p>
-          <address class="lh-info">
-            <p><span class="lh-ico lh-ico-s" set:html={ico(I.pin, 16)} /><span>{SITE.address.full}</span></p>
-            <p><span class="lh-ico lh-ico-s" set:html={ico(I.phone, 16)} /><a href={`tel:${SITE.phone}`}>{SITE.phoneDisplay}</a></p>
-            <p><span class="lh-ico lh-ico-s" set:html={ico(I.mail, 16)} /><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
-            <p><span class="lh-ico lh-ico-s" set:html={ico(I.clock, 16)} /><span>{SITE.openingHours ? `Giờ làm việc: ${SITE.openingHours}` : 'Nhắn Zalo hoặc để lại thông tin, SONG DIỆU gọi lại trong ít phút'}</span></p>
-          </address>
-          {social.length > 0 && (
-            <p class="lh-social">{social.map((s) => <a href={s.href} target="_blank" rel="noopener">{s.t}</a>)}</p>
-          )}
-        </div>
-
-        <div class="lh-map" id="lh-map" data-src={mapEmbed} data-reveal>
-          <span class="lh-map-grid" aria-hidden="true"></span>
-          <span class="lh-map-pin" set:html={ico(I.pin, 26)} />
-          <p class="lh-map-addr">{SITE.address.street}<br />{SITE.address.ward}, {SITE.address.city}</p>
-          <div class="lh-map-act">
-            <button type="button" class="btn lh-ghost" id="lh-map-load">Xem bản đồ</button>
-            <a class="btn-primary" href={mapDir} target="_blank" rel="noopener">Chỉ đường <Fragment set:html={ico(I.arrow, 16)} /></a>
-          </div>
-        </div>
-      </div>
-
       <div class="lh-form" data-reveal>
         <h2 class="lh-form-t">Gửi Yêu Cầu <span class="lh-em italic">Tư Vấn</span></h2>
         <p class="lh-form-s">Chuyên viên SONG DIỆU gọi lại trong ít phút · Thông tin của bạn được bảo mật</p>
         <LeadForm variant="contact" />
       </div>
+
+      <aside class="lh-visit" aria-labelledby="lh-visit-t" data-reveal>
+        <div class="lh-photo" id="lh-map" data-src={mapEmbed}>
+          <Picture src={office} alt="Văn phòng SONG DIỆU Pharma Beauty" widths={[420, 640, 900]} sizes="(min-width: 1024px) 460px, 92vw"
+            formats={['avif', 'webp']} fallbackFormat="webp" loading="lazy" class="lh-img" />
+        </div>
+        <div class="lh-visit-b">
+          <p class="lh-visit-k">Ghé thăm</p>
+          <h2 id="lh-visit-t" class="lh-brand">SONG DIỆU <span>Pharma Beauty</span></h2>
+          <p class="lh-legal">{SITE.legalName}</p>
+          <ul class="lh-info">
+            <li><span class="lh-line" set:html={ico(I.pin, 18)} /><span>{SITE.address.full}</span></li>
+            <li><span class="lh-line" set:html={ico(I.clock, 18)} /><span>{SITE.openingHours ? `Giờ làm việc: ${SITE.openingHours}` : 'Phản hồi trong ít phút'}</span></li>
+          </ul>
+          <div class="lh-act">
+            <a class="btn-primary" href={mapDir} target="_blank" rel="noopener">Chỉ đường <Fragment set:html={ico(I.arrow, 16)} /></a>
+            <button type="button" class="btn lh-ghost" id="lh-map-load"><Fragment set:html={ico(I.map, 16)} />Xem bản đồ</button>
+          </div>
+          {social.length > 0 && (
+            <p class="lh-social">{social.map((s) => <a href={s.href} target="_blank" rel="noopener">{s.t}</a>)}</p>
+          )}
+        </div>
+      </aside>
     </div>
   </section>
 </Base>
 
 <style>
-  .lh { position: relative; overflow: hidden; isolation: isolate; padding-bottom: 72px;
+  .lh { position: relative; overflow: clip; isolation: isolate; padding-bottom: 72px;
     background:
       radial-gradient(ellipse 50% 32% at 50% 0%, rgba(224, 191, 110, .22), transparent 70%),
       radial-gradient(ellipse 40% 40% at 0% 70%, rgba(155, 28, 44, .05), transparent 70%),
@@ -120,19 +123,16 @@ const social = [
     -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .08em; }
   :global(.is-in) > .lh-em, :global(.is-in) > .lh-form-t > .lh-em { animation: sd-lh-sweep 1.4s cubic-bezier(.4,0,.2,1) .35s both; }
   @keyframes sd-lh-sweep { from { background-position: 100% 0; } to { background-position: 0 0; } }
-  .lh-sub { margin-top: 16px; max-width: 40rem; font-size: 17px; line-height: 1.7; color: var(--color-mute); }
+  .lh-sub { margin-top: 14px; font-size: 17px; line-height: 1.6; color: var(--color-mute); }
 
-  .lh-ico { flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 999px; color: var(--color-gold-300);
-    background: radial-gradient(circle at 50% 30%, #9b1c2c, #4a0c15 75%);
-    box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .7), 0 6px 14px -8px rgba(58, 9, 16, .7); }
-  .lh-ico-s { width: 32px; height: 32px; }
-
-  /* 3 ô liên hệ nhanh */
-  .lh-quick { list-style: none; margin: 34px 0 0; padding: 0; width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; text-align: left; }
-  .lh-q { display: flex; align-items: center; gap: 14px; height: 100%; padding: 16px 18px; border-radius: 22px; background: rgba(255, 255, 255, .8);
-    box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .55), 0 14px 30px -24px rgba(58, 9, 16, .5);
+  /* 3 ô liên hệ nhanh: nền trắng nhẹ, viền vàng chỉ hiện khi rê chuột; Zalo nổi bật */
+  .lh-quick { list-style: none; margin: 34px 0 0; padding: 0; width: 100%; max-width: 60rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; text-align: left; }
+  .lh-q { position: relative; display: flex; align-items: center; gap: 14px; height: 100%; padding: 16px 18px; border-radius: 22px;
+    background: rgba(255, 255, 255, .72); box-shadow: 0 10px 28px -22px rgba(58, 9, 16, .45);
     transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s, background .35s; }
-  .lh-q:hover { transform: translateY(-2px); background: #fff; box-shadow: inset 0 0 0 1px var(--color-gold-500), 0 0 0 4px rgba(224, 191, 110, .14), 0 18px 34px -22px rgba(99, 16, 28, .5); }
+  .lh-q:hover { transform: translateY(-2px); background: #fff; box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .8), 0 0 0 4px rgba(224, 191, 110, .12), 0 18px 34px -22px rgba(99, 16, 28, .45); }
+  .lh-ico { flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 999px; color: var(--color-brand-600);
+    background: rgba(244, 232, 204, .7); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .6); }
   .lh-q-txt { display: flex; flex-direction: column; min-width: 0; flex: 1; }
   .lh-q-t { font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--color-gold-600); }
   .lh-q-v { margin-top: 2px; font: 700 21px/1.2 var(--font-serif); color: var(--color-brand-700); overflow-wrap: anywhere; }
@@ -140,39 +140,25 @@ const social = [
   .lh-q-go { flex: none; display: grid; color: var(--color-gold-500); transition: transform .35s cubic-bezier(.2,.8,.2,1), color .35s; }
   .lh-q:hover .lh-q-go { transform: translateX(3px); color: var(--color-brand-600); }
 
+  .lh-q-hot { background: linear-gradient(160deg, #9b1c2c, #63101c); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .6), 0 16px 32px -18px rgba(99, 16, 28, .8); }
+  .lh-q-hot:hover { background: linear-gradient(160deg, #a5202f, #6b121f); box-shadow: inset 0 0 0 1px rgba(240, 220, 168, .9), 0 0 0 4px rgba(224, 191, 110, .18), 0 20px 36px -18px rgba(99, 16, 28, .85); }
+  .lh-q-hot .lh-ico { color: var(--color-brand-700); background: linear-gradient(180deg, #f6dc86, #d6aa45); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5); }
+  .lh-q-hot .lh-q-t { color: var(--color-gold-300); }
+  .lh-q-hot .lh-q-v { color: #fff3c4; }
+  .lh-q-hot .lh-q-d { color: rgba(255, 243, 196, .78); }
+  .lh-q-hot .lh-q-go, .lh-q-hot:hover .lh-q-go { color: var(--color-gold-400); }
+  .lh-tag { position: absolute; top: -10px; right: 16px; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: .06em;
+    color: var(--color-brand-900); background: linear-gradient(180deg, #f6dc86, #d6aa45); box-shadow: 0 4px 10px -4px rgba(99, 16, 28, .5); }
+
+  /* thân trang: máy tính khối Ghé thăm bên trái (đứng yên khi cuộn), form bên phải; điện thoại form trước */
   .lh-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; margin-top: 48px; }
-  @media (min-width: 1024px) { .lh-body { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 40px; align-items: start; } }
-  .lh-left { display: grid; gap: 20px; min-width: 0; }
+  @media (min-width: 1024px) {
+    .lh-body { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); grid-template-areas: "visit form"; gap: 40px; align-items: start; }
+    .lh-form { grid-area: form; }
+    .lh-visit { grid-area: visit; position: sticky; top: 96px; }
+  }
 
-  .lh-card { padding: 24px; border-radius: 24px; background: rgba(255, 255, 255, .78); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .45); }
-  .lh-brand { font: 700 26px/1.15 var(--font-serif); color: var(--color-brand-700); }
-  .lh-brand span { font-style: italic; font-weight: 600; color: var(--color-gold-600); }
-  .lh-legal { margin-top: 4px; font-size: 13px; letter-spacing: .04em; color: var(--color-mute); }
-  .lh-info { margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(201, 161, 74, .3); display: grid; gap: 10px; font-style: normal; font-size: 15px; }
-  .lh-info p { display: flex; align-items: center; gap: 12px; }
-  .lh-info a { font-weight: 600; color: var(--color-brand-600); }
-  .lh-info a:hover { text-decoration: underline; }
-  .lh-social { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
-  .lh-social a { padding: 6px 14px; border-radius: 999px; font-size: 13.5px; font-weight: 600; color: var(--color-brand-700); box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .7); }
-
-  /* bản đồ tĩnh: bấm "Xem bản đồ" mới tải Google Maps */
-  .lh-map { position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
-    min-height: 260px; padding: 28px 20px; border-radius: 24px; text-align: center;
-    background: radial-gradient(circle at 50% 40%, #fffaf0, #f4e8cc); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .55); }
-  .lh-map-grid { position: absolute; inset: 0; pointer-events: none; opacity: .5;
-    background-image: linear-gradient(rgba(201,161,74,.25) 1px, transparent 1px), linear-gradient(90deg, rgba(201,161,74,.25) 1px, transparent 1px);
-    background-size: 36px 36px; -webkit-mask: radial-gradient(circle at 50% 45%, #000 20%, transparent 75%); mask: radial-gradient(circle at 50% 45%, #000 20%, transparent 75%); }
-  .lh-map-pin { position: relative; display: grid; place-items: center; width: 54px; height: 54px; border-radius: 999px; color: var(--color-gold-300);
-    background: radial-gradient(circle at 50% 30%, #9b1c2c, #4a0c15 75%); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .7), 0 0 0 8px rgba(155, 28, 44, .08), 0 10px 22px -10px rgba(58, 9, 16, .7); }
-  .lh-map-addr { position: relative; font: 600 18px/1.4 var(--font-serif); color: var(--color-ink); }
-  .lh-map-act { position: relative; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-  .lh-ghost { color: var(--color-brand-700); background: rgba(255, 255, 255, .8); box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .8); }
-  .lh-ghost:hover { background: #fff; box-shadow: inset 0 0 0 1px var(--color-gold-500), 0 12px 24px -14px rgba(99, 16, 28, .4), 0 0 0 4px rgba(224, 191, 110, .16); }
-  .lh-map.is-live { padding: 0; min-height: 0; }
-  .lh-map :global(iframe) { display: block; width: 100%; height: 320px; border: 0; }
-
-
-  /* thẻ form: viền vàng + vòng sáng chạy một lần như thẻ Đặt hàng */
+  /* form: điểm nhấn duy nhất – viền vàng + vòng sáng chạy một lần */
   .lh-form { position: relative; min-width: 0; padding: 26px; border-radius: 28px;
     background: linear-gradient(180deg, #fffdf8 0%, #fbf5ea 100%);
     box-shadow: 0 0 0 1px rgba(224, 191, 110, .75), 0 0 0 6px rgba(224, 191, 110, .12), 0 30px 60px -36px rgba(58, 9, 16, .5); }
@@ -186,9 +172,32 @@ const social = [
   .lh-form-s { margin: 8px 0 20px; padding-bottom: 16px; border-bottom: 1px solid rgba(201, 161, 74, .3); font-size: 14px; color: var(--color-gold-600); font-weight: 500; }
   @media (min-width: 640px) { .lh-form { padding: 32px; } }
 
+  /* Ghé thăm: ảnh văn phòng + địa chỉ, không viền đậm */
+  .lh-visit { min-width: 0; border-radius: 26px; overflow: hidden; background: rgba(255, 255, 255, .7); box-shadow: 0 14px 36px -26px rgba(58, 9, 16, .45); }
+  .lh-photo { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #f4e8cc; }
+  .lh-photo :global(picture) { display: block; width: 100%; height: 100%; }
+  .lh-photo :global(.lh-img) { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; }
+  .lh-photo::after { content: ''; position: absolute; inset: auto 0 0; height: 40%; pointer-events: none; background: linear-gradient(transparent, rgba(255, 253, 248, .35)); }
+  .lh-photo.is-live { aspect-ratio: 4 / 3; }
+  .lh-photo.is-live::after { display: none; }
+  .lh-photo :global(iframe) { display: block; width: 100%; height: 100%; border: 0; }
+  .lh-visit-b { padding: 20px 24px 24px; }
+  .lh-visit-k { font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--color-gold-600); }
+  .lh-brand { margin-top: 4px; font-size: 26px; color: var(--color-brand-700); }
+  .lh-brand span { font-style: italic; font-weight: 600; color: var(--color-gold-600); }
+  .lh-legal { margin-top: 2px; font-size: 13px; letter-spacing: .04em; color: var(--color-mute); }
+  .lh-info { list-style: none; margin: 14px 0 0; padding: 12px 0 0; border-top: 1px solid rgba(201, 161, 74, .3); display: grid; gap: 8px; font-size: 15px; color: var(--color-ink); }
+  .lh-info li { display: flex; align-items: flex-start; gap: 10px; }
+  .lh-line { flex: none; display: grid; margin-top: 1px; color: var(--color-brand-600); }
+  .lh-act { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px; }
+  .lh-ghost { color: var(--color-brand-700); background: rgba(255, 255, 255, .8); box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .8); }
+  .lh-ghost:hover { background: #fff; box-shadow: inset 0 0 0 1px var(--color-gold-500), 0 12px 24px -14px rgba(99, 16, 28, .4), 0 0 0 4px rgba(224, 191, 110, .16); }
+  .lh-social { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .lh-social a { padding: 6px 14px; border-radius: 999px; font-size: 13.5px; font-weight: 600; color: var(--color-brand-700); box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .7); }
+
   @media (max-width: 767px) {
     .lh-hero { padding-top: 40px; }
-    .lh-quick { grid-template-columns: minmax(0, 1fr); gap: 10px; margin-top: 26px; }
+    .lh-quick { grid-template-columns: minmax(0, 1fr); gap: 12px; margin-top: 26px; }
     .lh-q { padding: 12px 14px; }
     .lh-q-v { font-size: 19px; }
     .lh-body { margin-top: 32px; }
@@ -197,10 +206,10 @@ const social = [
 </style>
 
 <script>
-  // bản đồ: chỉ tải Google Maps khi khách bấm (trang nhẹ, không tải mã Google lúc đầu)
-  document.getElementById('lh-map-load')?.addEventListener('click', () => {
+  // bản đồ: chỉ tải Google Maps khi khách bấm, thay vào chỗ ảnh văn phòng (trang nhẹ)
+  document.getElementById('lh-map-load')?.addEventListener('click', (e) => {
     const box = document.getElementById('lh-map');
-    if (!box) return;
+    if (!box || box.classList.contains('is-live')) return;
     const f = document.createElement('iframe');
     f.title = 'Bản đồ SONG DIỆU';
     f.src = box.dataset.src ?? '';
@@ -208,5 +217,6 @@ const social = [
     f.allowFullscreen = true;
     box.replaceChildren(f);
     box.classList.add('is-live');
+    (e.currentTarget as HTMLButtonElement).hidden = true;
   });
 </script>
