@@ -24,17 +24,17 @@ const articleLd = {
   datePublished: post.data.date.toISOString(),
   author: { '@id': `${SITE.url}/#org` },
   publisher: { '@id': `${SITE.url}/#org` },
-  mainEntityOfPage: `${SITE.url}/tin-tuc/${post.id}/`,
+  mainEntityOfPage: `${SITE.url}/kien-thuc/${post.id}/`,
   inLanguage: 'vi-VN',
 };
 ---
 <Base title={post.data.title} description={post.data.description} type="article" image={cover} jsonLd={[articleLd]}
-  breadcrumbs={[{ name: 'Trang chủ', href: '/' }, { name: 'Kiến thức', href: '/tin-tuc/' }, { name: post.data.title, href: `/tin-tuc/${post.id}/` }]}>
+  breadcrumbs={[{ name: 'Trang chủ', href: '/' }, { name: 'Kiến thức', href: '/kien-thuc/' }, { name: post.data.title, href: `/kien-thuc/${post.id}/` }]}>
   <article class="section">
     <div class="container-x grid gap-12 lg:grid-cols-3">
       <div class="lg:col-span-2">
         <p class="art-meta">
-          {topic && <a href="/tin-tuc/" class="art-cat">{topic}</a>}
+          {topic && <a href="/kien-thuc/" class="art-cat">{topic}</a>}
           <time datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString('vi-VN')}</time>
           <span aria-hidden="true">·</span>{minutes} phút đọc
         </p>

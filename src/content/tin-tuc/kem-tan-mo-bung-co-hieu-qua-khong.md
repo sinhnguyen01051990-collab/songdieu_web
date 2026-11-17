@@ -68,13 +68,13 @@ Thoa một lượng nhỏ lên vùng da nhỏ, theo dõi trong 24 giờ. Nếu �
 4. **Rửa tay sau khi thoa** để không vô tình dụi lên mắt.
 5. **Kết hợp thói quen lành mạnh:** ngủ đủ giấc, ăn nhiều rau, giảm đồ ngọt và nước có đường, đi bộ mỗi ngày.
 
-Nếu chị là mẹ sau sinh, có thể tham khảo thêm bài [giảm mỡ bụng sau sinh tại nhà](/tin-tuc/giam-mo-bung-sau-sinh-tai-nha/) để có lộ trình phù hợp với cơ thể đang hồi phục.
+Nếu chị là mẹ sau sinh, có thể tham khảo thêm bài [giảm mỡ bụng sau sinh tại nhà](/kien-thuc/giam-mo-bung-sau-sinh-tai-nha/) để có lộ trình phù hợp với cơ thể đang hồi phục.
 
 ## Gel gừng quế SDBODY: một lựa chọn chăm sóc tại nhà
 
 [Gel gừng quế SDBODY](/san-pham/gel-gung-que-sdbody/) của SONG DIỆU là gel massage dùng ngoài da, tuýp 100ml, với thành phần gừng, quế, hoa tulip/VBE (Vanillyl Butyl Ether), glycerin và vitamin E. Gel tạo cảm giác ấm dịu khi massage, hỗ trợ dưỡng ẩm, làm mềm mịn và săn chắc da vùng bụng, eo, hông, mông, đùi.
 
-Theo hướng dẫn của SONG DIỆU, chị thoa 3–5 lần mỗi ngày, mỗi lần một lớp thật mỏng, nên thoa lúc bụng đói và trước khi đi ngủ. Chi tiết từng bước có trong bài [cách dùng Gel gừng quế SDBODY đúng chuẩn](/tin-tuc/cach-dung-gel-gung-que-sdbody-dung-chuan/).
+Theo hướng dẫn của SONG DIỆU, chị thoa 3–5 lần mỗi ngày, mỗi lần một lớp thật mỏng, nên thoa lúc bụng đói và trước khi đi ngủ. Chi tiết từng bước có trong bài [cách dùng Gel gừng quế SDBODY đúng chuẩn](/kien-thuc/cach-dung-gel-gung-que-sdbody-dung-chuan/).
 
 Chúng tôi không gọi SDBODY là "kem tan mỡ", vì đó không phải cách một mỹ phẩm hoạt động. SDBODY là người bạn đồng hành cho thói quen "chăm ngoài – uống trong – vận động nhẹ".
 

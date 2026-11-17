@@ -32,7 +32,7 @@ Mẹ có thể chuẩn bị sẵn sữa chua không đường, trái cây, các 
 
 ### 2. Uống đủ nước mỗi ngày
 
-Mẹ cho con bú cần nhiều nước hơn bình thường. Đặt một bình nước lớn cạnh chỗ cho con bú để nhắc mình uống. Một số mẹ chọn trà thảo mộc thay một phần nước lọc để dễ uống hơn. Nếu quan tâm, mẹ có thể đọc bài [trà thảo mộc hỗ trợ giảm cân: cách chọn và uống đúng](/tin-tuc/tra-thao-moc-giam-can-cach-chon-va-uong-dung/).
+Mẹ cho con bú cần nhiều nước hơn bình thường. Đặt một bình nước lớn cạnh chỗ cho con bú để nhắc mình uống. Một số mẹ chọn trà thảo mộc thay một phần nước lọc để dễ uống hơn. Nếu quan tâm, mẹ có thể đọc bài [trà thảo mộc hỗ trợ giảm cân: cách chọn và uống đúng](/kien-thuc/tra-thao-moc-giam-can-cach-chon-va-uong-dung/).
 
 ### 3. Đi bộ và vận động nhẹ tăng dần
 
@@ -63,7 +63,7 @@ Lưu ý khi massage sau sinh:
 - Rửa tay sạch trước khi bế và cho bé bú.
 - Thử sản phẩm trên vùng da nhỏ trước khi dùng rộng.
 
-Về các sản phẩm quảng cáo "tan mỡ", mẹ có thể đọc thêm bài [kem tan mỡ bụng có thực sự hiệu quả?](/tin-tuc/kem-tan-mo-bung-co-hieu-qua-khong/) để có kỳ vọng đúng.
+Về các sản phẩm quảng cáo "tan mỡ", mẹ có thể đọc thêm bài [kem tan mỡ bụng có thực sự hiệu quả?](/kien-thuc/kem-tan-mo-bung-co-hieu-qua-khong/) để có kỳ vọng đúng.
 
 ### 7. Theo dõi tiến trình một cách nhẹ nhàng
 
@@ -84,7 +84,7 @@ Nhiều mẹ bỉm chọn công thức "**chăm ngoài – uống trong – vậ
 - **Uống trong:** Trà Táo Mèo, 2–3 gói pha với 1,5 lít nước uống trong ngày (không dùng cho phụ nữ đang mang thai).
 - **Vận động nhẹ:** đi bộ, yoga sau sinh.
 
-Mẹ có thể xem chi tiết [cách dùng Gel gừng quế SDBODY đúng chuẩn](/tin-tuc/cach-dung-gel-gung-que-sdbody-dung-chuan/).
+Mẹ có thể xem chi tiết [cách dùng Gel gừng quế SDBODY đúng chuẩn](/kien-thuc/cach-dung-gel-gung-que-sdbody-dung-chuan/).
 
 ## Câu hỏi thường gặp
 

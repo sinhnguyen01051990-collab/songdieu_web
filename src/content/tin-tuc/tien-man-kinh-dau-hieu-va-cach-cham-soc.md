@@ -32,7 +32,7 @@ Thay đổi nội tiết, bốc hỏa ban đêm và căng thẳng khiến nhiề
 
 ### Khô hạn, giảm ham muốn
 
-Estrogen giảm khiến niêm mạc vùng kín mỏng và kém ẩm hơn, gây khô, khó chịu khi gần gũi. Chủ đề này được SONG DIỆU phân tích kỹ trong bài [khô hạn ở phụ nữ: nguyên nhân và cách cải thiện](/tin-tuc/kho-han-o-phu-nu-nguyen-nhan-cach-cai-thien/).
+Estrogen giảm khiến niêm mạc vùng kín mỏng và kém ẩm hơn, gây khô, khó chịu khi gần gũi. Chủ đề này được SONG DIỆU phân tích kỹ trong bài [khô hạn ở phụ nữ: nguyên nhân và cách cải thiện](/kien-thuc/kho-han-o-phu-nu-nguyen-nhan-cach-cai-thien/).
 
 ### Da khô, sạm, tóc xơ yếu
 
@@ -42,7 +42,7 @@ Estrogen có vai trò với độ ẩm và độ đàn hồi của da. Khi nội
 
 Dễ cáu gắt, lo âu, buồn bã không rõ lý do. Đây là phản ứng thường gặp, chị đừng tự trách bản thân.
 
-Bên cạnh đó, nhiều người còn thấy dễ tăng cân vùng bụng, hay quên, mệt mỏi. Danh sách đầy đủ hơn có trong bài [7 dấu hiệu thiếu hụt nội tiết tố nữ](/tin-tuc/dau-hieu-thieu-hut-noi-tiet-to-nu/).
+Bên cạnh đó, nhiều người còn thấy dễ tăng cân vùng bụng, hay quên, mệt mỏi. Danh sách đầy đủ hơn có trong bài [7 dấu hiệu thiếu hụt nội tiết tố nữ](/kien-thuc/dau-hieu-thieu-hut-noi-tiet-to-nu/).
 
 ## Cách chăm sóc cơ thể trong giai đoạn tiền mãn kinh
 

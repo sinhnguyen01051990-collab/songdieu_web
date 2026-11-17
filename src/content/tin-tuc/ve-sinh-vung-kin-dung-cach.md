@@ -57,7 +57,7 @@ Chị nên đến cơ sở y tế chuyên khoa phụ sản khi có các dấu hi
 - Ra máu bất thường ngoài kỳ kinh, sau quan hệ hoặc sau mãn kinh.
 - Sốt kèm đau vùng chậu.
 
-Những dấu hiệu này cần được bác sĩ thăm khám để xác định nguyên nhân. Chị đừng tự mua thuốc dùng hay chờ đợi quá lâu. Tìm hiểu thêm về chủ đề mùi vùng kín trong bài [vùng kín có mùi: nguyên nhân và khi nào cần đi khám](/tin-tuc/vung-kin-co-mui-nguyen-nhan-khi-nao-di-kham/).
+Những dấu hiệu này cần được bác sĩ thăm khám để xác định nguyên nhân. Chị đừng tự mua thuốc dùng hay chờ đợi quá lâu. Tìm hiểu thêm về chủ đề mùi vùng kín trong bài [vùng kín có mùi: nguyên nhân và khi nào cần đi khám](/kien-thuc/vung-kin-co-mui-nguyen-nhan-khi-nao-di-kham/).
 
 ## Thói quen sinh hoạt hỗ trợ vùng kín khỏe mạnh
 
@@ -67,7 +67,7 @@ Những dấu hiệu này cần được bác sĩ thăm khám để xác định
 - **Quan hệ an toàn** và vệ sinh nhẹ nhàng sau quan hệ.
 - **Khám phụ khoa định kỳ**, kể cả khi chưa có dấu hiệu bất thường.
 
-Nếu chị đang gặp tình trạng khô, khó chịu khi gần gũi, bài [khô hạn ở phụ nữ: nguyên nhân và cách cải thiện](/tin-tuc/kho-han-o-phu-nu-nguyen-nhan-cach-cai-thien/) có thể giúp ích.
+Nếu chị đang gặp tình trạng khô, khó chịu khi gần gũi, bài [khô hạn ở phụ nữ: nguyên nhân và cách cải thiện](/kien-thuc/kho-han-o-phu-nu-nguyen-nhan-cach-cai-thien/) có thể giúp ích.
 
 ## Bút gel Hoàng Cung Bảo Phụ Khang – chăm sóc vùng kín tiện lợi
 

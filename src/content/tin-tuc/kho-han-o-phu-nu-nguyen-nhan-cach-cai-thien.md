@@ -24,7 +24,7 @@ image: ../../assets/images/banner/09-khach-hang-xuan-nu-nhan.jpg
 
 Estrogen giúp niêm mạc vùng kín dày, đàn hồi và tiết dịch tự nhiên. Khi estrogen giảm, niêm mạc mỏng đi, kém ẩm. Điều này thường xảy ra ở:
 
-- **Giai đoạn tiền mãn kinh, mãn kinh** (xem thêm bài [tiền mãn kinh là gì và dấu hiệu nhận biết](/tin-tuc/tien-man-kinh-dau-hieu-va-cach-cham-soc/)).
+- **Giai đoạn tiền mãn kinh, mãn kinh** (xem thêm bài [tiền mãn kinh là gì và dấu hiệu nhận biết](/kien-thuc/tien-man-kinh-dau-hieu-va-cach-cham-soc/)).
 - **Sau sinh và khi đang cho con bú**, nội tiết tạm thời thay đổi.
 - Sau phẫu thuật cắt buồng trứng hoặc một số liệu pháp y khoa.
 
@@ -38,7 +38,7 @@ Thuốc chống dị ứng, một số thuốc chống trầm cảm, thuốc tr�
 
 ### 4. Thói quen vệ sinh chưa phù hợp
 
-Thụt rửa sâu, dùng dung dịch có mùi thơm mạnh, xà phòng tắm cho vùng kín có thể làm mất lớp màng ẩm tự nhiên. Chi tiết có trong bài [vệ sinh vùng kín đúng cách](/tin-tuc/ve-sinh-vung-kin-dung-cach/).
+Thụt rửa sâu, dùng dung dịch có mùi thơm mạnh, xà phòng tắm cho vùng kín có thể làm mất lớp màng ẩm tự nhiên. Chi tiết có trong bài [vệ sinh vùng kín đúng cách](/kien-thuc/ve-sinh-vung-kin-dung-cach/).
 
 ### 5. Thiếu thời gian "khởi động" khi gần gũi
 

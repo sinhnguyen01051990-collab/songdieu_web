@@ -57,7 +57,7 @@ Nếu sau khi uống chị thấy tim đập nhanh, bồn chồn, mất ngủ, k
 - **Phụ nữ đang mang thai** cần đọc kỹ nhãn; nhiều loại trà thảo mộc không dành cho bà bầu.
 - **Kết hợp chế độ ăn nhiều rau, đủ đạm, giảm đường và dầu mỡ**, vận động ít nhất 30 phút mỗi ngày.
 
-Muốn hiểu thêm về thói quen uống trà thay nước lọc, chị có thể đọc bài [trà thảo mộc cho phụ nữ: uống thay nước lọc có tốt không](/tin-tuc/tra-thao-moc-cho-phu-nu-uong-thay-nuoc-loc/).
+Muốn hiểu thêm về thói quen uống trà thay nước lọc, chị có thể đọc bài [trà thảo mộc cho phụ nữ: uống thay nước lọc có tốt không](/kien-thuc/tra-thao-moc-cho-phu-nu-uong-thay-nuoc-loc/).
 
 ## Những sai lầm thường gặp
 
@@ -72,7 +72,7 @@ Muốn hiểu thêm về thói quen uống trà thay nước lọc, chị có th
 
 **Cách dùng:** mỗi ngày 2–3 gói, pha với khoảng 1,5 lít nước sôi, uống rải rác trong ngày thay nước lọc (nóng hoặc để nguội đều được). Trà đồng hành cùng chị trong hành trình kiểm soát vóc dáng, khi kết hợp ăn uống hợp lý và vận động.
 
-**Lưu ý:** không dùng cho phụ nữ đang mang thai. Mẹ sau sinh có thể tham khảo thêm bài [Trà Táo Mèo uống thế nào cho đúng](/tin-tuc/tra-tao-meo-uong-the-nao/).
+**Lưu ý:** không dùng cho phụ nữ đang mang thai. Mẹ sau sinh có thể tham khảo thêm bài [Trà Táo Mèo uống thế nào cho đúng](/kien-thuc/tra-tao-meo-uong-the-nao/).
 
 ## Câu hỏi thường gặp
 

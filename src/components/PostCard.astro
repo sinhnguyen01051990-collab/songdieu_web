@@ -13,7 +13,7 @@ const { post, eager = false, as: H = 'h3' } = Astro.props;
 const product = post.data.product ? getProduct(post.data.product) : undefined;
 const img = post.data.image ?? product?.image;
 const { topic, minutes } = postMeta(post);
-const href = `/tin-tuc/${post.id}/`;
+const href = `/kien-thuc/${post.id}/`;
 ---
 <article class="kc">
   <a href={href} class="kc-media" tabindex="-1" aria-hidden="true">

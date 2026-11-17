@@ -60,7 +60,7 @@ Nhiều thảo mộc không phù hợp cho bà bầu. Chị luôn đọc nhãn v
 | Chăm sóc phụ nữ từ bên trong, thư giãn | Trà có mâm xôi, sâm tố nữ, cỏ máu |
 | Muốn vị ngọt mà không cần đường | Trà có cỏ ngọt |
 
-Dù chọn loại nào, hãy ưu tiên sản phẩm có bản tự công bố, nhãn tiếng Việt, thành phần ghi rõ tỷ lệ. Bài [trà thảo mộc giảm cân: cách chọn và uống đúng](/tin-tuc/tra-thao-moc-giam-can-cach-chon-va-uong-dung/) có hướng dẫn chi tiết cách nhận biết trà kém chất lượng.
+Dù chọn loại nào, hãy ưu tiên sản phẩm có bản tự công bố, nhãn tiếng Việt, thành phần ghi rõ tỷ lệ. Bài [trà thảo mộc giảm cân: cách chọn và uống đúng](/kien-thuc/tra-thao-moc-giam-can-cach-chon-va-uong-dung/) có hướng dẫn chi tiết cách nhận biết trà kém chất lượng.
 
 ## Trà Mâm Xôi Tứ Vị – thức uống chăm sóc phụ nữ
 
@@ -70,7 +70,7 @@ Trà là thức uống thảo mộc đồng hành cùng việc chăm sóc phụ 
 
 **Cách dùng:** mỗi ngày 2 túi, pha với 1,5–2 lít nước, uống thay nước lọc trong ngày. Không dùng cho phụ nữ đang mang thai và người mẫn cảm với bất kỳ thành phần nào. Bảo quản nơi khô ráo, thoáng mát, tránh ánh nắng.
 
-Nếu mục tiêu của chị là kiểm soát vóc dáng, SONG DIỆU có [Thất Bảo Trà – Trà Táo Mèo](/san-pham/tra-tao-meo/) với táo mèo, lá sen, chè vằng, cỏ ngọt. Còn nếu chị đang quan tâm đến những thay đổi của cơ thể ở tuổi 40, bài [tiền mãn kinh là gì](/tin-tuc/tien-man-kinh-dau-hieu-va-cach-cham-soc/) sẽ hữu ích.
+Nếu mục tiêu của chị là kiểm soát vóc dáng, SONG DIỆU có [Thất Bảo Trà – Trà Táo Mèo](/san-pham/tra-tao-meo/) với táo mèo, lá sen, chè vằng, cỏ ngọt. Còn nếu chị đang quan tâm đến những thay đổi của cơ thể ở tuổi 40, bài [tiền mãn kinh là gì](/kien-thuc/tien-man-kinh-dau-hieu-va-cach-cham-soc/) sẽ hữu ích.
 
 ## Câu hỏi thường gặp
 

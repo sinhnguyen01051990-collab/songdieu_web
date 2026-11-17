@@ -23,7 +23,7 @@ const posts = (await getCollection('tinTuc')).sort((a, b) => +b.data.date - +a.d
         {posts.map((post) => <div class="kt-cell"><PostCard post={post} /></div>)}
       </div>
       <div class="kt-more" data-reveal>
-        <a href="/tin-tuc/" class="btn-primary !px-7 !py-3.5">
+        <a href="/kien-thuc/" class="btn-primary !px-7 !py-3.5">
           Xem tất cả bài viết
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
         </a>

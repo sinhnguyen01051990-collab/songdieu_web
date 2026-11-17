@@ -57,7 +57,7 @@ Khám sớm giúp chị yên tâm và được tư vấn hướng xử trí phù
 
 ### Vệ sinh nhẹ nhàng, đúng cách
 
-Rửa bên ngoài 1–2 lần mỗi ngày bằng nước sạch hoặc dung dịch dịu nhẹ, rửa từ trước ra sau, không thụt rửa sâu. Xem chi tiết trong bài [vệ sinh vùng kín đúng cách](/tin-tuc/ve-sinh-vung-kin-dung-cach/).
+Rửa bên ngoài 1–2 lần mỗi ngày bằng nước sạch hoặc dung dịch dịu nhẹ, rửa từ trước ra sau, không thụt rửa sâu. Xem chi tiết trong bài [vệ sinh vùng kín đúng cách](/kien-thuc/ve-sinh-vung-kin-dung-cach/).
 
 ### Giữ khô thoáng
 
@@ -83,7 +83,7 @@ Xịt nước hoa, dùng phấn thơm hay dung dịch có hương liệu mạnh 
 
 Nhiều chị em vì lo lắng về mùi mà ngại gần chồng, căng thẳng kéo dài, càng ảnh hưởng tới cảm xúc. Hãy nhớ rằng mùi nhẹ là bình thường, và nếu bất thường thì đó là tín hiệu cơ thể cần được quan tâm, không phải điều đáng xấu hổ. Chia sẻ với người bạn đời và chủ động đi khám là cách tôn trọng bản thân.
 
-Nếu chị còn gặp tình trạng khô, rát khi gần gũi, hãy đọc thêm bài [khô hạn ở phụ nữ](/tin-tuc/kho-han-o-phu-nu-nguyen-nhan-cach-cai-thien/).
+Nếu chị còn gặp tình trạng khô, rát khi gần gũi, hãy đọc thêm bài [khô hạn ở phụ nữ](/kien-thuc/kho-han-o-phu-nu-nguyen-nhan-cach-cai-thien/).
 
 ## Bút gel Hoàng Cung Bảo Phụ Khang – chăm sóc sạch thoáng, thơm mát
 
