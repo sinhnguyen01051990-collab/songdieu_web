@@ -61,7 +61,7 @@ const TOPICS = ['Nội tiết', 'Vóc dáng', 'Vùng kín', 'Trà thảo mộc']
       </label>
     ) : (
       <fieldset>
-        <legend class="text-sm font-semibold">Chị quan tâm <span class="font-normal text-mute">(chọn nhanh, không bắt buộc)</span></legend>
+        <legend class="text-sm font-semibold">Bạn quan tâm <span class="font-normal text-mute">(chọn nhanh, không bắt buộc)</span></legend>
         <div class="lf-topics mt-2">
           {TOPICS.map((t) => (
             <label class="lf-chip"><input type="checkbox" name="topic" value={t} /><span>{t}</span></label>
@@ -78,7 +78,7 @@ const TOPICS = ['Nội tiết', 'Vóc dáng', 'Vùng kín', 'Trà thảo mộc']
     {!compact && variant !== 'order' && (
       <label class="block text-sm" for={`${uid}-msg`}>
         <span class="font-semibold">{variant === 'order' ? 'Ghi chú' : 'Nội dung cần tư vấn'}</span>
-        <textarea id={`${uid}-msg`} name="message" rows="3" class={`${field} resize-none`} placeholder={variant === 'order' ? 'Giờ nhận hàng, yêu cầu thêm...' : 'Chị đang quan tâm vấn đề gì ạ?'}></textarea>
+        <textarea id={`${uid}-msg`} name="message" rows="3" class={`${field} resize-none`} placeholder={variant === 'order' ? 'Giờ nhận hàng, yêu cầu thêm...' : 'Bạn đang quan tâm vấn đề gì?'}></textarea>
       </label>
     )}
     <label class="flex items-start gap-2.5 text-xs leading-relaxed text-mute">
@@ -95,7 +95,7 @@ const TOPICS = ['Nội tiết', 'Vóc dáng', 'Vùng kín', 'Trà thảo mộc']
   <!-- gửi xong: lời cảm ơn -->
   <div class="lf-done" tabindex="-1">
     <svg class="lf-check" width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="29" pathLength="1" /><path d="M20 33l8 8 16-17" pathLength="1" /></svg>
-    <p class="lf-done-t">Cảm ơn chị!</p>
+    <p class="lf-done-t">Cảm ơn bạn!</p>
     <p class="lf-done-d">{variant === 'order' ? 'SONG DIỆU đã nhận đơn và sẽ gọi lại xác nhận trong ít phút.' : 'SONG DIỆU đã nhận thông tin và sẽ gọi lại tư vấn trong ít phút.'}</p>
     <div class="lf-done-act">
       <a href={SITE.zalo} target="_blank" rel="noopener" class="btn-primary !px-6 !py-3">Nhắn Zalo ngay
@@ -230,10 +230,10 @@ const TOPICS = ['Nội tiết', 'Vóc dáng', 'Vùng kín', 'Trà thảo mộc']
       fd.delete('topic');
       const data = Object.fromEntries(fd.entries()) as Record<string, string>;
       const phone = cleanPhone(data.phone || '');
-      if (!data.name || data.name.trim().length < 2) return show('Chị vui lòng nhập họ tên ạ.', false);
+      if (!data.name || data.name.trim().length < 2) return show('Bạn vui lòng nhập họ tên ạ.', false);
       if (!PHONE_RE.test(phone)) return show('Số điện thoại chưa đúng (VD: 0989 688 703).', false);
-      if (form.dataset.type === 'order' && (!data.address || data.address.trim().length < 6)) return show('Chị vui lòng nhập địa chỉ nhận hàng ạ.', false);
-      if (!data.consent) return show('Chị vui lòng tích đồng ý chính sách bảo mật để gửi thông tin ạ.', false);
+      if (form.dataset.type === 'order' && (!data.address || data.address.trim().length < 6)) return show('Bạn vui lòng nhập địa chỉ nhận hàng ạ.', false);
+      if (!data.consent) return show('Bạn vui lòng tích đồng ý chính sách bảo mật để gửi thông tin ạ.', false);
 
       const checked = form.querySelector<HTMLInputElement>('input[name=offer]:checked');
       const value = Number(checked?.dataset.price || form.dataset.value || 0);
@@ -251,7 +251,7 @@ const TOPICS = ['Nội tiết', 'Vóc dáng', 'Vùng kín', 'Trà thảo mộc']
         form.classList.add('is-done');
         form.querySelector<HTMLElement>('.lf-done')?.focus({ preventScroll: true });
       } catch {
-        show('Gửi chưa thành công. Chị vui lòng gọi <a class="font-semibold underline" href="tel:0989688703">0989 688 703</a> hoặc <a class="font-semibold underline" href="https://zalo.me/0989688703" target="_blank" rel="noopener">nhắn Zalo</a> giúp em ạ.', false);
+        show('Gửi chưa thành công. Bạn vui lòng gọi <a class="font-semibold underline" href="tel:0989688703">0989 688 703</a> hoặc <a class="font-semibold underline" href="https://zalo.me/0989688703" target="_blank" rel="noopener">nhắn Zalo</a> giúp em ạ.', false);
       } finally {
         form.classList.remove('is-sending'); btn.disabled = false; label.textContent = labelText;
       }

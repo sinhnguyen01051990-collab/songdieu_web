@@ -1,34 +1,237 @@
 ---
-import PageHero from '../components/PageHero.astro';
+/**
+ * Trang Liên hệ (17/11/2026, đồng bộ Trang chủ · Giới thiệu · Sản phẩm):
+ * đầu trang nền kem có quầng + bụi vàng, tiêu đề viết hoa chữ đầu có vệt vàng quét; 3 ô liên hệ nhanh (Gọi · Zalo · Email);
+ * cột trái: thẻ thông tin thương hiệu + bản đồ tĩnh (bấm mới tải Google Maps, trang nhẹ) + lối tự phục vụ;
+ * cột phải: thẻ form viền vàng có vòng sáng chạy một lần, dòng trấn an.
+ */
 import Base from '../layouts/Base.astro';
 import LeadForm from '../components/LeadForm.astro';
 import { SITE } from '../data/site';
 const mapQuery = encodeURIComponent(SITE.address.full);
+const mapEmbed = `https://www.google.com/maps?q=${mapQuery}&output=embed`;
+const mapDir = `https://www.google.com/maps/dir/?api=1&destination=${mapQuery}`;
+
+const I = {
+  phone: '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>',
+  chat: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14h4"/>',
+  mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+  pin: '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  help: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14"/><path d="M12 17h.01"/>',
+  truck: '<path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>',
+  shield: '<path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/>',
+  arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+};
+const ico = (d: string, s = 20) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+
+const QUICK = [
+  { t: 'Gọi hotline', v: SITE.phoneDisplay, d: 'Nghe máy tư vấn trực tiếp', href: `tel:${SITE.phone}`, i: I.phone, ext: false },
+  { t: 'Nhắn Zalo', v: SITE.phoneDisplay, d: 'Trả lời nhanh trong ít phút', href: SITE.zalo, i: I.chat, ext: true },
+  { t: 'Gửi email', v: SITE.email, d: 'Hợp tác, đại lý, góp ý', href: `mailto:${SITE.email}`, i: I.mail, ext: false },
+];
+const SELF = [
+  { t: 'Câu hỏi thường gặp', d: 'Cách dùng, thời gian, đối tượng phù hợp', href: '/cau-hoi-thuong-gap/', i: I.help },
+  { t: 'Giao hàng & đổi trả', d: 'Freeship, kiểm hàng rồi thanh toán', href: '/chinh-sach/', i: I.truck },
+  { t: 'Hồ sơ pháp lý', d: 'Giấy công bố từng sản phẩm', href: '/ho-so-phap-ly/', i: I.shield },
+];
+const social = [
+  SITE.messenger && { t: 'Messenger', href: SITE.messenger },
+  SITE.social.facebook && { t: 'Facebook', href: SITE.social.facebook },
+  SITE.social.tiktok && { t: 'TikTok', href: SITE.social.tiktok },
+  SITE.social.shopee && { t: 'Shopee', href: SITE.social.shopee },
+  SITE.social.youtube && { t: 'YouTube', href: SITE.social.youtube },
+].filter(Boolean) as { t: string; href: string }[];
 ---
-<Base title="Liên hệ" description={`Liên hệ SONG DIỆU: hotline ${SITE.phoneDisplay}, email ${SITE.email}, địa chỉ ${SITE.address.full}. Tư vấn miễn phí, phản hồi nhanh.`}
+<Base title="Liên hệ" description={`Liên hệ SONG DIỆU: hotline ${SITE.phoneDisplay}, Zalo, email ${SITE.email}, địa chỉ ${SITE.address.full}. Tư vấn miễn phí, phản hồi nhanh.`}
   breadcrumbs={[{ name: 'Trang chủ', href: '/' }, { name: 'Liên hệ', href: '/lien-he/' }]}>
-  <PageHero badge="Liên hệ" title="Luôn sẵn sàng" titleLine2="lắng nghe chị em" sub="Liên hệ SONG DIỆU bất cứ lúc nào khi cần hỗ trợ hoặc tư vấn – chúng mình phản hồi nhanh nhất có thể." note="Nhắn là trả lời" />
-  <section class="section !pt-4">
-    <div class="container-x">
-      <div class="mt-12 grid gap-8 lg:grid-cols-2">
-        <div class="space-y-4">
-          <div class="card p-6">
-            <p class="font-serif text-xl font-bold text-brand-700">2A Happy Home</p>
-            <address class="mt-4 space-y-3 not-italic">
-              <p>📍 {SITE.address.full}</p>
-              <p>📞 <a href={`tel:${SITE.phone}`} class="font-semibold text-brand-600">{SITE.phoneDisplay}</a></p>
-              <p>✉️ <a href={`mailto:${SITE.email}`} class="text-brand-600">{SITE.email}</a></p>
-              <p>💬 <a href={SITE.zalo} target="_blank" rel="noopener" class="text-brand-600">Chat Zalo {SITE.phoneDisplay}</a></p>
-            </address>
+  <section class="lh" aria-labelledby="lh-title">
+    <span class="lh-dust" aria-hidden="true"></span>
+    <div class="container-x lh-hero">
+      <p class="eyebrow" data-reveal>Liên hệ SONG DIỆU</p>
+      <h1 id="lh-title" class="lh-h1" data-reveal>Luôn Sẵn Sàng <span class="lh-em italic">Lắng Nghe Bạn</span></h1>
+      <p class="lh-sub" data-reveal>Cần tư vấn chọn sản phẩm, hỏi cách dùng hay theo dõi đơn hàng – chọn cách liên hệ tiện nhất, SONG DIỆU phản hồi nhanh nhất có thể.</p>
+
+      <ul class="lh-quick" data-reveal-group>
+        {QUICK.map((q) => (
+          <li>
+            <a class="lh-q" href={q.href} target={q.ext ? '_blank' : undefined} rel={q.ext ? 'noopener' : undefined}>
+              <span class="lh-ico" set:html={ico(q.i)} />
+              <span class="lh-q-txt">
+                <span class="lh-q-t">{q.t}</span>
+                <span class="lh-q-v">{q.v}</span>
+                <span class="lh-q-d">{q.d}</span>
+              </span>
+              <span class="lh-q-go" set:html={ico(I.arrow, 16)} />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="container-x lh-body">
+      <div class="lh-left">
+        <div class="lh-card" data-reveal>
+          <p class="lh-brand">SONG DIỆU <span>Pharma Beauty</span></p>
+          <p class="lh-legal">{SITE.legalName}</p>
+          <address class="lh-info">
+            <p><span class="lh-ico lh-ico-s" set:html={ico(I.pin, 16)} /><span>{SITE.address.full}</span></p>
+            <p><span class="lh-ico lh-ico-s" set:html={ico(I.phone, 16)} /><a href={`tel:${SITE.phone}`}>{SITE.phoneDisplay}</a></p>
+            <p><span class="lh-ico lh-ico-s" set:html={ico(I.mail, 16)} /><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+            <p><span class="lh-ico lh-ico-s" set:html={ico(I.clock, 16)} /><span>{SITE.openingHours ? `Giờ làm việc: ${SITE.openingHours}` : 'Nhắn Zalo hoặc để lại thông tin, SONG DIỆU gọi lại trong ít phút'}</span></p>
+          </address>
+          {social.length > 0 && (
+            <p class="lh-social">{social.map((s) => <a href={s.href} target="_blank" rel="noopener">{s.t}</a>)}</p>
+          )}
+        </div>
+
+        <div class="lh-map" id="lh-map" data-src={mapEmbed} data-reveal>
+          <span class="lh-map-grid" aria-hidden="true"></span>
+          <span class="lh-map-pin" set:html={ico(I.pin, 26)} />
+          <p class="lh-map-addr">{SITE.address.street}<br />{SITE.address.ward}, {SITE.address.city}</p>
+          <div class="lh-map-act">
+            <button type="button" class="btn lh-ghost" id="lh-map-load">Xem bản đồ</button>
+            <a class="btn-primary" href={mapDir} target="_blank" rel="noopener">Chỉ đường <Fragment set:html={ico(I.arrow, 16)} /></a>
           </div>
-          <iframe title="Bản đồ SONG DIỆU" class="h-80 w-full rounded-3xl border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-            src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}></iframe>
         </div>
-        <div class="card p-6 sm:p-8">
-          <h2 class="mb-6 text-2xl font-bold">Gửi yêu cầu tư vấn</h2>
-          <LeadForm variant="contact" />
+
+        <div class="lh-self" data-reveal>
+          <p class="lh-self-t">Có thể bạn đang tìm</p>
+          <ul>
+            {SELF.map((s) => (
+              <li><a href={s.href}><span class="lh-ico lh-ico-s" set:html={ico(s.i, 16)} /><span class="lh-self-x"><b>{s.t}</b><small>{s.d}</small></span><span class="lh-q-go" set:html={ico(I.arrow, 14)} /></a></li>
+            ))}
+          </ul>
         </div>
+      </div>
+
+      <div class="lh-form" data-reveal>
+        <h2 class="lh-form-t">Gửi Yêu Cầu <span class="lh-em italic">Tư Vấn</span></h2>
+        <p class="lh-form-s">Chuyên viên SONG DIỆU gọi lại trong ít phút · Thông tin của bạn được bảo mật</p>
+        <LeadForm variant="contact" />
       </div>
     </div>
   </section>
 </Base>
+
+<style>
+  .lh { position: relative; overflow: hidden; isolation: isolate; padding-bottom: 72px;
+    background:
+      radial-gradient(ellipse 50% 32% at 50% 0%, rgba(224, 191, 110, .22), transparent 70%),
+      radial-gradient(ellipse 40% 40% at 0% 70%, rgba(155, 28, 44, .05), transparent 70%),
+      linear-gradient(180deg, var(--color-cream) 0, #fffdf9 50%, var(--color-cream) 100%); }
+  .lh-dust { position: absolute; left: 20%; top: 0; width: 60%; height: 320px; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(circle at 8% 30%, rgba(201,161,74,.5) 0 1.3px, transparent 2.4px),
+      radial-gradient(circle at 24% 10%, rgba(201,161,74,.4) 0 1px, transparent 2px),
+      radial-gradient(circle at 78% 14%, rgba(201,161,74,.45) 0 1.2px, transparent 2.2px),
+      radial-gradient(circle at 94% 40%, rgba(201,161,74,.35) 0 1px, transparent 2px),
+      radial-gradient(circle at 60% 4%, rgba(201,161,74,.3) 0 1.1px, transparent 2.1px);
+    animation: sd-lh-twinkle 5s ease-in-out infinite alternate; }
+  @keyframes sd-lh-twinkle { from { opacity: .45; } to { opacity: 1; } }
+
+  .lh-hero { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 56px; }
+  .lh-h1 { margin-top: 14px; max-width: 48rem; font: 700 clamp(36px, 5vw, 64px)/1.08 var(--font-serif); color: var(--color-ink); }
+  .lh-em { background-image: linear-gradient(100deg, #7d1424 0 40%, #c9a14a 46%, #f6dc86 50%, #c9a14a 54%, #7d1424 60% 100%);
+    background-size: 320% 100%; background-position: 0 0;
+    -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .08em; }
+  :global(.is-in) > .lh-em, :global(.is-in) > .lh-form-t > .lh-em { animation: sd-lh-sweep 1.4s cubic-bezier(.4,0,.2,1) .35s both; }
+  @keyframes sd-lh-sweep { from { background-position: 100% 0; } to { background-position: 0 0; } }
+  .lh-sub { margin-top: 16px; max-width: 40rem; font-size: 17px; line-height: 1.7; color: var(--color-mute); }
+
+  .lh-ico { flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 999px; color: var(--color-gold-300);
+    background: radial-gradient(circle at 50% 30%, #9b1c2c, #4a0c15 75%);
+    box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .7), 0 6px 14px -8px rgba(58, 9, 16, .7); }
+  .lh-ico-s { width: 32px; height: 32px; }
+
+  /* 3 ô liên hệ nhanh */
+  .lh-quick { list-style: none; margin: 34px 0 0; padding: 0; width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; text-align: left; }
+  .lh-q { display: flex; align-items: center; gap: 14px; height: 100%; padding: 16px 18px; border-radius: 22px; background: rgba(255, 255, 255, .8);
+    box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .55), 0 14px 30px -24px rgba(58, 9, 16, .5);
+    transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s, background .35s; }
+  .lh-q:hover { transform: translateY(-2px); background: #fff; box-shadow: inset 0 0 0 1px var(--color-gold-500), 0 0 0 4px rgba(224, 191, 110, .14), 0 18px 34px -22px rgba(99, 16, 28, .5); }
+  .lh-q-txt { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+  .lh-q-t { font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--color-gold-600); }
+  .lh-q-v { margin-top: 2px; font: 700 21px/1.2 var(--font-serif); color: var(--color-brand-700); overflow-wrap: anywhere; }
+  .lh-q-d { margin-top: 2px; font-size: 13.5px; color: var(--color-mute); }
+  .lh-q-go { flex: none; display: grid; color: var(--color-gold-500); transition: transform .35s cubic-bezier(.2,.8,.2,1), color .35s; }
+  .lh-q:hover .lh-q-go, .lh-self a:hover .lh-q-go { transform: translateX(3px); color: var(--color-brand-600); }
+
+  .lh-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; margin-top: 48px; }
+  @media (min-width: 1024px) { .lh-body { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 40px; align-items: start; } }
+  .lh-left { display: grid; gap: 20px; min-width: 0; }
+
+  .lh-card { padding: 24px; border-radius: 24px; background: rgba(255, 255, 255, .78); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .45); }
+  .lh-brand { font: 700 26px/1.15 var(--font-serif); color: var(--color-brand-700); }
+  .lh-brand span { font-style: italic; font-weight: 600; color: var(--color-gold-600); }
+  .lh-legal { margin-top: 4px; font-size: 13px; letter-spacing: .04em; color: var(--color-mute); }
+  .lh-info { margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(201, 161, 74, .3); display: grid; gap: 10px; font-style: normal; font-size: 15px; }
+  .lh-info p { display: flex; align-items: center; gap: 12px; }
+  .lh-info a { font-weight: 600; color: var(--color-brand-600); }
+  .lh-info a:hover { text-decoration: underline; }
+  .lh-social { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .lh-social a { padding: 6px 14px; border-radius: 999px; font-size: 13.5px; font-weight: 600; color: var(--color-brand-700); box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .7); }
+
+  /* bản đồ tĩnh: bấm "Xem bản đồ" mới tải Google Maps */
+  .lh-map { position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+    min-height: 260px; padding: 28px 20px; border-radius: 24px; text-align: center;
+    background: radial-gradient(circle at 50% 40%, #fffaf0, #f4e8cc); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .55); }
+  .lh-map-grid { position: absolute; inset: 0; pointer-events: none; opacity: .5;
+    background-image: linear-gradient(rgba(201,161,74,.25) 1px, transparent 1px), linear-gradient(90deg, rgba(201,161,74,.25) 1px, transparent 1px);
+    background-size: 36px 36px; -webkit-mask: radial-gradient(circle at 50% 45%, #000 20%, transparent 75%); mask: radial-gradient(circle at 50% 45%, #000 20%, transparent 75%); }
+  .lh-map-pin { position: relative; display: grid; place-items: center; width: 54px; height: 54px; border-radius: 999px; color: var(--color-gold-300);
+    background: radial-gradient(circle at 50% 30%, #9b1c2c, #4a0c15 75%); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .7), 0 0 0 8px rgba(155, 28, 44, .08), 0 10px 22px -10px rgba(58, 9, 16, .7); }
+  .lh-map-addr { position: relative; font: 600 18px/1.4 var(--font-serif); color: var(--color-ink); }
+  .lh-map-act { position: relative; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .lh-ghost { color: var(--color-brand-700); background: rgba(255, 255, 255, .8); box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .8); }
+  .lh-ghost:hover { background: #fff; box-shadow: inset 0 0 0 1px var(--color-gold-500), 0 12px 24px -14px rgba(99, 16, 28, .4), 0 0 0 4px rgba(224, 191, 110, .16); }
+  .lh-map.is-live { padding: 0; min-height: 0; }
+  .lh-map :global(iframe) { display: block; width: 100%; height: 320px; border: 0; }
+
+  .lh-self { padding: 20px 22px; border-radius: 24px; background: rgba(255, 255, 255, .6); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .4); }
+  .lh-self-t { font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--color-brand-600); }
+  .lh-self ul { list-style: none; margin: 8px 0 0; padding: 0; }
+  .lh-self li + li { border-top: 1px solid rgba(201, 161, 74, .25); }
+  .lh-self a { display: flex; align-items: center; gap: 12px; padding: 12px 2px; }
+  .lh-self-x { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .lh-self b { font-size: 15px; color: var(--color-ink); }
+  .lh-self small { font-size: 13px; color: var(--color-mute); }
+
+  /* thẻ form: viền vàng + vòng sáng chạy một lần như thẻ Đặt hàng */
+  .lh-form { position: relative; min-width: 0; padding: 26px; border-radius: 28px;
+    background: linear-gradient(180deg, #fffdf8 0%, #fbf5ea 100%);
+    box-shadow: 0 0 0 1px rgba(224, 191, 110, .75), 0 0 0 6px rgba(224, 191, 110, .12), 0 30px 60px -36px rgba(58, 9, 16, .5); }
+  .lh-form::after { content: ''; position: absolute; inset: -1px; border-radius: 29px; padding: 1.5px; pointer-events: none; opacity: 0;
+    background: conic-gradient(from var(--sd-a), transparent 0 78%, rgba(246, 220, 134, .2) 86%, #fff3c4 93%, #e0bf6e 96%, transparent 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+  .lh-form:global(.is-in)::after { animation: sd-lh-ring 1.8s cubic-bezier(.45, 0, .2, 1) .35s both; }
+  @keyframes sd-lh-ring { 0% { --sd-a: 0deg; opacity: 0; } 12% { opacity: 1; } 85% { opacity: 1; } 100% { --sd-a: 360deg; opacity: 0; } }
+  .lh-form-t { font-size: 32px; color: var(--color-ink); }
+  .lh-form-s { margin: 8px 0 20px; padding-bottom: 16px; border-bottom: 1px solid rgba(201, 161, 74, .3); font-size: 14px; color: var(--color-gold-600); font-weight: 500; }
+  @media (min-width: 640px) { .lh-form { padding: 32px; } }
+
+  @media (max-width: 767px) {
+    .lh-hero { padding-top: 40px; }
+    .lh-quick { grid-template-columns: minmax(0, 1fr); gap: 10px; margin-top: 26px; }
+    .lh-q { padding: 12px 14px; }
+    .lh-q-v { font-size: 19px; }
+    .lh-body { margin-top: 32px; }
+    .lh { padding-bottom: 48px; }
+  }
+</style>
+
+<script>
+  // bản đồ: chỉ tải Google Maps khi khách bấm (trang nhẹ, không tải mã Google lúc đầu)
+  document.getElementById('lh-map-load')?.addEventListener('click', () => {
+    const box = document.getElementById('lh-map');
+    if (!box) return;
+    const f = document.createElement('iframe');
+    f.title = 'Bản đồ SONG DIỆU';
+    f.src = box.dataset.src ?? '';
+    f.referrerPolicy = 'no-referrer-when-downgrade';
+    f.allowFullscreen = true;
+    box.replaceChildren(f);
+    box.classList.add('is-live');
+  });
+</script>
