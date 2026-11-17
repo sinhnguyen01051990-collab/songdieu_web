@@ -201,7 +201,7 @@ export const PRODUCTS: Product[] = [
     name: 'Thất Bảo Trà – Trà Táo Mèo',
     shortName: 'Trà Táo Mèo',
     category: 'Trà thảo mộc vóc dáng',
-    tagline: 'Uống trong – chăm ngoài – vận động nhẹ',
+    tagline: 'Thanh lọc cơ thể, hỗ trợ đào thải mỡ xấu và kiểm soát cân nặng an toàn ngay tại nhà',
     description:
       'Thất Bảo Trà – Trà Táo Mèo SONG DIỆU, hộp 30 gói: trà thảo mộc hỗ trợ chuyển hoá, thanh lọc, đồng hành chăm sóc vóc dáng. Freeship.',
     image: taoMeoMoi1,
