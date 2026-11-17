@@ -9,7 +9,7 @@
 import { Picture } from 'astro:assets';
 import { SITE, TESTIMONIALS } from '../data/site';
 import { PRODUCTS } from '../data/products';
-import testi from '../assets/images/cam-nhan-khach.jpg';
+import testi from '../assets/images/cam-nhan-khach-moi.jpg'; // ảnh anh gửi Drive 17/11/2026
 
 const items = TESTIMONIALS.map((t) => ({
   ...t,
@@ -26,7 +26,7 @@ const STAR = 'M12 2.2l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.3 1.3-6.6-4.9-4
       <div class="t-photo" data-reveal>
         <span class="t-glow" aria-hidden="true"></span>
         <div class="t-frame">
-          <Picture src={testi} alt="Khách hàng sử dụng sản phẩm SONG DIỆU" width={900} widths={[400, 600, 900]} sizes="(min-width: 1024px) 440px, 92vw" formats={['avif', 'webp']} fallbackFormat="webp" loading="lazy" class="t-img" />
+          <Picture src={testi} alt="Khách hàng cầm viên uống Xuân Nữ Nhan SONG DIỆU" width={900} widths={[400, 600, 900]} sizes="(min-width: 1024px) 440px, 92vw" formats={['avif', 'webp']} fallbackFormat="webp" loading="lazy" class="t-img" />
         </div>
         <span class="t-tag"><b>Cảm nhận thật</b>từ khách hàng thật</span>
       </div>
@@ -161,7 +161,7 @@ const STAR = 'M12 2.2l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.3 1.3-6.6-4.9-4
     .t-photo { margin-left: auto; margin-right: auto; }
   }
   @media (max-width: 640px) {
-    .t-frame :global(.t-img) { aspect-ratio: 4 / 3; object-position: 50% 45%; }
+    .t-frame :global(.t-img) { aspect-ratio: 4 / 3; object-position: 50% 38%; }
     .t-tag { right: -6px; bottom: 16px; padding: 8px 12px; font-size: 11px; } .t-tag b { font-size: 17px; }
     .tc { padding: 24px 20px 20px; } .tc-q { font-size: 90px; right: 14px; }
     .tc-text { font-size: 15.5px; }
