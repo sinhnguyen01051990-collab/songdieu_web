@@ -52,6 +52,8 @@ const arrow = (d: string) => `<svg width="20" height="20" viewBox="0 0 24 24" fi
         </div>
       </div>
       <p class="pf-note">Bấm vào ảnh để xem rõ tin nhắn, cảm nhận của mỗi khách hàng khi sử dụng sản phẩm.</p>
+      <!-- đường phân cách vàng với khối Gợi ý cho bạn (18/11/2026) -->
+      <div class="pf-div" aria-hidden="true"><span></span><i></i><span></span></div>
     </div>
 
     <dialog class="pf-lb" id="pf-lb" aria-label="Xem ảnh phản hồi" data-zoom={JSON.stringify(zoom)} data-alts={JSON.stringify(items.map((f) => f.alt))} data-caps={JSON.stringify(items.map((f) => f.caption))}>
@@ -66,7 +68,7 @@ const arrow = (d: string) => `<svg width="20" height="20" viewBox="0 0 24 24" fi
 
 <style>
   /* nền nối từ trắng (Thông tin chi tiết) sang kem (Gợi ý cho bạn), quầng vàng nhẹ như đầu trang */
-  .pf { position: relative; overflow: hidden; isolation: isolate; padding: 72px 0 80px;
+  .pf { position: relative; overflow: hidden; isolation: isolate; padding: 72px 0 48px;
     background:
       radial-gradient(ellipse 45% 50% at 50% 0%, rgba(224, 191, 110, .18), transparent 70%),
       radial-gradient(ellipse 35% 45% at 0% 70%, rgba(155, 28, 44, .05), transparent 70%),
@@ -136,7 +138,12 @@ const arrow = (d: string) => `<svg width="20" height="20" viewBox="0 0 24 24" fi
   .pf-bar { position: relative; width: min(220px, 40vw); height: 3px; border-radius: 999px; background: rgba(201, 161, 74, .22); overflow: hidden; }
   .pf-bar i { position: absolute; inset: 0 auto 0 0; width: 30%; border-radius: inherit; background: linear-gradient(90deg, var(--color-gold-500), var(--color-brand-600));
     transition: width .25s, transform .25s; }
-  .pf-note { margin-top: 18px; text-align: center; font-size: 12.5px; color: var(--color-mute); }
+  .pf-div { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 44px auto 0; width: min(560px, 86%); }
+  .pf-div span { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(201, 161, 74, .75)); }
+  .pf-div span:last-child { background: linear-gradient(90deg, rgba(201, 161, 74, .75), transparent); }
+  .pf-div i { position: relative; flex: none; width: 10px; height: 10px; transform: rotate(45deg); border: 1px solid var(--color-gold-500); background: var(--color-cream); }
+  .pf-div i::after { content: ''; position: absolute; inset: 2px; background: linear-gradient(135deg, #f6dc86, var(--color-gold-500)); }
+  .pf-note { margin-top: 10px; text-align: center; font-size: 12.5px; color: var(--color-mute); }
 
   /* xem lớn */
   .pf-lb { width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 56px 16px 64px; border: 0; background: transparent; }
@@ -154,7 +161,7 @@ const arrow = (d: string) => `<svg width="20" height="20" viewBox="0 0 24 24" fi
   .pf-lb-x { right: 16px; top: 12px; }
   .pf-lb-prev, .pf-lb-next { top: 50%; margin-top: -22px; }
   .pf-lb-prev { left: 16px; } .pf-lb-next { right: 16px; }
-  @media (max-width: 640px) { .pf { padding: 56px 0 64px; } .pf-lb-prev, .pf-lb-next { top: auto; bottom: 8px; margin: 0; } .pf-lb-cap { bottom: 64px; } }
+  @media (max-width: 640px) { .pf { padding: 56px 0 36px; } .pf-div { margin-top: 32px; } .pf-lb-prev, .pf-lb-next { top: auto; bottom: 8px; margin: 0; } .pf-lb-cap { bottom: 64px; } }
 </style>
 
 <script>
