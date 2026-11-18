@@ -13,8 +13,8 @@ import { PRODUCTS } from '../data/products';
 import { SITE } from '../data/site';
 ---
 <Base
-  title="Mỹ phẩm & thảo dược chăm sóc phụ nữ Việt"
-  description={SITE.description}
+  fullTitle="Song Diệu - Vẻ Đẹp Đến Từ Sự An Nhiên"
+  description="Song Diệu mang đến giải pháp chăm sóc toàn diện, giúp phái đẹp nuôi dưỡng sự tự tin, khỏe khoắn và rạng rỡ bền vững từ sâu bên trong."
   jsonLd={[{
     '@context': 'https://schema.org', '@type': 'ItemList', name: 'Sản phẩm SONG DIỆU',
     itemListElement: PRODUCTS.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE.url}/san-pham/${p.slug}/`, name: p.name })),

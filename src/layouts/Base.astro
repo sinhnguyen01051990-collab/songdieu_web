@@ -14,11 +14,13 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import FloatingContact from '../components/FloatingContact.astro';
 import { SITE } from '../data/site';
-import heroImg from '../assets/images/hero.jpg';
+import heroImg from '../assets/images/chia-se-song-dieu.jpg'; // ảnh thẻ chia sẻ mặc định (Zalo/Facebook), 18/11/2026
 import { getImage } from 'astro:assets';
 
 interface Props {
   title?: string;
+  /** tiêu đề đầy đủ, không tự thêm " | SONG DIỆU" (dùng cho trang chủ) */
+  fullTitle?: string;
   description?: string;
   image?: ImageMetadata;
   type?: 'website' | 'article' | 'product';
@@ -27,8 +29,8 @@ interface Props {
   breadcrumbs?: { name: string; href: string }[];
 }
 
-const { title, description = SITE.description, image = heroImg, type = 'website', noindex = false, jsonLd = [], breadcrumbs } = Astro.props;
-const fullTitle = title ? `${title} | ${SITE.name}` : `${SITE.name} – ${SITE.tagline}`;
+const { title, fullTitle: fullTitleProp, description = SITE.description, image = heroImg, type = 'website', noindex = false, jsonLd = [], breadcrumbs } = Astro.props;
+const fullTitle = fullTitleProp ?? (title ? `${title} | ${SITE.name}` : `${SITE.name} – ${SITE.tagline}`);
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const og = await getImage({ src: image, width: 1200, format: 'jpg' });
 const ogUrl = new URL(og.src, Astro.site).href;
