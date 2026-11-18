@@ -68,7 +68,7 @@ const arrow = (d: string) => `<svg width="20" height="20" viewBox="0 0 24 24" fi
 
 <style>
   /* nền nối từ trắng (Thông tin chi tiết) sang kem (Gợi ý cho bạn), quầng vàng nhẹ như đầu trang */
-  .pf { position: relative; overflow: hidden; isolation: isolate; padding: 72px 0 48px;
+  .pf { position: relative; overflow: hidden; isolation: isolate; padding: 72px 0 0;
     background:
       radial-gradient(ellipse 45% 50% at 50% 0%, rgba(224, 191, 110, .18), transparent 70%),
       radial-gradient(ellipse 35% 45% at 0% 70%, rgba(155, 28, 44, .05), transparent 70%),
@@ -133,12 +133,12 @@ const arrow = (d: string) => `<svg width="20" height="20" viewBox="0 0 24 24" fi
   .pf-nav:hover:not(:disabled) { color: var(--color-gold-300); background: linear-gradient(180deg, var(--color-brand-500), var(--color-brand-700)); transform: translateY(-1px);
     box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .7), 0 8px 18px -10px rgba(99, 16, 28, .7); }
   .pf-nav:disabled { opacity: .35; cursor: default; }
-  .pf-mid { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .pf-mid { display: flex; align-items: center; gap: 12px; } /* thanh + số đếm cùng hàng, thẳng tâm hai nút */
   .pf-count { font-size: 12.5px; font-weight: 600; letter-spacing: .06em; color: var(--color-gold-600); font-variant-numeric: tabular-nums; }
   .pf-bar { position: relative; width: min(220px, 40vw); height: 3px; border-radius: 999px; background: rgba(201, 161, 74, .22); overflow: hidden; }
   .pf-bar i { position: absolute; inset: 0 auto 0 0; width: 30%; border-radius: inherit; background: linear-gradient(90deg, var(--color-gold-500), var(--color-brand-600));
     transition: width .25s, transform .25s; }
-  .pf-div { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 44px auto 0; width: min(560px, 86%); }
+  .pf-div { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 56px auto 0; width: min(560px, 86%); }
   .pf-div span { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(201, 161, 74, .75)); }
   .pf-div span:last-child { background: linear-gradient(90deg, rgba(201, 161, 74, .75), transparent); }
   .pf-div i { position: relative; flex: none; width: 10px; height: 10px; transform: rotate(45deg); border: 1px solid var(--color-gold-500); background: var(--color-cream); }
@@ -161,7 +161,7 @@ const arrow = (d: string) => `<svg width="20" height="20" viewBox="0 0 24 24" fi
   .pf-lb-x { right: 16px; top: 12px; }
   .pf-lb-prev, .pf-lb-next { top: 50%; margin-top: -22px; }
   .pf-lb-prev { left: 16px; } .pf-lb-next { right: 16px; }
-  @media (max-width: 640px) { .pf { padding: 56px 0 36px; } .pf-div { margin-top: 32px; } .pf-lb-prev, .pf-lb-next { top: auto; bottom: 8px; margin: 0; } .pf-lb-cap { bottom: 64px; } }
+  @media (max-width: 640px) { .pf { padding: 56px 0 0; } .pf-div { margin-top: 40px; } .pf-lb-prev, .pf-lb-next { top: auto; bottom: 8px; margin: 0; } .pf-lb-cap { bottom: 64px; } }
 </style>
 
 <script>
