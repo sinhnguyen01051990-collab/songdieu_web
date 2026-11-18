@@ -1,0 +1,189 @@
+---
+/**
+ * Khối "Phản Hồi Của Khách Hàng" ở trang chi tiết sản phẩm (18/11/2026):
+ * băng ảnh vuốt ngang (cuộn bắt khung), nút trước/sau + thanh tiến độ, bấm ảnh xem lớn (vuốt/phím mũi tên).
+ * Ảnh chỉ tải khi sắp cuộn tới; ảnh lớn chỉ tải khi khách mở.
+ */
+import { Picture, getImage } from 'astro:assets';
+import type { Feedback } from '../data/media';
+interface Props { items: Feedback[]; productName: string }
+const { items, productName } = Astro.props;
+const zoom = await Promise.all(items.map(async (f) => (await getImage({ src: f.src, width: 1100, format: 'webp' })).src));
+const arrow = (d: string) => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
+---
+{items.length > 0 && (
+  <section class="pf" aria-labelledby="pf-title">
+    <span class="pf-dust" aria-hidden="true"></span>
+    <div class="container-x">
+      <div class="pf-head" data-reveal>
+        <p class="eyebrow">Khách hàng nói gì</p>
+        <h2 id="pf-title" class="pf-h2">Phản Hồi Của <span class="pf-em italic">Khách Hàng</span></h2>
+        <p class="pf-sub">Tin nhắn thật từ chị em đã dùng {productName} và quay lại đặt thêm.</p>
+      </div>
+
+      <div class="pf-wrap" data-reveal>
+        <ul class="pf-track" id="pf-track" aria-label="Ảnh phản hồi của khách hàng">
+          {items.map((f, i) => (
+            <li class="pf-cell">
+              <button type="button" class="pf-card" data-i={i} aria-label={`Xem lớn: ${f.caption}`}>
+                <span class="pf-img">
+                  <Picture src={f.src} alt={f.alt} formats={['avif', 'webp']} fallbackFormat="webp" widths={[320, 480, 640]}
+                    sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 78vw" loading="lazy" decoding="async" />
+                  <span class="pf-zoom" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5M11 8v6M8 11h6"/></svg></span>
+                </span>
+                <span class="pf-cap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>{f.caption}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+        <div class="pf-ctrl">
+          <button type="button" class="pf-nav" data-dir="-1" aria-label="Phản hồi trước" set:html={arrow('M15 6l-6 6 6 6')} />
+          <span class="pf-bar" aria-hidden="true"><i id="pf-bar"></i></span>
+          <button type="button" class="pf-nav" data-dir="1" aria-label="Phản hồi sau" set:html={arrow('M9 6l6 6-6 6')} />
+        </div>
+      </div>
+      <p class="pf-note">Bấm vào ảnh để xem rõ tin nhắn. Cảm nhận ở mỗi người có thể khác nhau.</p>
+    </div>
+
+    <dialog class="pf-lb" id="pf-lb" aria-label="Xem ảnh phản hồi" data-zoom={JSON.stringify(zoom)} data-alts={JSON.stringify(items.map((f) => f.alt))} data-caps={JSON.stringify(items.map((f) => f.caption))}>
+      <img id="pf-lb-img" alt="" />
+      <p class="pf-lb-cap" id="pf-lb-cap"></p>
+      <button type="button" class="pf-lb-btn pf-lb-x" data-k="close" aria-label="Đóng"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <button type="button" class="pf-lb-btn pf-lb-prev" data-k="prev" aria-label="Ảnh trước" set:html={arrow('M15 6l-6 6 6 6')} />
+      <button type="button" class="pf-lb-btn pf-lb-next" data-k="next" aria-label="Ảnh sau" set:html={arrow('M9 6l6 6-6 6')} />
+    </dialog>
+  </section>
+)}
+
+<style>
+  /* nền nối từ trắng (Thông tin chi tiết) sang kem (Gợi ý cho bạn), quầng vàng nhẹ như đầu trang */
+  .pf { position: relative; overflow: hidden; isolation: isolate; padding: 72px 0 80px;
+    background:
+      radial-gradient(ellipse 45% 50% at 50% 0%, rgba(224, 191, 110, .18), transparent 70%),
+      radial-gradient(ellipse 35% 45% at 0% 70%, rgba(155, 28, 44, .05), transparent 70%),
+      linear-gradient(180deg, #fff 0, #fffaf3 45%, var(--color-cream) 100%); }
+  .pf-dust { position: absolute; left: 22%; top: 0; width: 56%; height: 220px; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(circle at 10% 35%, rgba(201,161,74,.5) 0 1.2px, transparent 2.3px),
+      radial-gradient(circle at 30% 12%, rgba(201,161,74,.4) 0 1px, transparent 2px),
+      radial-gradient(circle at 74% 18%, rgba(201,161,74,.45) 0 1.2px, transparent 2.2px),
+      radial-gradient(circle at 92% 46%, rgba(201,161,74,.35) 0 1px, transparent 2px);
+    animation: sd-pf-twinkle 5s ease-in-out infinite alternate; }
+  @keyframes sd-pf-twinkle { from { opacity: .45; } to { opacity: 1; } }
+
+  .pf-head { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .pf-h2 { margin-top: 12px; font-size: clamp(34px, 4.6vw, 48px); color: var(--color-ink); }
+  .pf-em { background-image: linear-gradient(100deg, #7d1424 0 40%, #c9a14a 46%, #f6dc86 50%, #c9a14a 54%, #7d1424 60% 100%);
+    background-size: 320% 100%; background-position: 0 0; -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .08em; }
+  :global(.is-in) .pf-em { animation: sd-pf-sweep 1.4s cubic-bezier(.4,0,.2,1) .35s both; }
+  @keyframes sd-pf-sweep { from { background-position: 100% 0; } to { background-position: 0 0; } }
+  .pf-sub { margin-top: 12px; max-width: 36rem; font-size: 16px; line-height: 1.7; color: var(--color-mute); }
+
+  /* băng ảnh: cuộn ngang bắt khung, mép mờ dần trên máy tính */
+  .pf-wrap { margin-top: 36px; }
+  .pf-track { list-style: none; margin: 0 -16px; padding: 10px 16px 18px; display: flex; gap: 18px; overflow-x: auto;
+    scroll-snap-type: x mandatory; scroll-padding-inline: 16px; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .pf-track::-webkit-scrollbar { display: none; }
+  .pf-cell { flex: none; width: 78%; scroll-snap-align: start; }
+  @media (min-width: 640px) { .pf-track { margin: 0; padding-inline: 4px; scroll-padding-inline: 4px; gap: 22px; } .pf-cell { width: calc((100% - 22px) / 2.15); } }
+  @media (min-width: 1024px) {
+    .pf-track { gap: 26px; -webkit-mask-image: linear-gradient(90deg, #000 92%, transparent); mask-image: linear-gradient(90deg, #000 92%, transparent); }
+    .pf-track.is-end { -webkit-mask-image: none; mask-image: none; }
+    .pf-cell { width: calc((100% - 52px) / 3.2); }
+  }
+
+  .pf-card { display: flex; flex-direction: column; width: 100%; padding: 0; text-align: left; border-radius: 22px; overflow: hidden; background: #fff;
+    box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .35), 0 14px 32px -20px rgba(58, 9, 16, .35);
+    transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s; }
+  .pf-img { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; background: #f8eef0; }
+  .pf-img :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform .7s cubic-bezier(.2,.8,.2,1); }
+  .pf-zoom { position: absolute; right: 12px; top: 12px; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 999px;
+    color: var(--color-gold-300); background: rgba(99, 16, 28, .82); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .6);
+    opacity: 0; transform: scale(.85); transition: opacity .35s, transform .35s; }
+  .pf-cap { display: flex; align-items: flex-start; gap: 8px; padding: 14px 16px 16px; font-size: 14px; font-weight: 500; line-height: 1.5; color: var(--color-ink);
+    border-top: 1px solid rgba(201, 161, 74, .25); }
+  .pf-cap svg { flex: none; margin-top: 2px; color: var(--color-brand-600); }
+  @media (hover: hover) {
+    .pf-card:hover { transform: translateY(-4px); box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .8), 0 0 0 4px rgba(224, 191, 110, .14), 0 22px 40px -22px rgba(58, 9, 16, .5); }
+    .pf-card:hover .pf-img :global(img) { transform: scale(1.03); }
+    .pf-card:hover .pf-zoom { opacity: 1; transform: none; }
+  }
+  .pf-card:focus-visible { outline: 2px solid var(--color-brand-600); outline-offset: 3px; }
+
+  /* nút trước/sau + thanh tiến độ */
+  .pf-ctrl { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 14px; }
+  .pf-nav { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; color: var(--color-brand-700); background: #fff;
+    box-shadow: inset 0 0 0 1px rgba(201, 161, 74, .7); transition: background .3s, color .3s, transform .3s, opacity .3s, box-shadow .3s; }
+  .pf-nav:hover:not(:disabled) { color: var(--color-gold-300); background: linear-gradient(180deg, var(--color-brand-500), var(--color-brand-700)); transform: translateY(-1px);
+    box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .7), 0 8px 18px -10px rgba(99, 16, 28, .7); }
+  .pf-nav:disabled { opacity: .35; cursor: default; }
+  .pf-bar { position: relative; width: min(220px, 40vw); height: 3px; border-radius: 999px; background: rgba(201, 161, 74, .22); overflow: hidden; }
+  .pf-bar i { position: absolute; inset: 0 auto 0 0; width: 30%; border-radius: inherit; background: linear-gradient(90deg, var(--color-gold-500), var(--color-brand-600));
+    transition: width .25s, transform .25s; }
+  .pf-note { margin-top: 18px; text-align: center; font-size: 12.5px; color: var(--color-mute); }
+
+  /* xem lớn */
+  .pf-lb { width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 56px 16px 64px; border: 0; background: transparent; }
+  .pf-lb[open] { display: flex; align-items: center; justify-content: center; animation: sd-pf-lb .3s ease both; }
+  .pf-lb::backdrop { background: rgba(28, 6, 10, .9); backdrop-filter: blur(4px); }
+  @keyframes sd-pf-lb { from { opacity: 0; } to { opacity: 1; } }
+  .pf-lb img { max-width: min(100%, 880px); max-height: 100%; object-fit: contain; border-radius: 14px; box-shadow: 0 0 0 1px rgba(224, 191, 110, .5), 0 30px 80px -20px rgba(0, 0, 0, .8); }
+  .pf-lb-cap { position: fixed; left: 16px; right: 16px; bottom: 18px; text-align: center; font-size: 13px; color: rgba(255, 243, 220, .88); }
+  .pf-lb-btn { position: fixed; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; color: var(--color-gold-300);
+    background: rgba(58, 9, 16, .7); box-shadow: inset 0 0 0 1px rgba(224, 191, 110, .55); transition: background .3s, transform .3s; }
+  .pf-lb-btn:hover { background: rgba(125, 20, 36, .9); transform: scale(1.06); }
+  .pf-lb-x { right: 16px; top: 12px; }
+  .pf-lb-prev, .pf-lb-next { top: 50%; margin-top: -22px; }
+  .pf-lb-prev { left: 16px; } .pf-lb-next { right: 16px; }
+  @media (max-width: 640px) { .pf { padding: 56px 0 64px; } .pf-lb-prev, .pf-lb-next { top: auto; bottom: 8px; margin: 0; } .pf-lb-cap { bottom: 64px; } }
+</style>
+
+<script>
+  // băng ảnh phản hồi: nút trước/sau, thanh tiến độ, xem lớn (18/11/2026)
+  const track = document.getElementById('pf-track');
+  const bar = document.getElementById('pf-bar');
+  const navs = [...document.querySelectorAll<HTMLButtonElement>('.pf-nav')];
+  if (track) {
+    const step = () => (track.querySelector<HTMLElement>('.pf-cell')?.offsetWidth ?? 300) + parseFloat(getComputedStyle(track).columnGap || '20');
+    navs.forEach((b) => b.addEventListener('click', () => track.scrollBy({ left: Number(b.dataset.dir) * step(), behavior: 'smooth' })));
+    const sync = () => {
+      const max = track.scrollWidth - track.clientWidth;
+      const pos = max > 0 ? track.scrollLeft / max : 1;
+      const view = track.scrollWidth ? track.clientWidth / track.scrollWidth : 1;
+      if (bar) { bar.style.width = `${view * 100}%`; bar.style.transform = `translateX(${(pos * (1 - view) / view) * 100}%)`; }
+      navs[0].disabled = track.scrollLeft < 4;
+      navs[1].disabled = track.scrollLeft > max - 4;
+      track.classList.toggle('is-end', track.scrollLeft > max - 4);
+    };
+    track.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
+  }
+
+  const lb = document.getElementById('pf-lb') as HTMLDialogElement | null;
+  const img = document.getElementById('pf-lb-img') as HTMLImageElement | null;
+  const cap = document.getElementById('pf-lb-cap');
+  if (lb && img) {
+    const zoom: string[] = JSON.parse(lb.dataset.zoom || '[]');
+    const alts: string[] = JSON.parse(lb.dataset.alts || '[]');
+    const caps: string[] = JSON.parse(lb.dataset.caps || '[]');
+    let k = 0;
+    const show = (i: number) => {
+      k = (i + zoom.length) % zoom.length;
+      img.src = zoom[k]; img.alt = alts[k] || '';
+      if (cap) cap.textContent = `${k + 1} / ${zoom.length} · ${caps[k] || ''}`;
+      new Image().src = zoom[(k + 1) % zoom.length];
+    };
+    document.querySelectorAll<HTMLButtonElement>('.pf-card').forEach((c) => c.addEventListener('click', () => { show(Number(c.dataset.i)); lb.showModal(); }));
+    lb.addEventListener('click', (e) => {
+      const t = (e.target as HTMLElement).closest<HTMLElement>('[data-k]')?.dataset.k;
+      if (t === 'close' || e.target === lb) lb.close();
+      else if (t === 'prev') show(k - 1);
+      else if (t === 'next') show(k + 1);
+    });
+    lb.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') show(k - 1); if (e.key === 'ArrowRight') show(k + 1); });
+    let x0 = 0;
+    lb.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', (e) => { const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 45) show(k + (dx < 0 ? 1 : -1)); }, { passive: true });
+  }
+</script>

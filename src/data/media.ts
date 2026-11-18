@@ -8,6 +8,13 @@ import traV2 from '../assets/images/video/tra_video_02.jpg';
 import butV1 from '../assets/images/video/but_video_01.jpg';
 import butV2 from '../assets/images/video/but_video_05.jpg';
 import xnnFb1 from '../assets/images/feedback/xnn-fb-1.jpg';
+import butFb1 from '../assets/images/feedback/but-gel/but-gel-fb-1.jpg';
+import butFb2 from '../assets/images/feedback/but-gel/but-gel-fb-2.jpg';
+import butFb3 from '../assets/images/feedback/but-gel/but-gel-fb-3.jpg';
+import butFb4 from '../assets/images/feedback/but-gel/but-gel-fb-4.jpg';
+import butFb5 from '../assets/images/feedback/but-gel/but-gel-fb-5.jpg';
+import butFb6 from '../assets/images/feedback/but-gel/but-gel-fb-6.jpg';
+import butFb7 from '../assets/images/feedback/but-gel/but-gel-fb-7.jpg';
 
 /**
  * Video từ kho "Video Ads" Google Drive (file phải để chế độ "Bất kỳ ai có đường liên kết").
@@ -42,5 +49,21 @@ export interface Feedback { src: ImageMetadata; alt: string; caption: string }
 export const FEEDBACK: Record<string, Feedback[]> = {
   'vien-uong-noi-tiet-xuan-nu-nhan': [
     { src: xnnFb1, alt: 'Tin nhắn phản hồi của khách hàng dùng Xuân Nữ Nhan', caption: 'Khách hàng nhắn lại sau 1 tuần sử dụng và đặt thêm 4 hộp (đã ẩn thông tin cá nhân).' },
+  ],
+};
+
+/**
+ * Khối "Phản Hồi Của Khách Hàng" ở trang chi tiết sản phẩm (18/11/2026).
+ * Ảnh bút gel do anh Nhân duyệt, giữ nguyên nội dung ảnh gốc (Drive 1pF8wr8RyDz_bunxVBIQBIZ635ZH0BDbB).
+ */
+export const FEEDBACK_SP: Record<string, Feedback[]> = {
+  'but-gel-hoang-cung-bao-phu-khang': [
+    { src: butFb1, alt: 'Tin nhắn phản hồi của khách hàng dùng Bút gel Hoàng Cung Bảo Phụ Khang – Đặt 4 hộp ngày 28/7, dùng hiệu quả nên đặt thêm 4 hộp', caption: 'Đặt 4 hộp ngày 28/7, dùng hiệu quả nên đặt thêm 4 hộp' },
+    { src: butFb2, alt: 'Tin nhắn phản hồi của khách hàng dùng Bút gel Hoàng Cung Bảo Phụ Khang – Đặt 1 hộp ngày 22/7, quay lại đặt thêm', caption: 'Đặt 1 hộp ngày 22/7, quay lại đặt thêm' },
+    { src: butFb3, alt: 'Tin nhắn phản hồi của khách hàng dùng Bút gel Hoàng Cung Bảo Phụ Khang – Dùng hết 6 bút, đặt thêm 2 hộp', caption: 'Dùng hết 6 bút, đặt thêm 2 hộp' },
+    { src: butFb4, alt: 'Tin nhắn phản hồi của khách hàng dùng Bút gel Hoàng Cung Bảo Phụ Khang – Đặt ngày 28/7, quay lại mua thêm cho người nhà', caption: 'Đặt ngày 28/7, quay lại mua thêm cho người nhà' },
+    { src: butFb5, alt: 'Tin nhắn phản hồi của khách hàng dùng Bút gel Hoàng Cung Bảo Phụ Khang – Đặt 1 hộp ngày 31/7, 3/8 quay lại đặt thêm', caption: 'Đặt 1 hộp ngày 31/7, 3/8 quay lại đặt thêm' },
+    { src: butFb6, alt: 'Tin nhắn phản hồi của khách hàng dùng Bút gel Hoàng Cung Bảo Phụ Khang – Khách cũ đặt thêm 1 hộp', caption: 'Khách cũ đặt thêm 1 hộp' },
+    { src: butFb7, alt: 'Tin nhắn phản hồi của khách hàng dùng Bút gel Hoàng Cung Bảo Phụ Khang – Đặt 1 hộp ngày 2/8, 6/8 quay lại đặt thêm 2 hộp', caption: 'Đặt 1 hộp ngày 2/8, 6/8 quay lại đặt thêm 2 hộp' },
   ],
 };

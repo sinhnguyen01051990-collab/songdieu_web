@@ -3,6 +3,8 @@ import { Picture, getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import LeadForm from '../../components/LeadForm.astro';
 import ProductCard from '../../components/ProductCard.astro';
+import ProductFeedback from '../../components/ProductFeedback.astro';
+import { FEEDBACK_SP } from '../../data/media';
 import { PRODUCTS, type Product, formatVnd, minPrice } from '../../data/products';
 import { SITE } from '../../data/site';
 
@@ -226,6 +228,9 @@ const PROMISES = [
     </div>
   </section>
 
+
+  <!-- PHẢN HỒI KHÁCH HÀNG (18/11/2026) – chỉ hiện ở sản phẩm có ảnh trong FEEDBACK_SP -->
+  <ProductFeedback items={FEEDBACK_SP[p.slug] ?? []} productName={p.name} />
 
   <!-- RELATED -->
   <section class="section spd-cv spd-rel" aria-labelledby="spd-rel-title">
