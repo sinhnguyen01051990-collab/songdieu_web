@@ -58,6 +58,13 @@ const fullUrls = await Promise.all(p.gallery.map(async (g) => (await getImage({ 
 const zoomUrls = await Promise.all(p.gallery.map(async (g) => (await getImage({ src: g.src, width: 1400, format: 'webp' })).src));
 const bestOffer = p.offers.find((o) => o.best) ?? p.offers[0];
 const lowest = minPrice(p);
+// mô tả dưới tiêu đề khối Phản Hồi theo từng sản phẩm
+const FEEDBACK_SUB: Record<string, string> = {
+  'but-gel-hoang-cung-bao-phu-khang': 'Chia sẻ thực tế từ hàng ngàn chị em đã trải nghiệm và lấy lại sự tự tin nhờ Bút gel Hoàng Cung Bảo Phụ Khang.',
+  'gel-gung-que-sdbody': 'Chia sẻ thực tế từ chị em đã trải nghiệm và tự tin hơn với vóc dáng nhờ Gel gừng quế SDBODY.',
+  'tra-tao-meo': 'Chia sẻ thực tế từ chị em đã duy trì thói quen uống Trà Táo Mèo mỗi ngày.',
+  'vien-uong-noi-tiet-xuan-nu-nhan': 'Chia sẻ thực tế từ chị em đã trải nghiệm và lấy lại sự tự tin nhờ Viên uống nội tiết Xuân Nữ Nhan.',
+};
 const others = PRODUCTS.filter((x) => x.slug !== p.slug).slice(0, 3);
 // biểu tượng nét mảnh thay biểu tượng cảm xúc (16/11/2026), cùng kiểu khối Sản Xuất Đạt Chuẩn
 const ico = (d: string, size = 18) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
@@ -231,7 +238,7 @@ const PROMISES = [
 
   <!-- PHẢN HỒI KHÁCH HÀNG (18/11/2026) – chỉ hiện ở sản phẩm có ảnh trong FEEDBACK_SP -->
   <ProductFeedback items={FEEDBACK_SP[p.slug] ?? []} productName={p.name}
-    sub={p.slug === 'but-gel-hoang-cung-bao-phu-khang' ? 'Chia sẻ thực tế từ hàng ngàn chị em đã trải nghiệm và lấy lại sự tự tin nhờ Bút gel Hoàng Cung Bảo Phụ Khang.' : undefined} />
+    sub={FEEDBACK_SUB[p.slug]} />
 
   <!-- RELATED -->
   <section class="section spd-cv spd-rel" aria-labelledby="spd-rel-title">

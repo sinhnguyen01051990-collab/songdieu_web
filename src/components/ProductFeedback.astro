@@ -10,6 +10,9 @@ import { Picture, getImage } from 'astro:assets';
 import type { Feedback } from '../data/media';
 interface Props { items: Feedback[]; productName: string; sub?: string }
 const { items, productName, sub = `Tin nhắn thật từ chị em đã dùng ${productName} và quay lại đặt thêm.` } = Astro.props;
+// ảnh nhỏ dọc (4:5) thì thẻ hẹp hơn để thấy nhiều thẻ một lúc
+const first = items[0]?.thumb ?? items[0]?.src;
+const tall = !!first && first.height > first.width;
 const zoom = await Promise.all(items.map(async (f) => (await getImage({ src: f.src, width: 1122, format: 'webp' })).src));
 const arrow = (d: string) => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
 ---
@@ -24,13 +27,13 @@ const arrow = (d: string) => `<svg width="20" height="20" viewBox="0 0 24 24" fi
       </div>
 
       <div class="pf-wrap" data-reveal>
-        <ul class="pf-track" id="pf-track" aria-label="Ảnh phản hồi của khách hàng">
+        <ul class:list={["pf-track", { "is-tall": tall }]} id="pf-track" aria-label="Ảnh phản hồi của khách hàng">
           {items.map((f, i) => (
             <li class="pf-cell">
               <button type="button" class="pf-card" data-i={i} aria-label={`Xem lớn: ${f.caption}`}>
-                <span class="pf-img">
+                <span class="pf-img" style={`--pf-ar:${(f.thumb ?? f.src).width} / ${(f.thumb ?? f.src).height}`}>
                   <Picture src={f.thumb ?? f.src} alt={f.alt} formats={['avif', 'webp']} fallbackFormat="webp" widths={[400, 600, 886]}
-                    sizes="(min-width: 1024px) 480px, (min-width: 640px) 60vw, 88vw" loading="lazy" decoding="async" />
+                    sizes={tall ? "(min-width: 1024px) 340px, (min-width: 640px) 45vw, 82vw" : "(min-width: 1024px) 480px, (min-width: 640px) 60vw, 88vw"} loading="lazy" decoding="async" />
                   <span class="pf-zoom" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5M11 8v6M8 11h6"/></svg></span>
                 </span>
                 {f.tag ? (
@@ -90,12 +93,14 @@ const arrow = (d: string) => `<svg width="20" height="20" viewBox="0 0 24 24" fi
   .pf-track { list-style: none; margin: 0 -16px; padding: 10px 16px 18px; display: flex; gap: 18px; overflow-x: auto;
     scroll-snap-type: x mandatory; scroll-padding-inline: 16px; scrollbar-width: none; overscroll-behavior-x: contain; }
   .pf-track::-webkit-scrollbar { display: none; }
+  .pf-track.is-tall .pf-cell { width: 82%; }
   .pf-cell { flex: none; display: flex; width: 88%; scroll-snap-align: start; } /* thẻ trong hàng cao bằng nhau */
-  @media (min-width: 640px) { .pf-track { margin: 0; padding-inline: 4px; scroll-padding-inline: 4px; gap: 22px; } .pf-cell { width: calc((100% - 22px) / 1.6); } }
+  @media (min-width: 640px) { .pf-track { margin: 0; padding-inline: 4px; scroll-padding-inline: 4px; gap: 22px; } .pf-cell { width: calc((100% - 22px) / 1.6); } .pf-track.is-tall .pf-cell { width: calc((100% - 22px) / 2.15); } }
   @media (min-width: 1024px) {
     .pf-track { gap: 26px; -webkit-mask-image: linear-gradient(90deg, #000 92%, transparent); mask-image: linear-gradient(90deg, #000 92%, transparent); }
     .pf-track.is-end { -webkit-mask-image: none; mask-image: none; }
     .pf-cell { width: calc((100% - 52px) / 2.3); }
+    .pf-track.is-tall .pf-cell { width: calc((100% - 52px) / 3.2); }
   }
 
   .pf-card { flex: 1; display: flex; flex-direction: column; width: 100%; padding: 0; text-align: left; border-radius: 22px; overflow: hidden; background: #fff;
@@ -103,7 +108,7 @@ const arrow = (d: string) => `<svg width="20" height="20" viewBox="0 0 24 24" fi
     transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s; }
   /* khung kem viền vàng ôm ảnh tin nhắn (tông hồng của ảnh hoà vào trang) */
   .pf-img { position: relative; display: block; padding: 8px; background: linear-gradient(180deg, #fffaf2, var(--color-cream)); }
-  .pf-img :global(picture) { display: block; aspect-ratio: 3 / 2; overflow: hidden; border-radius: 14px; background: #f6f1ea;
+  .pf-img :global(picture) { display: block; aspect-ratio: var(--pf-ar, 3 / 2); overflow: hidden; border-radius: 14px; background: #f6f1ea;
     box-shadow: 0 0 0 1px rgba(201, 161, 74, .45); }
   .pf-img :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform .7s cubic-bezier(.2,.8,.2,1); }
   .pf-zoom { position: absolute; right: 18px; top: 18px; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 999px;
