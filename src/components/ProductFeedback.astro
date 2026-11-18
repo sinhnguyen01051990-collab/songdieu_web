@@ -6,8 +6,8 @@
  */
 import { Picture, getImage } from 'astro:assets';
 import type { Feedback } from '../data/media';
-interface Props { items: Feedback[]; productName: string }
-const { items, productName } = Astro.props;
+interface Props { items: Feedback[]; productName: string; sub?: string }
+const { items, productName, sub = `Tin nhắn thật từ chị em đã dùng ${productName} và quay lại đặt thêm.` } = Astro.props;
 const zoom = await Promise.all(items.map(async (f) => (await getImage({ src: f.src, width: 1100, format: 'webp' })).src));
 const arrow = (d: string) => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
 ---
@@ -18,7 +18,7 @@ const arrow = (d: string) => `<svg width="20" height="20" viewBox="0 0 24 24" fi
       <div class="pf-head" data-reveal>
         <p class="eyebrow">Khách hàng nói gì</p>
         <h2 id="pf-title" class="pf-h2">Phản Hồi Của <span class="pf-em italic">Khách Hàng</span></h2>
-        <p class="pf-sub">Tin nhắn thật từ chị em đã dùng {productName} và quay lại đặt thêm.</p>
+        <p class="pf-sub">{sub}</p>
       </div>
 
       <div class="pf-wrap" data-reveal>
@@ -42,7 +42,7 @@ const arrow = (d: string) => `<svg width="20" height="20" viewBox="0 0 24 24" fi
           <button type="button" class="pf-nav" data-dir="1" aria-label="Phản hồi sau" set:html={arrow('M9 6l6 6-6 6')} />
         </div>
       </div>
-      <p class="pf-note">Bấm vào ảnh để xem rõ tin nhắn. Cảm nhận ở mỗi người có thể khác nhau.</p>
+      <p class="pf-note">Bấm vào ảnh để xem rõ tin nhắn. Cảm nhận của mỗi khách hàng khi sử dụng sản phẩm.</p>
     </div>
 
     <dialog class="pf-lb" id="pf-lb" aria-label="Xem ảnh phản hồi" data-zoom={JSON.stringify(zoom)} data-alts={JSON.stringify(items.map((f) => f.alt))} data-caps={JSON.stringify(items.map((f) => f.caption))}>

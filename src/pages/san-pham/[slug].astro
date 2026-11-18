@@ -230,7 +230,8 @@ const PROMISES = [
 
 
   <!-- PHẢN HỒI KHÁCH HÀNG (18/11/2026) – chỉ hiện ở sản phẩm có ảnh trong FEEDBACK_SP -->
-  <ProductFeedback items={FEEDBACK_SP[p.slug] ?? []} productName={p.name} />
+  <ProductFeedback items={FEEDBACK_SP[p.slug] ?? []} productName={p.name}
+    sub={p.slug === 'but-gel-hoang-cung-bao-phu-khang' ? 'Chia sẻ thực tế từ hàng ngàn chị em đã trải nghiệm và lấy lại sự tự tin nhờ Bút gel Hoàng Cung Bảo Phụ Khang.' : undefined} />
 
   <!-- RELATED -->
   <section class="section spd-cv spd-rel" aria-labelledby="spd-rel-title">
